@@ -186,9 +186,12 @@ let supabaseClient = window.supabase.createClient(
    Layihənizdə telefon Auth və SMS provayderi aktiv olmalıdır.
    Aşağıdakı iki dəyəri Supabase Project Settings > API bölməsindən götürün.
    Anon/publishable key istifadə edin; service_role/secret key-i heç vaxt brauzerə qoymayın. */
-const SUPABASE_URL = "";
-const SUPABASE_ANON_KEY = "";
-let supabaseClient = null;
+  const SUPABASE_URL = "https://nphqvfipdveztdlpkzsh.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable_LpXC4J8L9cO15fXwt8cTyQ_huxZ8HLq";
+let supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_ANON_KEY
+);
 if(SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase) {
   supabaseClient = window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
 }
