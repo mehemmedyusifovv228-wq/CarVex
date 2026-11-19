@@ -355,6 +355,11 @@ function generateUUID() {
   });
 }
 
+function phoneToAuthEmail(phone) {
+  const digits = String(phone || "").replace(/\D/g, "");
+  return digits ? `${digits}@carvex.local` : "";
+}
+
 function openDB(){
   return new Promise((resolve,reject)=>{
     const req=indexedDB.open(DB_NAME,1);
@@ -805,8 +810,9 @@ function renderProfile(message=""){
   const el=document.getElementById("profileContent");
   if(currentUser){
     const mine=cars.filter(c=>c.owner===currentUser.id);
+    const displayAccount=currentUser.phone||currentUser.email||"İstifadəçi";
     el.innerHTML=`
-      <p>Hesab: <b>${escapeHTML(currentUser.phone||currentUser.email||"İstifadəçi")}</b></p>
+      <p>Hesab: <b>${escapeHTML(displayAccount)}</b></p>
       <div class="tabbar">
         <button class="active" onclick="renderProfile()">Mənim elanlarım (${mine.length})</button>
         <button onclick="renderNotifications()">Bildirişlər</button>
@@ -820,33 +826,62 @@ function renderProfile(message=""){
   const localCars = cars.filter(c=>c.owner==="local-user");
   el.innerHTML=`
     ${message?'<p class="notice">'+escapeHTML(message)+'</p>':""}
-    <p>Telefon nömrəsi ilə qeydiyyat və giriş</p>
+    <p>Telefon nömrəsi və şifrə ilə daxil ol və ya qeydiyyatdan keç</p>
     <div class="field"><label>Telefon nömrəsi (ölkə kodu ilə)</label><input id="authPhone" type="tel" placeholder="+994501234567"></div>
-    <div class="profile-row"><button class="btn red" onclick="sendOTP()">SMS kodu göndər</button></div>
-    <div class="field"><label>SMS təsdiq kodu</label><input id="authCode" inputmode="numeric" placeholder="Təsdiq kodu"></div>
-    <button class="btn dark-btn" onclick="verifyOTP()">Təsdiqlə və daxil ol</button>
+    <div class="field"><label>Şifrə (ən azı 6 simvol)</label><input id="authPassword" type="password" placeholder="Şifrənizi daxil edin"></div>
+    <div class="profile-row">
+      <button class="btn red" onclick="signInWithPassword()">Daxil ol</button>
+      <button class="btn dark-btn" onclick="signUpWithPassword()">Qeydiyyatdan keç</button>
+    </div>
     ${localCars.length ? `<hr style="margin:20px 0;border:0;border-top:1px solid #eee"><h3>Yerləşdirilən elanlar (${localCars.length})</h3>` + localCars.map(c=>`<div class="detail-item" style="display:flex;justify-content:space-between;gap:8px;align-items:center;margin:8px 0"><span><b>${escapeHTML(c.brand)} ${escapeHTML(c.model)}</b><br>${money(c)} · ${c.year}</span><span><button class="btn white-btn" onclick="editCar('${c.id}')">Redaktə</button> <button class="btn red" onclick="deleteCar('${c.id}')">Sil</button></span></div>`).join("") : ""}
   `;
 }
 
-async function sendOTP(){
+async function signUpWithPassword(){
   if(!supabaseClient){alert("Supabase konfiqurasiyası aktiv deyil.");return;}
   const phone=document.getElementById("authPhone").value.trim();
-  if(!phone){alert("Telefon nömrəsini daxil edin.");return;}
-  const {error}=await supabaseClient.auth.signInWithOtp({phone});
-  if(error)alert(error.message);else alert("SMS kodu göndərildi.");
+  const password=document.getElementById("authPassword").value;
+  const email=phoneToAuthEmail(phone);
+  if(!email){alert("Düzgün telefon nömrəsi daxil edin.");return;}
+  if(!password||password.length<6){alert("Şifrə ən azı 6 simvol olmalıdır.");return;}
+
+  const {data,error}=await supabaseClient.auth.signUp({
+    email,
+    password,
+    options:{data:{phone}}
+  });
+  if(error){alert(error.message);return;}
+
+  if(data?.user){
+    currentUser={id:data.user.id,phone:data.user.user_metadata?.phone||phone,email:data.user.email};
+    await loadData();
+    renderCars();
+    renderProfile("Qeydiyyat tamamlandı və hesaba daxil oldunuz.");
+  }else{
+    renderProfile("Qeydiyyat sorğusu göndərildi. İndi Daxil ol düyməsinə basın.");
+  }
 }
 
-async function verifyOTP(){
-  if(!supabaseClient){alert("Supabase konfiqurasiyası tamamlanmayıb.");return;}
-  const phone=document.getElementById("authPhone").value.trim(),token=document.getElementById("authCode").value.trim();
-  const {data,error}=await supabaseClient.auth.verifyOtp({phone,token,type:"sms"});
-  if(error){alert(error.message);return;}
-  currentUser={id:data.user.id,phone:data.user.phone};
+async function signInWithPassword(){
+  if(!supabaseClient){alert("Supabase konfiqurasiyası aktiv deyil.");return;}
+  const phone=document.getElementById("authPhone").value.trim();
+  const password=document.getElementById("authPassword").value;
+  const email=phoneToAuthEmail(phone);
+  if(!email){alert("Düzgün telefon nömrəsi daxil edin.");return;}
+  if(!password){alert("Şifrəni daxil edin.");return;}
+
+  const {data,error}=await supabaseClient.auth.signInWithPassword({email,password});
+  if(error){alert("Nömrə və ya şifrə yanlışdır: "+error.message);return;}
+
+  currentUser={
+    id:data.user.id,
+    phone:data.user.user_metadata?.phone||phone,
+    email:data.user.email
+  };
   await loadData();
   renderCars();
   renderProfile();
-  alert("Hesaba daxil oldunuz.");
+  alert("Hesaba uğurla daxil oldunuz.");
 }
 
 async function signOut(){
@@ -887,7 +922,13 @@ window.addEventListener("load",async()=>{
   if(supabaseClient){
     try {
       const {data}=await supabaseClient.auth.getUser();
-      if(data?.user)currentUser={id:data.user.id,phone:data.user.phone};
+      if(data?.user){
+        currentUser={
+          id:data.user.id,
+          phone:data.user.user_metadata?.phone||data.user.phone,
+          email:data.user.email
+        };
+      }
     } catch(e) { console.error(e); }
   }
   await loadData();
