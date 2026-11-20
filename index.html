@@ -9,92 +9,67 @@
 *{box-sizing:border-box} :root{--dark:#101827;--red:#e63950;--bg:#f3f5f9;--text:#202b3c;--muted:#7b8798;--line:#e5e9f0}
 body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:var(--text)}button,input,select,textarea{font:inherit}button{cursor:pointer}
 header{background:var(--dark);color:#fff;position:sticky;top:0;z-index:20}.top{max-width:1250px;margin:auto;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:15px}
-.logo{font-size:29px;font-weight:900;color:#fff}.logo span{color:var(--red)}.nav{display:flex;gap:18px}.nav a{color:#dce3ef;text-decoration:none;font-size:14px}.header-right{display:flex;gap:8px;align-items:center}
-.btn{border:0;border-radius:8px;padding:11px 15px;font-weight:bold}.red{background:var(--red);color:#fff}.dark-btn{background:#26354c;color:#fff}.white-btn{background:#fff;color:var(--dark)}
-.hero{background:linear-gradient(120deg,#101827,#263e60);color:#fff;padding:38px 20px 48px}.hero-inner{max-width:1250px;margin:auto}.hero h1{font-size:34px;margin:0 0 10px}.hero p{color:#cbd5e1}.search-box{background:#fff;color:var(--text);padding:18px;border-radius:14px;margin-top:24px}
+.logo-wrap{display:flex;align-items:center;gap:10px}
+.animated-logo{width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,#e63950,#ff758f);display:flex;align-items:center;justify-content:center;font-size:19px;animation:logoPulse 2.4s infinite ease-in-out;box-shadow:0 0 0 0 rgba(230,57,80,.55)}
+@keyframes logoPulse{0%,100%{transform:translateY(0) scale(1);box-shadow:0 0 0 0 rgba(230,57,80,.45)}50%{transform:translateY(-2px) scale(1.06);box-shadow:0 0 0 8px rgba(230,57,80,0)}}
+.logo{font-size:29px;font-weight:900;color:#fff;letter-spacing:.3px}.logo span{color:var(--red)}
+.nav{display:flex;gap:18px}.nav a{color:#dce3ef;text-decoration:none;font-size:14px}.nav a:hover{color:#fff}.header-right{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.btn{border:0;border-radius:8px;padding:11px 15px;font-weight:bold}.red{background:var(--red);color:#fff}.dark-btn{background:#26354c;color:#fff}.white-btn{background:#fff;color:var(--dark);border:1px solid var(--line)}
+.hero{background:linear-gradient(120deg,#101827,#263e60);color:#fff;padding:38px 20px 48px}.hero-inner{max-width:1250px;margin:auto}.hero h1{font-size:34px;margin:0 0 10px}.hero p{color:#cbd5e1}.search-box{background:#fff;color:var(--text);padding:18px;border-radius:14px;margin-top:24px;box-shadow:0 12px 30px #0002}
+.quick-filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.quick-chip{border:1px solid var(--line);background:#f8fafc;color:var(--text);padding:7px 12px;border-radius:20px;font-size:12px;font-weight:bold}
+.quick-chip.active{background:var(--dark);color:#fff;border-color:var(--dark)}
 .filters{display:grid;grid-template-columns:repeat(4,1fr);gap:11px}.field label{display:block;font-size:12px;font-weight:bold;margin-bottom:6px;color:#667085}.field input,.field select,.field textarea{width:100%;padding:11px;border:1px solid var(--line);border-radius:8px;outline:none;background:#fff;min-width:0}.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--red)}
-.actions{display:flex;gap:10px;margin-top:14px}.container{max-width:1250px;margin:28px auto;padding:0 20px}.section-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;gap:10px}.section-head h2{font-size:22px;margin:0}.count{font-size:13px;color:var(--muted)}
-.cars{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.car{background:#fff;border:1px solid var(--line);border-radius:13px;overflow:hidden;transition:.2s}.car:hover{transform:translateY(-3px);box-shadow:0 10px 25px #0001}
-.car-image{height:205px;position:relative;background:#e8edf4}.car-image img{width:100%;height:100%;object-fit:cover}.premium{position:absolute;top:12px;left:12px;background:#f5bd42;color:#332200;padding:6px 10px;border-radius:5px;font-size:11px;font-weight:bold}.heart{position:absolute;right:12px;top:10px;border:0;background:#fff;border-radius:50%;width:36px;height:36px;font-size:19px}
-.car-info{padding:14px}.car-price{font-size:21px;font-weight:900;margin-bottom:7px}.car-name{font-size:16px;font-weight:bold;margin-bottom:10px}.car-details{display:flex;flex-wrap:wrap;gap:8px;color:var(--muted);font-size:12px}.car-footer{border-top:1px solid var(--line);padding:11px 14px;display:flex;justify-content:space-between;font-size:12px;color:var(--muted)}.card-buttons{display:flex;gap:8px;margin-top:13px}.card-buttons button{flex:1;padding:10px 5px;border-radius:7px;border:0;font-size:12px;font-weight:bold}.details-btn{background:#edf1f7;color:#25334a}.call-btn{background:#eaf8ef;color:#168343}
+.actions{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}.container{max-width:1250px;margin:28px auto;padding:0 20px}.section-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;gap:10px;flex-wrap:wrap}.section-head h2{font-size:22px;margin:0}.count{font-size:13px;color:var(--muted)}
+.cars{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.car{background:#fff;border:1px solid var(--line);border-radius:13px;overflow:hidden;transition:.2s;display:flex;flex-direction:column}.car:hover{transform:translateY(-3px);box-shadow:0 10px 25px #0001}
+.car-image{height:205px;position:relative;background:#e8edf4;touch-action:pan-y;user-select:none}.car-image img{width:100%;height:100%;object-fit:cover;cursor:zoom-in;display:block}
+.slide-btn{position:absolute;top:50%;transform:translateY(-50%);width:30px;height:30px;border-radius:50%;border:0;background:#10182799;color:#fff;font-size:17px;line-height:1;display:flex;align-items:center;justify-content:center;z-index:2}.slide-btn.prev{left:8px}.slide-btn.next{right:48px}.slide-btn:hover{background:#101827d9}
+.photo-counter{position:absolute;left:50%;bottom:10px;transform:translateX(-50%);background:#101827b8;color:#fff;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:bold;z-index:2}
+.premium{position:absolute;top:12px;left:12px;background:#f5bd42;color:#332200;padding:6px 10px;border-radius:5px;font-size:11px;font-weight:bold;z-index:2}.badges-row{position:absolute;left:12px;bottom:10px;display:flex;gap:6px;flex-wrap:wrap;z-index:2}.tag-badge{background:#101827d9;color:#fff;padding:4px 8px;border-radius:5px;font-size:11px;font-weight:bold}.tag-badge.pct{background:#e63950}.heart{position:absolute;right:12px;top:10px;border:0;background:#fff;border-radius:50%;width:36px;height:36px;font-size:19px;box-shadow:0 2px 8px #0002;z-index:2}
+.compare-toggle{position:absolute;right:12px;bottom:10px;border:0;background:#fffffff0;color:var(--dark);border-radius:6px;padding:4px 8px;font-size:11px;font-weight:bold;box-shadow:0 2px 6px #0002;z-index:2}
+.compare-toggle.active{background:var(--red);color:#fff}
+.car-info{padding:14px;flex:1;display:flex;flex-direction:column}.car-price{font-size:21px;font-weight:900;margin-bottom:2px}.azn-eq{font-size:12px;color:#5c6b80;font-weight:600;margin-bottom:7px}.car-name{font-size:16px;font-weight:bold;margin-bottom:10px}.car-details{display:flex;flex-wrap:wrap;gap:8px;color:var(--muted);font-size:12px;margin-bottom:auto}.car-footer{border-top:1px solid var(--line);padding:11px 14px;display:flex;justify-content:space-between;font-size:12px;color:var(--muted)}.card-buttons{display:flex;gap:8px;margin-top:13px}.card-buttons button{flex:1;padding:10px 5px;border-radius:7px;border:0;font-size:12px;font-weight:bold}.details-btn{background:#edf1f7;color:#25334a}.call-btn{background:#eaf8ef;color:#168343}
 .empty{grid-column:1/-1;text-align:center;padding:45px 15px;background:#fff;border-radius:12px;color:var(--muted)}
-.modal{display:none;position:fixed;inset:0;background:#0009;z-index:1000;align-items:center;justify-content:center;padding:12px}.modal-box{background:#fff;width:100%;max-width:850px;max-height:94vh;overflow:auto;border-radius:14px;padding:20px}.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}.modal-head h2{margin:0;font-size:21px}.close{border:0;background:#eee;border-radius:50%;width:35px;height:35px;font-size:20px}
-.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.form-grid .full{grid-column:1/-1}.form-actions{display:flex;gap:10px;margin-top:18px}.form-actions button{flex:1}.detail-image{width:100%;height:270px;object-fit:cover;border-radius:10px}.detail-gallery{display:flex;gap:8px;overflow:auto;margin:10px 0}.detail-gallery img{width:110px;height:78px;object-fit:cover;border-radius:7px;flex:none}.detail-list{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0}.detail-item{padding:11px;background:#f3f5f9;border-radius:8px;font-size:13px}
+.modal{display:none;position:fixed;inset:0;background:#0009;z-index:1000;align-items:center;justify-content:center;padding:12px}.modal-box{background:#fff;width:100%;max-width:900px;max-height:94vh;overflow:auto;border-radius:14px;padding:20px}.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}.modal-head h2{margin:0;font-size:21px}.close{border:0;background:#eee;border-radius:50%;width:35px;height:35px;font-size:20px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.form-grid .full{grid-column:1/-1}.form-actions{display:flex;gap:10px;margin-top:18px}.form-actions button{flex:1}.detail-image{width:100%;height:270px;object-fit:cover;border-radius:10px;cursor:zoom-in}.detail-gallery{display:flex;gap:8px;overflow:auto;margin:10px 0}.detail-gallery img{width:110px;height:78px;object-fit:cover;border-radius:7px;flex:none;cursor:pointer}.detail-list{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0}.detail-item{padding:11px;background:#f3f5f9;border-radius:8px;font-size:13px}
+.similar-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px}.similar-card{border:1px solid var(--line);border-radius:10px;padding:8px;cursor:pointer;background:#fafbfd}.similar-card img{width:100%;height:95px;object-fit:cover;border-radius:7px}
+.history-box{background:#f8fafc;border:1px solid var(--line);border-radius:10px;padding:10px 14px;margin:10px 0;font-size:13px}
+.compare-table{width:100%;border-collapse:collapse;font-size:13px}.compare-table th,.compare-table td{border:1px solid var(--line);padding:10px;text-align:left;vertical-align:top}.compare-table th{background:#f8fafc;width:160px}
+.lightbox{display:none;position:fixed;inset:0;background:#000e;z-index:2000;align-items:center;justify-content:center;padding:16px}.lightbox img{max-width:96%;max-height:90vh;border-radius:10px;box-shadow:0 10px 40px #000}.lightbox .close{position:fixed;top:18px;right:18px;z-index:2001}
+.lightbox .lb-nav{position:fixed;top:50%;transform:translateY(-50%);width:42px;height:42px;border-radius:50%;border:0;background:#ffffff30;color:#fff;font-size:22px;z-index:2001}.lightbox .lb-prev{left:16px}.lightbox .lb-next{right:16px}
 footer{background:var(--dark);color:#cbd5e1;padding:32px 20px;margin-top:45px}.footer-inner{max-width:1250px;margin:auto}footer a{color:#fff}
-.video-strip{display:flex;gap:15px;overflow-x:auto;padding:2px 1px 12px;scroll-snap-type:x mandatory}.video-card{position:relative;flex:0 0 260px;height:330px;border-radius:18px;overflow:hidden;background:#172235;scroll-snap-align:start;color:#fff;cursor:pointer}.video-card video,.video-card img{width:100%;height:100%;object-fit:cover}.video-shade{position:absolute;inset:0;background:linear-gradient(transparent 45%,#000b)}.video-meta{position:absolute;left:13px;right:13px;bottom:13px;color:#fff}.video-meta strong{display:block;font-size:19px}.video-meta small{display:block;margin-top:5px}.video-views{position:absolute;top:12px;left:12px;background:#0009;padding:6px 9px;border-radius:20px;font-size:12px}.video-play{position:absolute;right:12px;top:12px;border:0;border-radius:50%;background:#fff;color:#111;width:38px;height:38px}
+.video-strip{display:flex;gap:15px;overflow-x:auto;padding:2px 1px 12px;scroll-snap-type:x mandatory}.video-card{position:relative;flex:0 0 260px;height:330px;border-radius:18px;overflow:hidden;background:#172235;scroll-snap-align:start;color:#fff;cursor:pointer}.video-card video,.video-card img{width:100%;height:100%;object-fit:cover;display:block}.video-card video::-webkit-media-controls,.video-card video::-webkit-media-controls-enclosure,.video-card video::-webkit-media-controls-start-playback-button{display:none!important;-webkit-appearance:none}.video-shade{position:absolute;inset:0;background:linear-gradient(transparent 45%,#000b)}.video-meta{position:absolute;left:13px;right:13px;bottom:13px;color:#fff}.video-meta strong{display:block;font-size:19px}.video-meta small{display:block;margin-top:5px}.video-views{position:absolute;top:12px;left:12px;background:#0009;padding:6px 9px;border-radius:20px;font-size:12px}.video-play{position:absolute;right:12px;top:12px;border:0;border-radius:50%;background:#fff;color:#111;width:38px;height:38px}
 .chips{display:flex;flex-wrap:wrap;gap:8px}.chips input{width:auto}.chip{display:flex;align-items:center;gap:6px;padding:7px 9px;border:1px solid var(--line);border-radius:8px;font-size:12px;background:#fafbfc}.chip input{width:auto}
 .notice{background:#fff4e5;color:#875400;padding:11px;border-radius:8px;font-size:12px;line-height:1.5}.muted{color:var(--muted);font-size:12px}.profile-row{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}.profile-row button{flex:1}.tabbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:15px}.tabbar button{background:#edf1f7;border:0;border-radius:8px;padding:9px 12px}.tabbar button.active{background:var(--dark);color:#fff}
+.msg-item{background:#f3f5f9;padding:10px 12px;border-radius:8px;margin-bottom:8px;font-size:13px}
 
-/* CARVEX MOBİL ALT MENYU */
-.mobile-bottom-nav, .floating-filter {
-  display: none;
-}
+.mobile-bottom-nav, .floating-filter { display: none; }
 
 @media(max-width:850px){
   body{padding-bottom:90px}
-  .cars{grid-template-columns:repeat(2,1fr)}
+  .cars,.similar-grid{grid-template-columns:repeat(2,1fr)}
   .filters{grid-template-columns:repeat(2,1fr)}
   .nav{display:none}
   .mobile-bottom-nav{
-    position:fixed;
-    bottom:0;
-    left:0;
-    right:0;
-    height:78px;
-    z-index:999;
-    background:#fff;
-    border-top:1px solid #e5e9f0;
-    display:grid;
-    grid-template-columns:repeat(5,1fr);
-    align-items:center;
-    padding:5px;
-    box-shadow:0 -4px 15px #0001;
+    position:fixed;bottom:0;left:0;right:0;height:78px;z-index:999;
+    background:#fff;border-top:1px solid #e5e9f0;display:grid;
+    grid-template-columns:repeat(5,1fr);align-items:center;padding:5px;box-shadow:0 -4px 15px #0001;
   }
   .mobile-bottom-nav button{
-    border:0;
-    background:none;
-    color:#9299a8;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    gap:4px;
-    font-size:10px;
-    font-weight:bold;
+    border:0;background:none;color:#9299a8;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;gap:4px;font-size:10px;font-weight:bold;
   }
-  .mobile-bottom-nav button.active{
-    color:#e63950;
-  }
-  .bottom-icon{
-    font-size:27px;
-    line-height:30px;
-  }
+  .mobile-bottom-nav button.active{color:#e63950}
+  .bottom-icon{font-size:27px;line-height:30px}
   .mobile-bottom-nav .add-nav{
-    width:62px;
-    height:62px;
-    margin: -25px auto 0;
-    border-radius:50%;
-    background:#e63950;
-    color:white;
-    box-shadow:0 4px 12px #e6395055;
+    width:62px;height:62px;margin:-25px auto 0;border-radius:50%;
+    background:#e63950;color:white;box-shadow:0 4px 12px #e6395055;
   }
-  .add-nav .bottom-icon{
-    font-size:40px;
-    line-height:40px;
-  }
+  .add-nav .bottom-icon{font-size:40px;line-height:40px}
   .floating-filter{
-    display:block;
-    position:fixed;
-    right:15px;
-    bottom:95px;
-    z-index:998;
-    background:#e63950;
-    color:white;
-    border:0;
-    border-radius:30px;
-    padding:15px 22px;
-    font-weight:bold;
-    box-shadow:0 4px 15px #0002;
+    display:block;position:fixed;right:15px;bottom:95px;z-index:998;
+    background:#e63950;color:white;border:0;border-radius:30px;padding:12px 18px;
+    font-size:13px;font-weight:bold;box-shadow:0 4px 15px #0002;
   }
 }
 
@@ -105,7 +80,7 @@ footer{background:var(--dark);color:#cbd5e1;padding:32px 20px;margin-top:45px}.f
   .hero{padding:28px 13px 38px}
   .hero h1{font-size:26px}
   .container{padding:0 12px}
-  .cars{grid-template-columns:1fr}
+  .cars,.similar-grid{grid-template-columns:1fr}
   .filters{grid-template-columns:1fr 1fr;gap:8px}
   .field input,.field select{padding:10px 7px;font-size:13px}
   .search-box{padding:12px}
@@ -123,7 +98,10 @@ footer{background:var(--dark);color:#cbd5e1;padding:32px 20px;margin-top:45px}.f
 <body>
 <header>
   <div class="top">
-    <div class="logo">Car<span>Vex</span></div>
+    <div class="logo-wrap">
+      <div class="animated-logo" aria-hidden="true">🚗</div>
+      <div class="logo">Car<span>Vex</span></div>
+    </div>
     <nav class="nav">
       <a href="#">Ana səhifə</a>
       <a href="#elanlar">Elanlar</a>
@@ -132,6 +110,8 @@ footer{background:var(--dark);color:#cbd5e1;padding:32px 20px;margin-top:45px}.f
       <a href="#elaqe">Əlaqə</a>
     </nav>
     <div class="header-right">
+      <button class="btn dark-btn" id="compareTopBtn" onclick="openCompare()">⚖ Müqayisə (<span id="compareCount">0</span>)</button>
+      <button class="btn dark-btn" id="musicBtn" onclick="toggleDriveMusic()" title="Avtomobil Musiqisi">🎵 Avto Musiqi: Bağlı</button>
       <button class="btn dark-btn" onclick="showFavorites()">♡ Favoritlər <span id="favCount">0</span></button>
       <button class="btn dark-btn" onclick="openProfile()">Hesabım</button>
       <button class="btn red" onclick="openForm()">+ Elan yerləşdir</button>
@@ -144,9 +124,15 @@ footer{background:var(--dark);color:#cbd5e1;padding:32px 20px;margin-top:45px}.f
     <h1>Xəyalındakı avtomobili tap!</h1>
     <p>CarVex ilə avtomobil alışı və satışı daha rahatdır.</p>
     <div class="search-box">
+      <div class="quick-filters" id="quickFilterBar">
+        <button type="button" class="quick-chip active" data-quick="" onclick="setQuickFilter('')">Hamısı</button>
+        <button type="button" class="quick-chip" data-quick="barter" onclick="setQuickFilter('barter')">🔄 Barter</button>
+        <button type="button" class="quick-chip" data-quick="credit" onclick="setQuickFilter('credit')">% Kredit</button>
+        <button type="button" class="quick-chip" data-quick="salon" onclick="setQuickFilter('salon')">🏢 Salon</button>
+      </div>
       <div class="filters">
-        <div class="field"><label>Marka</label><select id="searchBrand"><option value="">Bütün markalar</option></select></div>
-        <div class="field"><label>Model</label><input id="searchModel" placeholder="Model axtar"></div>
+        <div class="field"><label>Marka (axtar və ya seç)</label><input id="searchBrand" list="brandSuggestions" placeholder="Marka axtar (məs: BMW, BYD)..."><datalist id="brandSuggestions"></datalist></div>
+        <div class="field"><label>Model</label><input id="searchModel" list="modelSuggestions" placeholder="Model axtar"><datalist id="modelSuggestions"></datalist></div>
         <div class="field"><label>Minimum qiymət</label><input id="minPrice" type="number" placeholder="5000"></div>
         <div class="field"><label>Maksimum qiymət</label><input id="maxPrice" type="number" placeholder="50000"></div>
         <div class="field"><label>Valyuta</label><select id="searchCurrency"><option value="">Hamısı</option><option>AZN</option><option>USD</option><option>EUR</option></select></div>
@@ -161,6 +147,7 @@ footer{background:var(--dark);color:#cbd5e1;padding:32px 20px;margin-top:45px}.f
         <div class="field"><label>Yerlərin sayı</label><select id="searchSeats"><option value="">Hamısı</option></select></div>
         <div class="field"><label>Ötürücü</label><select id="searchDrive"><option value="">Hamısı</option><option>Ön</option><option>Arxa</option><option>Tam</option></select></div>
         <div class="field"><label>İstehsalçı ölkə</label><select id="searchCountry"><option value="">Hamısı</option></select></div>
+        <div class="field"><label>Barter / Kredit</label><select id="searchDealType"><option value="">Hamısı</option><option value="barter">Barter mümkündür</option><option value="credit">Kredit / %</option><option value="salon">Salon elanları</option></select></div>
       </div>
       <div class="actions">
         <button class="btn red" onclick="renderCars()">🔍 Axtar</button>
@@ -173,12 +160,15 @@ footer{background:var(--dark);color:#cbd5e1;padding:32px 20px;margin-top:45px}.f
 <main class="container" id="elanlar">
   <div class="section-head">
     <h2>🚘 Avtomobil elanları</h2>
-    <select id="sortCars" onchange="renderCars()" style="padding:10px;border-radius:8px;border:1px solid #ddd">
-      <option value="new">Ən yenilər</option>
-      <option value="cheap">Əvvəlcə ucuz</option>
-      <option value="expensive">Əvvəlcə bahalı</option>
-      <option value="year">İl üzrə</option>
-    </select>
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+      <button class="btn white-btn" onclick="openCompare()">⚖ Müqayisə (<span id="compareCountInline">0</span>)</button>
+      <select id="sortCars" onchange="renderCars()" style="padding:10px;border-radius:8px;border:1px solid #ddd">
+        <option value="new">Ən yenilər</option>
+        <option value="cheap">Əvvəlcə ucuz</option>
+        <option value="expensive">Əvvəlcə bahalı</option>
+        <option value="year">İl üzrə</option>
+      </select>
+    </div>
   </div>
   <div class="count" id="resultCount">Yüklənir...</div><br>
   <div class="cars" id="carList"></div>
@@ -196,17 +186,39 @@ footer{background:var(--dark);color:#cbd5e1;padding:32px 20px;margin-top:45px}.f
   <div class="section-head">
     <h2>⭐ Premium və VIP elanlar</h2>
   </div>
-  <p>Premium elanlar xüsusi nişanla göstərilir.</p>
+  <p>Premium elanlar xüsusi nişanla göstərilir. Barter və kredit (%) şərtli elanlar kartlarda xüsusi nişanlanır.</p>
 </section>
 
 <footer id="elaqe">
   <div class="footer-inner">
-    <div class="logo">Car<span>Vex</span></div>
+    <div class="logo-wrap" style="margin-bottom:8px">
+      <div class="animated-logo" aria-hidden="true">🚗</div>
+      <div class="logo">Car<span>Vex</span></div>
+    </div>
     <p>Avtomobil alışı və satışının yeni ünvanı.</p>
     <p>© 2026 CarVex. Bütün hüquqlar qorunur.</p>
     <p>Əlaqə: <a href="mailto:info@carvex.az">info@carvex.az</a></p>
   </div>
 </footer>
+
+<!-- MÜQAYİSƏ MODALI -->
+<div class="modal" id="compareModal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h2>Avtomobillərin müqayisəsi</h2>
+      <button class="close" onclick="closeCompare()">×</button>
+    </div>
+    <div id="compareContent"></div>
+  </div>
+</div>
+
+<!-- ŞƏKİL GENİŞLƏNDİRMƏ (LIGHTBOX) -->
+<div class="lightbox" id="lightboxModal" onclick="closeLightbox(event)">
+  <button class="close" onclick="closeLightbox()">×</button>
+  <button class="lb-nav lb-prev" type="button" onclick="stepLightbox(-1)">‹</button>
+  <img id="lightboxImg" src="" alt="Böyüdülmüş şəkil">
+  <button class="lb-nav lb-next" type="button" onclick="stepLightbox(1)">›</button>
+</div>
 
 <!-- ELAN FORMU -->
 <div class="modal" id="formModal">
@@ -217,8 +229,8 @@ footer{background:var(--dark);color:#cbd5e1;padding:32px 20px;margin-top:45px}.f
     </div>
     <form id="carForm">
       <div class="form-grid">
-        <div class="field"><label>Marka *</label><select id="brand" required></select></div>
-        <div class="field"><label>Model *</label><input id="model" required placeholder="E-Class"></div>
+        <div class="field"><label>Marka * (axtar və ya seç)</label><input id="brand" list="brandSuggestions" required placeholder="Marka yazın və ya seçin..."></div>
+        <div class="field"><label>Model *</label><input id="model" list="modelSuggestions" required placeholder="E-Class / Dena / Saina"></div>
         <div class="field"><label>Qiymət *</label><input id="price" type="number" min="1" required></div>
         <div class="field"><label>Valyuta *</label><select id="currency" required><option>AZN</option><option>USD</option><option>EUR</option></select></div>
         <div class="field"><label>Buraxılış ili *</label><input id="year" type="number" min="1950" max="2026" required></div>
@@ -235,6 +247,11 @@ footer{background:var(--dark);color:#cbd5e1;padding:32px 20px;margin-top:45px}.f
         <div class="field"><label>İstehsalçı ölkə</label><select id="country"></select></div>
         <div class="field"><label>Telefon nömrəsi *</label><input id="phone" type="tel" required placeholder="+994 50 123 45 67"></div>
         <div class="field"><label>Elan növü</label><select id="sellerType"><option>Şəxsi</option><option>Salon</option></select></div>
+        <div class="field"><label>Kredit faizi (%)</label><input id="creditRate" type="number" min="0" max="100" step="0.1" placeholder="məs: 12"></div>
+        <div class="field" style="display:flex;align-items:flex-end;gap:14px">
+          <label class="chip"><input type="checkbox" id="allowBarter"> 🔄 Barter</label>
+          <label class="chip"><input type="checkbox" id="allowCredit"> % Kredit</label>
+        </div>
         <div class="field full"><label>Şəkillər (maksimum 10) *</label><input id="photos" type="file" accept="image/*" multiple><div class="muted">Şəkillər avtomatik sıxılaraq bazaya yüklənir.</div></div>
         <div class="field full"><label>Avtomobil videosu (istəyə bağlı, 1 qısa video)</label><input id="videoFile" type="file" accept="video/*"><div class="muted">Video ölçüsü maksimum 15 MB olmalıdır.</div></div>
         <div class="field full"><label>Avtomobil təchizatı</label><div class="chips" id="equipmentChoices"></div></div>
@@ -289,8 +306,12 @@ footer{background:var(--dark);color:#cbd5e1;padding:32px 20px;margin-top:45px}.f
       <h2>Mesajlar</h2>
       <button class="close" onclick="closeMessages()">×</button>
     </div>
-    <p>Hələlik mesajınız yoxdur.</p>
-    <p>Satıcılarla yazışmaq üçün mesajlaşma sistemi qoşulmalıdır.</p>
+    <div id="messagesList"></div>
+    <form id="quickMsgForm" style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+      <input id="msgCarTitle" placeholder="Avtomobil / mövzu" style="flex:1;min-width:160px;padding:10px;border:1px solid var(--line);border-radius:8px">
+      <input id="msgText" placeholder="Mesajınızı yazın..." required style="flex:2;min-width:200px;padding:10px;border:1px solid var(--line);border-radius:8px">
+      <button class="btn red" type="submit">Göndər</button>
+    </form>
   </div>
 </div>
 
@@ -304,9 +325,8 @@ footer{background:var(--dark);color:#cbd5e1;padding:32px 20px;margin-top:45px}.f
     <span class="bottom-icon">♡</span>
     <span>SEÇİLMİŞLƏR</span>
   </button>
-  <button class="add-nav" onclick="openForm()">
+  <button class="add-nav" onclick="openForm()" aria-label="Yeni elan">
     <span class="bottom-icon">+</span>
-    <span>YENİ ELAN</span>
   </button>
   <button onclick="openMessages()">
     <span class="bottom-icon">▤</span>
@@ -325,13 +345,30 @@ footer{background:var(--dark);color:#cbd5e1;padding:32px 20px;margin-top:45px}.f
 <script>
 const SUPABASE_URL = "https://nphqvfipdveztdlpkzsh.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_LpXC4J8L9cO15fXwt8cTyQ_huxZ8HLq";
+const FALLBACK_CAR_IMG = "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=800";
 
 let supabaseClient = null;
 if (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase) {
   supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 }
 
-const BRANDS=["Acura","Aion","Aixam","Alfa Romeo","Alpina","Aston Martin","Aurus","Audi","Avatr","BAIC","Baojun","Bentley","Bestune","BMW","Borgward","Brilliance","Bugatti","Buick","BYD","Cadillac","Changan","Chery","Chevrolet","Chrysler","Citroën","Cupra","Dacia","Daewoo","Daihatsu","Datsun","Deepal","Denza","Dodge","Dongfeng","DS Automobiles","FAW","Ferrari","Fiat","Fisker","Ford","Foton","GAC","Geely","Genesis","GMC","Great Wall","Haval","HiPhi","Honda","Hongqi","Hummer","Hyundai","Infiniti","Isuzu","JAC","Jaecoo","Jaguar","Jeep","Jetour","Jetta","Karma","KGM","Kia","Koenigsegg","Lada","Lamborghini","Lancia","Land Rover","Leapmotor","Lexus","Li Auto","Lincoln","Lotus","Lucid","Lynk & Co","Mahindra","Maruti Suzuki","Maserati","Maxus","Maybach","Mazda","McLaren","Mercedes-Benz","Mercury","MG","Mini","Mitsubishi","Mitsuoka","Neta","Nio","Nissan","Oldsmobile","Opel","Pagani","Perodua","Peugeot","Plymouth","Polestar","Pontiac","Porsche","Proton","RAM","Ravon","Renault","Rimac","Rivian","Rolls-Royce","Rover","Saab","Saleen","Saturn","Scion","Seat","Seres","Škoda","Smart","Soueast","SsangYong","Subaru","Suzuki","Tata","Tesla","Theon","Toyota","VinFast","Volkswagen","Volvo","Voyah","Wey","Wuling","Xiaomi","Xpeng","Yangwang","Zeekr","Zotye","ZAZ","АЗЛК (Moskvich)","ГАЗ","ЗИЛ","ЛуАЗ","Москвич","УАЗ","Chery Exeed","Evolute","Forthing","Ineos","INEOS Grenadier","Livan","Omoda","Onvo","Ora","Rox","Skywell","SWM","Togg","Vauxhall","Wiesmann"];
+const BRANDS=["Khazar","Saipa","Acura","Aion","Aixam","Alfa Romeo","Alpina","Aston Martin","Aurus","Audi","Avatr","BAIC","Baojun","Bentley","Bestune","BMW","Borgward","Brilliance","Bugatti","Buick","BYD","Cadillac","Changan","Chery","Chevrolet","Chrysler","Citroën","Cupra","Dacia","Daewoo","Daihatsu","Datsun","Deepal","Denza","Dodge","Dongfeng","DS Automobiles","FAW","Ferrari","Fiat","Fisker","Ford","Foton","GAC","Geely","Genesis","GMC","Great Wall","Haval","HiPhi","Honda","Hongqi","Hummer","Hyundai","Infiniti","Isuzu","JAC","Jaecoo","Jaguar","Jeep","Jetour","Jetta","Karma","KGM","Kia","Koenigsegg","Lada","Lamborghini","Lancia","Land Rover","Leapmotor","Lexus","Li Auto","Lincoln","Lotus","Lucid","Lynk & Co","Mahindra","Maruti Suzuki","Maserati","Maxus","Maybach","Mazda","McLaren","Mercedes-Benz","Mercury","MG","Mini","Mitsubishi","Mitsuoka","Neta","Nio","Nissan","Oldsmobile","Opel","Pagani","Perodua","Peugeot","Plymouth","Polestar","Pontiac","Porsche","Proton","RAM","Ravon","Renault","Rimac","Rivian","Rolls-Royce","Rover","Saab","Saleen","Saturn","Scion","Seat","Seres","Škoda","Smart","Soueast","SsangYong","Subaru","Suzuki","Tata","Tesla","Theon","Toyota","VinFast","Volkswagen","Volvo","Voyah","Wey","Wuling","Xiaomi","Xpeng","Yangwang","Zeekr","Zotye","ZAZ","АЗЛК (Moskvich)","ГАЗ","ЗИЛ","ЛуАЗ","Москвич","УАЗ","Chery Exeed","Evolute","Forthing","Ineos","INEOS Grenadier","Livan","Omoda","Onvo","Ora","Rox","Skywell","SWM","Togg","Vauxhall","Wiesmann"];
+
+const MODELS_BY_BRAND = {
+  "Khazar": ["SD", "LD", "Dena", "Runna", "Samand", "LX"],
+  "Saipa": ["Pride 131", "Pride 141", "Saina", "Quick", "Shahin", "Tiba", "Atlas"],
+  "BMW": ["3 Series", "5 Series", "7 Series", "X3", "X5", "X6", "X7", "iX"],
+  "Mercedes-Benz": ["C-Class", "E-Class", "S-Class", "CLA", "GLA", "GLC", "GLE", "GLS", "G-Class"],
+  "Toyota": ["Camry", "Corolla", "RAV4", "Land Cruiser", "Prado", "Highlander", "Prius"],
+  "Hyundai": ["Accent", "Elantra", "Sonata", "Tucson", "Santa Fe", "Kona", "Palisade"],
+  "Kia": ["Rio", "Cerato", "Optima", "K5", "Sportage", "Sorento", "Telluride"],
+  "BYD": ["Destroyer 05", "Chazor", "Han", "Tang", "Song Plus", "Seal", "Yuan Plus"],
+  "Chevrolet": ["Cruze", "Malibu", "Cobalt", "Nexia", "Equinox", "Tahoe", "Captiva"],
+  "Lada": ["Niva", "Granta", "Vesta", "Priora", "2107", "2114"]
+};
+
+const ALL_MODELS = Array.from(new Set(Object.values(MODELS_BY_BRAND).flat()));
+
 const CITIES=["Bakı","Abşeron","Ağcabədi","Ağdam","Ağdaş","Ağstafa","Ağsu","Astara","Babək","Balakən","Beyləqan","Bərdə","Biləsuvar","Cəbrayıl","Cəlilabad","Culfa","Daşkəsən","Füzuli","Gədəbəy","Goranboy","Göyçay","Göygöl","Hacıqabul","İmişli","İsmayıllı","Kəlbəcər","Kəngərli","Kürdəmir","Laçın","Lerik","Lənkəran","Masallı","Neftçala","Oğuz","Ordubad","Qax","Qazax","Qəbələ","Qobustan","Quba","Qubadlı","Qusar","Saatlı","Sabirabad","Salyan","Samux","Sədərək","Şabran","Şahbuz","Şamaxı","Şəmkir","Şərur","Şəki","Şirvan","Şuşa","Siyəzən","Tərtər","Tovuz","Ucar","Xaçmaz","Xankəndi","Xızı","Xocalı","Xocavənd","Yardımlı","Yevlax","Zaqatala","Zəngilan","Zərdab","Sumqayıt","Gəncə","Mingəçevir","Naftalan"];
 const FUELS=["Benzin","Dizel","Hibrid","Plug-in Hibrid","Hidrogen","Qaz","Elektro"];
 const GEARS=["Avtomat","DHT","AT","Reduktor","Robot","Variator","Mexaniki (MT)"];
@@ -341,7 +378,10 @@ const SEATS=["1","2","3","5","6","7","8+"];
 const COUNTRIES=["Almaniya","ABŞ","Azərbaycan","Böyük Britaniya","Çin","Cənubi Koreya","Fransa","Hindistan","İran","İtaliya","İsveç","İsveçrə","Çexiya","Yaponiya","Türkiyə","Rusiya","Rumıniya","Slovakiya","Digər"];
 const EQUIPMENT=["360° kamera","ABS","Arxa kamera görüntüsü","Dəri salon","Kondisioner","Lyuk","Head-up displey","Ksenon lampalar","Mərkəzi kilidləmə","Oturacaqların isidilməsi","Oturacaqların ventilyasiyası","Park radarı","Yan pərdələr","Start-Stop","Yağış sensoru","İşıq sensoru","Yüngül lehimli disklər","Ön kamera görüntüsü","Adaptiv kruiz-kontrol","Apple CarPlay","Android Auto","Bluetooth","Naviqasiya","Panoramik dam","Elektrik oturacaqlar","Açarsız giriş","Elektrik baqaj qapısı","Kor zona nəzarəti"];
 
-let cars=[], favorites=[], favoriteOnly=false, currentUser=null, editingId=null, showingAllVideos=false;
+const AZN_RATES = { AZN: 1, USD: 1.70, EUR: 1.85 };
+
+let cars=[], favorites=[], compareIds=[], messages=[], cardPhotoIndex={}, favoriteOnly=false, currentUser=null, editingId=null, showingAllVideos=false;
+let lightboxPhotos=[], lightboxIdx=0;
 const DB_NAME="CarVexDB", STORE="cars";
 
 function generateUUID() {
@@ -397,12 +437,19 @@ async function dbDelete(id){
 }
 
 function normalizeCar(row){
+  const price = Number(row.price || 0);
+  const history = Array.isArray(row.priceHistory) ? row.priceHistory : [{ date: new Date(Number(row.date || Date.now())).toLocaleDateString("az-AZ"), price, currency: row.currency || "AZN" }];
   return {
     ...row,
     id: String(row.id),
-    price: Number(row.price || 0),
+    listingNo: row.listingNo || ("CV-" + String(row.id).replace(/\D/g, "").slice(0, 6).padEnd(6, "7")),
+    price,
     year: Number(row.year || 0),
     mileage: Number(row.mileage || 0),
+    barter: Boolean(row.barter),
+    credit: Boolean(row.credit),
+    creditRate: row.creditRate ?? row.credit_rate ?? "",
+    priceHistory: history,
     sellerType: row.seller_type ?? row.sellerType ?? "Şəxsi",
     photos: Array.isArray(row.photos) ? row.photos : (typeof row.photos === "string" && row.photos.startsWith("[") ? JSON.parse(row.photos) : (row.photos ? [row.photos] : [])),
     equipment: Array.isArray(row.equipment) ? row.equipment : (typeof row.equipment === "string" && row.equipment.startsWith("[") ? JSON.parse(row.equipment) : []),
@@ -413,6 +460,7 @@ function normalizeCar(row){
 
 async function loadData(){
   favorites = JSON.parse(localStorage.getItem("carvexFavorites") || "[]");
+  messages = JSON.parse(localStorage.getItem("carvexMessages") || "[]");
 
   if (supabaseClient) {
     try {
@@ -440,7 +488,97 @@ async function loadData(){
 }
 
 function saveFavorites(){localStorage.setItem("carvexFavorites",JSON.stringify(favorites));}
+function saveMessages(){localStorage.setItem("carvexMessages",JSON.stringify(messages));}
 function updateFavoriteCount(){document.getElementById("favCount").textContent=favorites.length;}
+function updateCompareCount(){
+  document.getElementById("compareCount").textContent = compareIds.length;
+  const inlineEl = document.getElementById("compareCountInline");
+  if(inlineEl) inlineEl.textContent = compareIds.length;
+}
+
+function slideCardPhoto(event, carId, dir){
+  if(event) event.stopPropagation();
+  const c = cars.find(x => x.id === carId);
+  const total = c?.photos?.length || 0;
+  if(total <= 1) return;
+  const cur = cardPhotoIndex[carId] || 0;
+  cardPhotoIndex[carId] = (cur + dir + total) % total;
+  renderCars();
+}
+
+function bindCardSwipe(container, carId){
+  let startX = 0;
+  container.addEventListener("touchstart", e => {
+    startX = e.touches[0].clientX;
+  }, {passive:true});
+  container.addEventListener("touchend", e => {
+    if(!startX) return;
+    const dx = e.changedTouches[0].clientX - startX;
+    startX = 0;
+    if(Math.abs(dx) > 35){
+      slideCardPhoto(null, carId, dx < 0 ? 1 : -1);
+    }
+  }, {passive:true});
+}
+
+function toggleCompare(id){
+  if(compareIds.includes(id)){
+    compareIds = compareIds.filter(x => x !== id);
+  } else {
+    if(compareIds.length >= 3){
+      alert("Eyni anda maksimum 3 avtomobil müqayisə edilə bilər.");
+      return;
+    }
+    compareIds.push(id);
+  }
+  updateCompareCount();
+  renderCars();
+}
+
+function openCompare(){
+  const selected = cars.filter(c => compareIds.includes(c.id));
+  const box = document.getElementById("compareContent");
+  if(selected.length < 2){
+    box.innerHTML = `<p class="muted">Müqayisə üçün ən azı 2, maksimum 3 avtomobil seçin. Hazırda seçilib: <b>${selected.length}</b>.</p>`;
+  } else {
+    const rows = [
+      ["Qiymət", c => `<b>${money(c)}</b>${aznEquivalent(c) ? `<br><span class="muted">${aznEquivalent(c)}</span>` : ""}`],
+      ["Buraxılış ili", c => c.year],
+      ["Yürüş", c => Number(c.mileage).toLocaleString("az-AZ") + " km"],
+      ["Şəhər", c => escapeHTML(c.city)],
+      ["Mühərrik", c => escapeHTML(c.engine || "-") + " · " + escapeHTML(c.fuel)],
+      ["Sürətlər qutusu", c => escapeHTML(c.gear)],
+      ["Ötürücü", c => escapeHTML(c.drive)],
+      ["Barter / Kredit", c => `${c.barter ? "🔄 Barter" : "Xeyr"} / ${c.credit ? "% Kredit" : "Xeyr"}`]
+    ];
+    box.innerHTML = `
+      <div style="overflow:auto">
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th>Göstərici</th>
+              ${selected.map(c => `<th><img src="${c.photos?.[0] || FALLBACK_CAR_IMG}" style="width:100%;height:95px;object-fit:cover;border-radius:7px;margin-bottom:6px"><br>${escapeHTML(c.brand)} ${escapeHTML(c.model)}</th>`).join("")}
+            </tr>
+          </thead>
+          <tbody>
+            ${rows.map(([label, fn]) => `<tr><th>${label}</th>${selected.map(c => `<td>${fn(c)}</td>`).join("")}</tr>`).join("")}
+          </tbody>
+        </table>
+      </div>
+    `;
+  }
+  document.getElementById("compareModal").style.display = "flex";
+}
+
+function closeCompare(){document.getElementById("compareModal").style.display = "none";}
+
+function setQuickFilter(type){
+  document.getElementById("searchDealType").value = type;
+  document.querySelectorAll("#quickFilterBar .quick-chip").forEach(btn => {
+    btn.classList.toggle("active", btn.getAttribute("data-quick") === type);
+  });
+  renderCars();
+}
 
 function fillSelect(id,items,first="Seçin"){
   const el=document.getElementById(id);
@@ -448,9 +586,14 @@ function fillSelect(id,items,first="Seçin"){
   el.innerHTML='<option value="">'+first+'</option>'+items.map(x=>'<option value="'+escapeHTML(x)+'">'+escapeHTML(x)+'</option>').join("");
 }
 
+function updateModelSuggestions(brandName){
+  const matchedBrand = BRANDS.find(b => b.toLowerCase() === String(brandName || "").trim().toLowerCase()) || brandName;
+  const list = MODELS_BY_BRAND[matchedBrand] || ALL_MODELS;
+  document.getElementById("modelSuggestions").innerHTML = list.map(m => `<option value="${escapeHTML(m)}"></option>`).join("");
+}
+
 function fillAll(){
-  fillSelect("searchBrand",BRANDS,"Bütün markalar");
-  fillSelect("brand",BRANDS,"Marka seçin");
+  document.getElementById("brandSuggestions").innerHTML = BRANDS.map(b => `<option value="${escapeHTML(b)}"></option>`).join("");
   fillSelect("searchCity",CITIES,"Bütün şəhər və rayonlar");
   fillSelect("city",CITIES,"Şəhər / rayon seçin");
   fillSelect("searchColor",COLORS,"Bütün rənglər");
@@ -465,11 +608,76 @@ function fillAll(){
   fillSelect("seats",SEATS,"Yerlərin sayı");
   fillSelect("searchCountry",COUNTRIES,"Hamısı");
   fillSelect("country",COUNTRIES,"Ölkə seçin");
+  updateModelSuggestions("");
   document.getElementById("equipmentChoices").innerHTML=EQUIPMENT.map(x=>'<label class="chip"><input type="checkbox" name="equipment" value="'+escapeHTML(x)+'">'+escapeHTML(x)+'</label>').join("");
 }
 
 function escapeHTML(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
 function money(c){return Number(c.price||0).toLocaleString("az-AZ")+" "+(c.currency||"AZN");}
+function aznEquivalent(c){
+  const curr = c.currency || "AZN";
+  if(curr === "AZN" || !AZN_RATES[curr]) return "";
+  const aznVal = Math.round(Number(c.price || 0) * AZN_RATES[curr]);
+  return `≈ ${aznVal.toLocaleString("az-AZ")} AZN`;
+}
+
+function openLightbox(src, photosList=[]){
+  if(!src)return;
+  lightboxPhotos = Array.isArray(photosList) && photosList.length ? photosList : [src];
+  lightboxIdx = Math.max(0, lightboxPhotos.indexOf(src));
+  document.getElementById("lightboxImg").src = lightboxPhotos[lightboxIdx] || src;
+  document.getElementById("lightboxModal").style.display = "flex";
+}
+function stepLightbox(dir){
+  if(lightboxPhotos.length <= 1) return;
+  lightboxIdx = (lightboxIdx + dir + lightboxPhotos.length) % lightboxPhotos.length;
+  document.getElementById("lightboxImg").src = lightboxPhotos[lightboxIdx];
+}
+function closeLightbox(e){
+  if(!e || e.target.id === "lightboxModal" || e.target.classList.contains("close")){
+    document.getElementById("lightboxModal").style.display = "none";
+    document.getElementById("lightboxImg").src = "";
+    lightboxPhotos = [];
+  }
+}
+
+let audioCtx = null, musicTimer = null, isMusicPlaying = false;
+function toggleDriveMusic(){
+  const btn = document.getElementById("musicBtn");
+  if(isMusicPlaying){
+    clearInterval(musicTimer);
+    musicTimer = null;
+    if(audioCtx){ audioCtx.close(); audioCtx = null; }
+    isMusicPlaying = false;
+    btn.textContent = "🎵 Avto Musiqi: Bağlı";
+    return;
+  }
+  const Ctx = window.AudioContext || window.webkitAudioContext;
+  if(!Ctx) return;
+  audioCtx = new Ctx();
+  isMusicPlaying = true;
+  btn.textContent = "🔊 Avto Musiqi: Aktiv";
+  const notes = [110, 130.81, 146.83, 164.81, 196.00, 164.81, 146.83, 130.81];
+  let step = 0;
+  const playPulse = () => {
+    if(!audioCtx || !isMusicPlaying) return;
+    const now = audioCtx.currentTime;
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = "triangle";
+    osc.frequency.setValueAtTime(notes[step % notes.length], now);
+    gain.gain.setValueAtTime(0.001, now);
+    gain.gain.exponentialRampToValueAtTime(0.07, now + 0.04);
+    gain.gain.exponentialRampToValueAtTime(0.0008, now + 0.36);
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.start(now);
+    osc.stop(now + 0.38);
+    step++;
+  };
+  playPulse();
+  musicTimer = setInterval(playPulse, 390);
+}
 
 function openForm(){
   editingId=null;
@@ -503,7 +711,9 @@ function showFavorites(){
 }
 
 function resetSearch(){
-  ["searchBrand","searchModel","minPrice","maxPrice","searchCurrency","searchCity","searchColor","searchFuel","searchGear","yearMin","yearMax","searchMileage","searchCondition","searchSeats","searchDrive","searchCountry"].forEach(id=>document.getElementById(id).value="");
+  ["searchBrand","searchModel","minPrice","maxPrice","searchCurrency","searchCity","searchColor","searchFuel","searchGear","yearMin","yearMax","searchMileage","searchCondition","searchSeats","searchDrive","searchCountry","searchDealType"].forEach(id=>document.getElementById(id).value="");
+  document.querySelectorAll("#quickFilterBar .quick-chip").forEach(btn => btn.classList.toggle("active", btn.getAttribute("data-quick") === ""));
+  updateModelSuggestions("");
   favoriteOnly=false;
   document.getElementById("sortCars").value="new";
   setActiveMenu(0);
@@ -513,8 +723,10 @@ function resetSearch(){
 function renderCars(){
   let list=cars.filter(c=>{
     const v=id=>document.getElementById(id).value;
+    const brandQuery = v("searchBrand").trim().toLowerCase();
     const min=Number(v("minPrice"))||0,max=Number(v("maxPrice"))||Infinity,ymin=Number(v("yearMin"))||0,ymax=Number(v("yearMax"))||9999,km=Number(v("searchMileage"))||Infinity;
-    return(!v("searchBrand")||c.brand===v("searchBrand"))&&
+    const deal = v("searchDealType");
+    return(!brandQuery||String(c.brand||"").toLowerCase().includes(brandQuery))&&
           (!v("searchModel")||c.model.toLowerCase().includes(v("searchModel").toLowerCase()))&&
           Number(c.price)>=min&&Number(c.price)<=max&&
           (!v("searchCurrency")||c.currency===v("searchCurrency"))&&
@@ -528,12 +740,13 @@ function renderCars(){
           (!v("searchSeats")||c.seats===v("searchSeats"))&&
           (!v("searchDrive")||c.drive===v("searchDrive"))&&
           (!v("searchCountry")||c.country===v("searchCountry"))&&
+          (!deal || (deal==="barter" && c.barter) || (deal==="credit" && c.credit) || (deal==="salon" && c.sellerType==="Salon"))&&
           (!favoriteOnly||favorites.includes(c.id));
   });
 
   const sort=document.getElementById("sortCars").value;
-  if(sort==="cheap")list.sort((a,b)=>a.price-b.price);
-  if(sort==="expensive")list.sort((a,b)=>b.price-a.price);
+  if(sort==="cheap")list.sort((a,b)=>(a.price*(AZN_RATES[a.currency]||1))-(b.price*(AZN_RATES[b.currency]||1)));
+  if(sort==="expensive")list.sort((a,b)=>(b.price*(AZN_RATES[b.currency]||1))-(a.price*(AZN_RATES[a.currency]||1)));
   if(sort==="year")list.sort((a,b)=>b.year-a.year);
   if(sort==="new")list.sort((a,b)=>b.date-a.date);
 
@@ -545,21 +758,39 @@ function renderCars(){
     return;
   }
 
-  area.innerHTML=list.map(c=>`
+  area.innerHTML=list.map(c=>{
+    const photosList = (c.photos && c.photos.length) ? c.photos : [FALLBACK_CAR_IMG];
+    const pIdx = (cardPhotoIndex[c.id] || 0) % photosList.length;
+    const imgSrc = photosList[pIdx] || FALLBACK_CAR_IMG;
+    const eqText = aznEquivalent(c);
+    const isCompared = compareIds.includes(c.id);
+    return `
     <div class="car">
-      <div class="car-image">
-        <img src="${c.photos?.[0]||"https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=800"}" alt="Avtomobil">
+      <div class="car-image" data-car-id="${c.id}">
+        <img src="${imgSrc}" alt="Avtomobil" onclick='openLightbox("${imgSrc}", ${JSON.stringify(photosList)})'>
+        ${photosList.length > 1 ? `
+          <button type="button" class="slide-btn prev" onclick="slideCardPhoto(event,'${c.id}',-1)" aria-label="Əvvəlki şəkil">‹</button>
+          <button type="button" class="slide-btn next" onclick="slideCardPhoto(event,'${c.id}',1)" aria-label="Növbəti şəkil">›</button>
+          <span class="photo-counter">${pIdx + 1}/${photosList.length}</span>
+        ` : ""}
         ${c.premium?'<span class="premium">⭐ PREMIUM</span>':""}
         <button class="heart" onclick="toggleFavorite('${c.id}')">${favorites.includes(c.id)?"❤️":"🤍"}</button>
+        <button class="compare-toggle ${isCompared?"active":""}" onclick="toggleCompare('${c.id}')">${isCompared?"✓ Seçilib":"⚖ Müqayisə"}</button>
+        <div class="badges-row">
+          ${c.barter?'<span class="tag-badge">🔄 Barter</span>':""}
+          ${c.credit?`<span class="tag-badge pct">% Kredit${c.creditRate?" ("+escapeHTML(c.creditRate)+"%)":""}</span>`:""}
+        </div>
       </div>
       <div class="car-info">
         <div class="car-price">${money(c)}</div>
+        ${eqText ? `<div class="azn-eq">${eqText}</div>` : '<div style="margin-bottom:5px"></div>'}
         <div class="car-name">${escapeHTML(c.brand)} ${escapeHTML(c.model)}</div>
         <div class="car-details">
           <span>📅 ${c.year}</span>
           <span>🛣 ${Number(c.mileage).toLocaleString("az-AZ")} km</span>
           <span>⚙️ ${escapeHTML(c.gear)}</span>
           <span>⛽ ${escapeHTML(c.fuel)}</span>
+          <span>👁 ${Number(c.views||0)}</span>
         </div>
         <div class="card-buttons">
           <button class="details-btn" onclick="showDetails('${c.id}')">Ətraflı məlumat</button>
@@ -567,11 +798,15 @@ function renderCars(){
         </div>
       </div>
       <div class="car-footer">
-        <span>📍 ${escapeHTML(c.city)}</span>
+        <span>📍 ${escapeHTML(c.city)} · #${escapeHTML(c.listingNo)}</span>
         <span>${c.video?"▶ Video var":"CarVex"}</span>
       </div>
     </div>
-  `).join("");
+  `;
+  }).join("");
+  area.querySelectorAll(".car-image").forEach(el => {
+    bindCardSwipe(el, el.getAttribute("data-car-id"));
+  });
   updateFavoriteCount();
 }
 
@@ -580,16 +815,37 @@ function callSeller(id){
   if(c)location.href="tel:"+c.phone.replace(/[^\d+]/g,"");
 }
 
-function showDetails(id){
+async function showDetails(id){
   const c=cars.find(x=>x.id===id);
   if(!c)return;
+  c.views = Number(c.views || 0) + 1;
+  if (supabaseClient) {
+    supabaseClient.from("cars").update({ views: c.views }).eq("id", c.id).then(()=>{});
+  } else {
+    dbPut(c).catch(()=>{});
+  }
+  renderCars();
+
+  const photosList = (c.photos && c.photos.length) ? c.photos : [FALLBACK_CAR_IMG];
+  const mainPhoto = photosList[0] || FALLBACK_CAR_IMG;
+  const eqText = aznEquivalent(c);
+  const similar = cars.filter(x => x.id !== c.id && (x.brand === c.brand || x.city === c.city)).slice(0, 3);
+  const history = Array.isArray(c.priceHistory) && c.priceHistory.length
+    ? c.priceHistory
+    : [{ date: new Date(c.date || Date.now()).toLocaleDateString("az-AZ"), price: c.price, currency: c.currency || "AZN" }];
+
   document.getElementById("detailContent").innerHTML=`
-    <img class="detail-image" src="${c.photos?.[0]||""}">
-    <div class="detail-gallery">${(c.photos||[]).map(x=>'<img src="'+x+'" alt="Avtomobil şəkli" onclick="document.querySelector(\'.detail-image\').src=this.src">').join("")}</div>
+    <img class="detail-image" src="${mainPhoto}" onclick='openLightbox(this.src, ${JSON.stringify(photosList)})'>
+    <div class="detail-gallery">${(c.photos||[]).map(x=>'<img src="'+x+'" alt="Avtomobil şəkli" onclick=\'document.querySelector(".detail-image").src=this.src;openLightbox(this.src, '+JSON.stringify(photosList)+')\'>').join("")}</div>
     <h2>${escapeHTML(c.brand)} ${escapeHTML(c.model)}</h2>
-    <h2 style="color:#e63950">${money(c)}</h2>
+    <h2 style="color:#e63950;margin-bottom:4px">${money(c)} ${c.barter?"· 🔄 Barter":""} ${c.credit?`· % Kredit${c.creditRate?" ("+escapeHTML(c.creditRate)+"%)":""}`:""}</h2>
+    ${eqText ? `<div class="azn-eq" style="font-size:14px;margin-bottom:12px">${eqText}</div>` : ""}
     <div class="detail-list">
-      ${[["Buraxılış ili",c.year],["Yürüş",c.mileage+" km"],["Rəng",c.color],["Sürətlər qutusu",c.gear],["Ötürücü",c.drive],["Mühərrik",c.engine||"-"],["Yanacaq",c.fuel],["Yerlərin sayı",c.seats||"-"],["Vəziyyət",c.condition||"-"],["İstehsalçı ölkə",c.country||"-"],["At gücü",c.horsepower||"-"],["Şəhər",c.city],["Telefon",c.phone]].map(([a,b])=>'<div class="detail-item"><b>'+a+':</b> '+escapeHTML(b)+'</div>').join("")}
+      ${[["Elan nömrəsi","#"+c.listingNo],["Baxış sayı",c.views],["Buraxılış ili",c.year],["Yürüş",c.mileage+" km"],["Rəng",c.color],["Sürətlər qutusu",c.gear],["Ötürücü",c.drive],["Mühərrik",c.engine||"-"],["Yanacaq",c.fuel],["Yerlərin sayı",c.seats||"-"],["Vəziyyət",c.condition||"-"],["İstehsalçı ölkə",c.country||"-"],["At gücü",c.horsepower||"-"],["Şəhər",c.city],["Telefon",c.phone]].map(([a,b])=>'<div class="detail-item"><b>'+a+':</b> '+escapeHTML(b)+'</div>').join("")}
+    </div>
+    <h3>Qiymət tarixçəsi</h3>
+    <div class="history-box">
+      ${history.map(h => `<div>• <b>${escapeHTML(h.date)}</b>: ${Number(h.price).toLocaleString("az-AZ")} ${escapeHTML(h.currency)}</div>`).join("")}
     </div>
     <h3>Təchizat</h3>
     <p>${escapeHTML((c.equipment||[]).join(", ")||"Qeyd edilməyib")}</p>
@@ -597,9 +853,28 @@ function showDetails(id){
     <p>${escapeHTML(c.description||"Əlavə məlumat yoxdur.")}</p>
     ${c.video?'<button class="btn dark-btn" onclick="playCarVideo(\''+c.id+'\')">▶ Videoya bax</button> ':""}
     <button class="btn red" onclick="callSeller('${c.id}')">☎ Satıcıya zəng et</button>
+    <button class="btn dark-btn" onclick="messageSeller('${c.id}')">✉ Mesaj yaz</button>
     <button class="btn white-btn" onclick="shareCar('${c.id}')">Paylaş</button>
+    <h3 style="margin-top:20px">Bənzər maşınlar</h3>
+    <div class="similar-grid">
+      ${similar.length ? similar.map(s=>`
+        <div class="similar-card" onclick="closeDetails();showDetails('${s.id}')">
+          <img src="${s.photos?.[0]||FALLBACK_CAR_IMG}" alt="">
+          <div style="font-weight:bold;margin-top:6px">${escapeHTML(s.brand)} ${escapeHTML(s.model)}</div>
+          <div style="color:#e63950;font-weight:bold;font-size:13px">${money(s)}</div>
+          ${aznEquivalent(s)?`<div class="muted" style="font-size:11px">${aznEquivalent(s)}</div>`:""}
+          <div class="muted">${s.year} · ${escapeHTML(s.city)}</div>
+        </div>
+      `).join("") : '<p class="muted">Hazırda bənzər elan tapılmadı.</p>'}
+    </div>
   `;
   document.getElementById("detailModal").style.display="flex";
+}
+
+function messageSeller(id){
+  const c=cars.find(x=>x.id===id);
+  closeDetails();
+  openMessages(c ? `${c.brand} ${c.model} (#${c.listingNo})` : "");
 }
 
 function shareCar(id){
@@ -616,19 +891,24 @@ function renderVideos(){
     el.innerHTML='<div class="empty" style="min-width:100%">Hələ video elanı yoxdur. Elan yerləşdirərkən avtomobil videosu əlavə edə bilərsiniz.</div>';
     return;
   }
-  el.innerHTML=visible.map(c=>`
+  el.innerHTML=visible.map(c=>{
+    const thumb = c.photos?.[0] || FALLBACK_CAR_IMG;
+    const safeVideo = String(c.video || "").includes("#") ? c.video : `${c.video}#t=0.5`;
+    return `
     <div class="video-card" onclick="playCarVideo('${c.id}')">
-      <video src="${c.video}" muted playsinline preload="metadata"></video>
-      <div class="video-shade"></div>
-      <span class="video-views">▶ ${Number(c.views||0).toLocaleString("az-AZ")}</span>
-      <button class="video-play" aria-label="Videoya bax">▶</button>
-      <div class="video-meta">
+      <img src="${thumb}" alt="${escapeHTML(c.brand)} ${escapeHTML(c.model)}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+      <video src="${safeVideo}" poster="${thumb}" muted playsinline preload="metadata" style="position:relative;z-index:1;background:transparent"></video>
+      <div class="video-shade" style="z-index:2"></div>
+      <span class="video-views" style="z-index:3">▶ ${Number(c.views||0).toLocaleString("az-AZ")}</span>
+      <button class="video-play" style="z-index:3" aria-label="Videoya bax">▶</button>
+      <div class="video-meta" style="z-index:3">
         <strong>${money(c)}</strong>
         <small>${escapeHTML(c.brand)} ${escapeHTML(c.model)} · ${c.year}</small>
         <small>📍 ${escapeHTML(c.city)}</small>
       </div>
     </div>
-  `).join("");
+  `;
+  }).join("");
 }
 
 function showAllVideos(){
@@ -650,7 +930,7 @@ async function playCarVideo(id){
   document.getElementById("videoContent").innerHTML=`
     <video controls autoplay playsinline style="width:100%;max-height:65vh;background:#000;border-radius:10px" src="${c.video}"></video>
     <h3>${escapeHTML(c.brand)} ${escapeHTML(c.model)}</h3>
-    <p>${money(c)} · ${escapeHTML(c.city)}</p>
+    <p>${money(c)} · ${escapeHTML(c.city)} · 👁 ${c.views}</p>
     <button class="btn red" onclick="callSeller('${c.id}')">Satıcıya zəng et</button>
   `;
   document.getElementById("videoModal").style.display="flex";
@@ -711,13 +991,26 @@ document.getElementById("carForm").addEventListener("submit",async e=>{
     const isUpdate=!!editingId;
     const photos=photoFiles.length?await Promise.all(photoFiles.map(f=>compressImage(f))):(old?.photos||[]);
     const video=videoFile?await fileToData(videoFile):(old?.video||"");
+    const newPrice = Number(val("price"));
+    const newCurr = val("currency");
+    const prevHistory = Array.isArray(old?.priceHistory) ? [...old.priceHistory] : [];
+    if(!old){
+      prevHistory.push({ date: new Date().toLocaleDateString("az-AZ"), price: newPrice, currency: newCurr });
+    } else if (old.price !== newPrice || old.currency !== newCurr) {
+      prevHistory.push({ date: new Date().toLocaleDateString("az-AZ"), price: newPrice, currency: newCurr });
+    }
 
     const dbRow = {
       id: old?.id || generateUUID(),
+      listingNo: old?.listingNo || ("CV-" + Math.floor(100000 + Math.random() * 900000)),
       brand: val("brand"),
       model: val("model"),
-      price: Number(val("price")),
-      currency: val("currency"),
+      price: newPrice,
+      currency: newCurr,
+      priceHistory: prevHistory,
+      barter: document.getElementById("allowBarter").checked,
+      credit: document.getElementById("allowCredit").checked,
+      creditRate: val("creditRate"),
       year: Number(val("year")),
       mileage: Number(val("mileage")),
       city: val("city"),
@@ -774,8 +1067,12 @@ function editCar(id){
   closeProfile();
   editingId=id;
   const set=(k,v)=>{const el=document.getElementById(k);if(el)el.value=v??"";};
-  ["brand","model","price","currency","year","mileage","city","color","gear","drive","engine","fuel","horsepower","seats","condition","country","phone","sellerType","description"].forEach(k=>set(k,c[k]));
+  ["brand","model","price","currency","year","mileage","city","color","gear","drive","engine","fuel","horsepower","seats","condition","country","phone","description","creditRate"].forEach(k=>set(k,c[k]));
+  set("sellerType", c.sellerType || c.seller_type || "Şəxsi");
+  updateModelSuggestions(c.brand);
   document.getElementById("isPremium").checked=!!c.premium;
+  document.getElementById("allowBarter").checked=!!c.barter;
+  document.getElementById("allowCredit").checked=!!c.credit;
   document.querySelectorAll('input[name="equipment"]').forEach(x=>x.checked=(c.equipment||[]).includes(x.value));
   document.getElementById("submitCar").textContent="Dəyişiklikləri yadda saxla";
   document.getElementById("formModal").style.display="flex";
@@ -794,7 +1091,9 @@ async function deleteCar(id){
   }
   cars=cars.filter(c=>c.id!==id);
   favorites=favorites.filter(x=>x!==id);
+  compareIds=compareIds.filter(x=>x!==id);
   saveFavorites();
+  updateCompareCount();
   openProfile();
   renderCars();
   renderVideos();
@@ -810,9 +1109,9 @@ function renderProfile(message=""){
   const el=document.getElementById("profileContent");
   if(currentUser){
     const mine=cars.filter(c=>c.owner===currentUser.id);
-    const displayAccount=currentUser.phone||currentUser.email||"İstifadəçi";
+    const displayName=currentUser.name ? `${currentUser.name} (${currentUser.phone||currentUser.email||""})` : (currentUser.phone||currentUser.email||"İstifadəçi");
     el.innerHTML=`
-      <p>Hesab: <b>${escapeHTML(displayAccount)}</b></p>
+      <p>Hesab: <b>${escapeHTML(displayName)}</b></p>
       <div class="tabbar">
         <button class="active" onclick="renderProfile()">Mənim elanlarım (${mine.length})</button>
         <button onclick="renderNotifications()">Bildirişlər</button>
@@ -827,6 +1126,7 @@ function renderProfile(message=""){
   el.innerHTML=`
     ${message?'<p class="notice">'+escapeHTML(message)+'</p>':""}
     <p>Telefon nömrəsi və şifrə ilə daxil ol və ya qeydiyyatdan keç</p>
+    <div class="field"><label>Ad (yalnız qeydiyyat üçün)</label><input id="authName" type="text" placeholder="Adınız"></div>
     <div class="field"><label>Telefon nömrəsi (ölkə kodu ilə)</label><input id="authPhone" type="tel" placeholder="+994501234567"></div>
     <div class="field"><label>Şifrə (ən azı 6 simvol)</label><input id="authPassword" type="password" placeholder="Şifrənizi daxil edin"></div>
     <div class="profile-row">
@@ -839,6 +1139,7 @@ function renderProfile(message=""){
 
 async function signUpWithPassword(){
   if(!supabaseClient){alert("Supabase konfiqurasiyası aktiv deyil.");return;}
+  const name=document.getElementById("authName")?.value.trim() || "";
   const phone=document.getElementById("authPhone").value.trim();
   const password=document.getElementById("authPassword").value;
   const email=phoneToAuthEmail(phone);
@@ -848,12 +1149,12 @@ async function signUpWithPassword(){
   const {data,error}=await supabaseClient.auth.signUp({
     email,
     password,
-    options:{data:{phone}}
+    options:{data:{phone, name}}
   });
   if(error){alert(error.message);return;}
 
   if(data?.user){
-    currentUser={id:data.user.id,phone:data.user.user_metadata?.phone||phone,email:data.user.email};
+    currentUser={id:data.user.id,name:data.user.user_metadata?.name||name,phone:data.user.user_metadata?.phone||phone,email:data.user.email};
     await loadData();
     renderCars();
     renderProfile("Qeydiyyat tamamlandı və hesaba daxil oldunuz.");
@@ -875,6 +1176,7 @@ async function signInWithPassword(){
 
   currentUser={
     id:data.user.id,
+    name:data.user.user_metadata?.name||"",
     phone:data.user.user_metadata?.phone||phone,
     email:data.user.email
   };
@@ -894,6 +1196,31 @@ function renderNotifications(){
   document.getElementById("profileContent").innerHTML='<h3>Bildirişlər</h3><p>Yeni mesaj və elan bildirişləri burada görünəcək.</p><button class="btn white-btn" onclick="renderProfile()">Geri</button>';
 }
 
+function renderMessagesList(){
+  const box = document.getElementById("messagesList");
+  if(!messages.length){
+    box.innerHTML = '<p class="muted">Hələlik mesajınız yoxdur. Aşağıdan satıcıya mesaj göndərə bilərsiniz.</p>';
+    return;
+  }
+  box.innerHTML = messages.map(m => `
+    <div class="msg-item">
+      <b>${escapeHTML(m.topic || "Ümumi sual")}</b> <span class="muted">· ${escapeHTML(m.time)}</span>
+      <div>${escapeHTML(m.text)}</div>
+    </div>
+  `).join("");
+}
+
+document.getElementById("quickMsgForm").addEventListener("submit", e => {
+  e.preventDefault();
+  const topic = document.getElementById("msgCarTitle").value.trim();
+  const text = document.getElementById("msgText").value.trim();
+  if(!text) return;
+  messages.unshift({ topic, text, time: new Date().toLocaleTimeString("az-AZ", {hour:"2-digit", minute:"2-digit"}) });
+  saveMessages();
+  document.getElementById("msgText").value = "";
+  renderMessagesList();
+});
+
 function goHome(){
   favoriteOnly=false;
   renderCars();
@@ -912,7 +1239,9 @@ function openFilters(){
   document.querySelector(".search-box").scrollIntoView({behavior:"smooth",block:"center"});
 }
 
-function openMessages(){
+function openMessages(topic=""){
+  document.getElementById("msgCarTitle").value = topic;
+  renderMessagesList();
   document.getElementById("messagesModal").style.display="flex";
   setActiveMenu(3);
 }
@@ -925,6 +1254,7 @@ window.addEventListener("load",async()=>{
       if(data?.user){
         currentUser={
           id:data.user.id,
+          name:data.user.user_metadata?.name||"",
           phone:data.user.user_metadata?.phone||data.user.phone,
           email:data.user.email
         };
@@ -933,6 +1263,7 @@ window.addEventListener("load",async()=>{
   }
   await loadData();
   updateFavoriteCount();
+  updateCompareCount();
   renderCars();
   renderVideos();
 
@@ -942,8 +1273,22 @@ window.addEventListener("load",async()=>{
   }
 });
 
+document.getElementById("searchBrand").addEventListener("input", e => {
+  updateModelSuggestions(e.target.value);
+  renderCars();
+});
+document.getElementById("searchBrand").addEventListener("change", e => {
+  updateModelSuggestions(e.target.value);
+  renderCars();
+});
+document.getElementById("brand").addEventListener("input", e => {
+  updateModelSuggestions(e.target.value);
+});
+document.getElementById("brand").addEventListener("change", e => {
+  updateModelSuggestions(e.target.value);
+});
 document.getElementById("searchModel").addEventListener("input",renderCars);
-["searchBrand","minPrice","maxPrice","searchCurrency","searchCity","searchColor","searchFuel","searchGear","yearMin","yearMax","searchMileage","searchCondition","searchSeats","searchDrive","searchCountry"].forEach(id=>document.getElementById(id).addEventListener("change",renderCars));
+["minPrice","maxPrice","searchCurrency","searchCity","searchColor","searchFuel","searchGear","yearMin","yearMax","searchMileage","searchCondition","searchSeats","searchDrive","searchCountry","searchDealType"].forEach(id=>document.getElementById(id).addEventListener("change",renderCars));
 </script>
 </body>
 </html>
