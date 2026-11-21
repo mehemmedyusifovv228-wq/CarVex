@@ -77,11 +77,11 @@ header{
 .white-btn{background:#fff;color:var(--dark);border:1px solid var(--line)}
 .white-btn:hover{border-color:#cbd5e1;background:#f8fafc}
 
-/* YIĞCAM HERO VƏ FİLTR BÖLMƏSİ */
+/* YIĞCAM HERO VƏ AÇILIB-BAĞLANAN FİLTR BÖLMƏSİ */
 .hero{
   position:relative;overflow:hidden;
   background:linear-gradient(125deg,#0d1321,#1b2c49 58%,#271936);
-  color:#fff;padding:24px 18px 30px;
+  color:#fff;padding:22px 18px 26px;
 }
 .hero::before{
   content:"";position:absolute;width:380px;height:380px;right:-90px;top:-120px;
@@ -89,25 +89,34 @@ header{
   pointer-events:none;
 }
 .hero-inner{max-width:1250px;margin:auto;position:relative;z-index:1}
-.hero h1{font-size:28px;margin:0 0 4px;letter-spacing:-.3px}
+.hero h1{font-size:26px;margin:0 0 4px;letter-spacing:-.3px}
 .hero p{color:#cbd5e1;margin:0;font-size:13px}
 
 .search-box{
   background:rgba(255,255,255,0.98);
-  color:var(--text);padding:12px 14px;border-radius:15px;margin-top:14px;
+  color:var(--text);padding:10px 12px;border-radius:14px;margin-top:12px;
   box-shadow:0 14px 30px rgba(13,19,33,.2);
   border:1px solid rgba(255,255,255,.7);
 }
-.quick-filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.compact-bar{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.quick-filters{display:flex;gap:6px;flex-wrap:wrap}
 .quick-chip{
   border:1px solid var(--line);background:#f8fafc;color:var(--text);
-  padding:5px 11px;border-radius:18px;font-size:11px;font-weight:700;
+  padding:5px 10px;border-radius:18px;font-size:11px;font-weight:700;
 }
 .quick-chip.active{
   background:linear-gradient(135deg,var(--red),var(--red-2));
   color:#fff;border-color:transparent;
   box-shadow:0 4px 10px rgba(255,59,92,.25);
 }
+.filter-toggle-btn{
+  border:1px solid #cbd5e1;background:#eef2f8;color:var(--dark);
+  padding:6px 12px;border-radius:10px;font-size:12px;font-weight:800;
+}
+.filter-toggle-btn:hover{background:#e2e8f2}
+
+.collapsible-filters{display:none;margin-top:10px;padding-top:10px;border-top:1px dashed var(--line)}
+.collapsible-filters.open{display:block}
 
 .filters{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
 .field label{display:block;font-size:11px;font-weight:700;margin-bottom:3px;color:#5c687d}
@@ -201,6 +210,15 @@ header{
 }
 .tariff-price{font-size:18px;font-weight:900;color:var(--red)}
 
+.payment-box{
+  background:#f8fafc;border:1px solid var(--line);border-radius:14px;padding:14px;margin-top:12px;
+}
+.payment-amount-banner{
+  background:linear-gradient(135deg,#0d1321,#1b2c49);color:#fff;
+  padding:12px 14px;border-radius:10px;margin-bottom:12px;
+  display:flex;justify-content:space-between;align-items:center;font-weight:800;
+}
+
 .loan-box{
   background:#f8fafc;border:1px solid var(--line);border-radius:12px;
   padding:12px 14px;margin:12px 0;font-size:13px;
@@ -209,6 +227,7 @@ header{
 
 .empty{grid-column:1/-1;text-align:center;padding:45px 15px;background:#fff;border-radius:16px;border:1px solid var(--line);color:var(--muted)}
 .modal{display:none;position:fixed;inset:0;background:rgba(10,15,28,.65);backdrop-filter:blur(3px);z-index:1000;align-items:center;justify-content:center;padding:12px}
+#paymentModal{z-index:1100}
 .modal-box{background:#fff;width:100%;max-width:900px;max-height:94vh;overflow:auto;border-radius:18px;padding:20px;box-shadow:0 24px 60px rgba(0,0,0,.25)}
 .modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
 .modal-head h2{margin:0;font-size:21px}
@@ -252,6 +271,57 @@ footer{background:linear-gradient(135deg,#0d1321,#162136);color:#cbd5e1;padding:
 .video-meta strong{display:block;font-size:19px}.video-meta small{display:block;margin-top:5px}
 .video-views{position:absolute;top:12px;left:12px;background:#0009;padding:6px 9px;border-radius:20px;font-size:12px}
 .video-play{position:absolute;right:12px;top:12px;border:0;border-radius:50%;background:#fff;color:#111;width:38px;height:38px}
+
+/* VİDEO KƏŞF ET (TİKTOK / REELS ŞAQULİ SÜRÜŞDÜRMƏ) */
+.explore-modal{display:none;position:fixed;inset:0;background:#070a12;z-index:1600;flex-direction:column;color:#fff}
+.explore-topbar{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:12px 16px;background:rgba(13,19,33,.92);backdrop-filter:blur(10px);
+  border-bottom:1px solid rgba(255,255,255,.08);z-index:5;
+}
+.explore-topbar h3{margin:0;font-size:16px;font-weight:800}
+.explore-feed{
+  flex:1;overflow-y:scroll;scroll-snap-type:y mandatory;
+  display:flex;flex-direction:column;align-items:center;gap:14px;
+  padding:14px 12px 26px;
+}
+.reel-item{
+  position:relative;width:100%;max-width:440px;height:min(78vh,680px);
+  flex:0 0 auto;scroll-snap-align:center;border-radius:20px;overflow:hidden;
+  background:#111827;box-shadow:0 20px 45px rgba(0,0,0,.55);
+  border:1px solid rgba(255,255,255,.1);
+}
+.reel-item video{width:100%;height:100%;object-fit:cover;display:block;background:#000}
+.reel-gradient{position:absolute;inset:0;background:linear-gradient(to top, rgba(7,10,18,.92) 0%, rgba(7,10,18,.25) 45%, rgba(7,10,18,.45) 100%);pointer-events:none}
+.reel-badge-top{position:absolute;top:14px;left:14px;background:rgba(13,19,33,.72);backdrop-filter:blur(6px);padding:5px 10px;border-radius:20px;font-size:12px;font-weight:700;z-index:2}
+.reel-info{position:absolute;left:16px;right:74px;bottom:18px;z-index:2}
+.reel-price{font-size:22px;font-weight:900;color:#fff;margin-bottom:3px}
+.reel-title{font-size:16px;font-weight:800;margin-bottom:4px}
+.reel-meta{font-size:12px;color:#cbd5e1}
+.reel-actions{
+  position:absolute;right:12px;bottom:22px;z-index:3;
+  display:flex;flex-direction:column;gap:12px;align-items:center;
+}
+.reel-act-btn{
+  width:46px;height:46px;border-radius:50%;border:1px solid rgba(255,255,255,.18);
+  background:rgba(13,19,33,.75);backdrop-filter:blur(8px);color:#fff;
+  display:flex;align-items:center;justify-content:center;font-size:19px;
+}
+.reel-act-btn.liked{background:linear-gradient(135deg,var(--red),var(--red-2));border-color:transparent}
+.reel-act-btn.saved{background:linear-gradient(135deg,#38bdf8,#2563eb);border-color:transparent}
+.reel-act-label{font-size:11px;font-weight:700;color:#e2e8f0;margin-top:-7px;text-shadow:0 1px 4px #000}
+.reel-nav-floating{
+  position:fixed;right:18px;top:50%;transform:translateY(-50%);z-index:1610;
+  display:flex;flex-direction:column;gap:8px;
+}
+.reel-step-btn{
+  width:40px;height:40px;border-radius:50%;border:1px solid rgba(255,255,255,.2);
+  background:rgba(13,19,33,.82);color:#fff;font-size:16px;font-weight:800;
+}
+@media(max-width:600px){
+  .reel-item{height:76vh;border-radius:16px}
+  .reel-nav-floating{display:none}
+}
 
 .chips{display:flex;flex-wrap:wrap;gap:8px}.chips input{width:auto}.chip{display:flex;align-items:center;gap:6px;padding:7px 9px;border:1px solid var(--line);border-radius:9px;font-size:12px;background:#fafbfc}.chip input{width:auto}
 .notice{background:#fff4e5;color:#875400;padding:11px;border-radius:10px;font-size:12px;line-height:1.5}.muted{color:var(--muted);font-size:12px}.profile-row{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}.profile-row button{flex:1}.tabbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:15px}.tabbar button{background:#edf1f7;border:0;border-radius:8px;padding:9px 12px}.tabbar button.active{background:var(--dark);color:#fff}
@@ -308,8 +378,8 @@ footer{background:linear-gradient(135deg,#0d1321,#162136);color:#cbd5e1;padding:
   .animated-logo{width:34px;height:34px;font-size:16px}
   .header-right .dark-btn{display:none}
   .btn{padding:9px 11px;font-size:12px}
-  .hero{padding:18px 12px 24px}
-  .hero h1{font-size:22px}
+  .hero{padding:18px 12px 22px}
+  .hero h1{font-size:21px}
   .hero p{font-size:12px}
   .container{padding:0 10px;margin:18px auto}
   .cars,.similar-grid,.promo-tariffs{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
@@ -331,7 +401,7 @@ footer{background:linear-gradient(135deg,#0d1321,#162136);color:#cbd5e1;padding:
   .tag-badge{padding:2px 5px;font-size:9px}
   .filters{grid-template-columns:1fr 1fr;gap:6px}
   .field input,.field select{padding:7px 7px;font-size:11px}
-  .search-box{padding:10px;border-radius:13px;margin-top:10px}
+  .search-box{padding:9px;border-radius:13px;margin-top:10px}
   .actions button{flex:1;padding:8px 6px}
   .section-head h2{font-size:18px}
   .form-grid{grid-template-columns:1fr}
@@ -373,36 +443,42 @@ footer{background:linear-gradient(135deg,#0d1321,#162136);color:#cbd5e1;padding:
     <h1>Xəyalındakı avtomobili tap!</h1>
     <p>CarVex ilə avtomobil alışı və satışı daha rahatdır.</p>
     <div class="search-box">
-      <div class="quick-filters" id="quickFilterBar">
-        <button type="button" class="quick-chip active" data-quick="" onclick="setQuickFilter('')">Hamısı</button>
-        <button type="button" class="quick-chip" data-quick="barter" onclick="setQuickFilter('barter')">🔄 Barter</button>
-        <button type="button" class="quick-chip" data-quick="credit" onclick="setQuickFilter('credit')">% Kredit</button>
-        <button type="button" class="quick-chip" data-quick="salon" onclick="setQuickFilter('salon')">🏢 Salon</button>
-        <button type="button" class="quick-chip" data-quick="vip" onclick="setQuickFilter('vip')">👑 VIP (2 AZN)</button>
-        <button type="button" class="quick-chip" data-quick="premium" onclick="setQuickFilter('premium')">⭐ Premium (5 AZN)</button>
+      <div class="compact-bar">
+        <div class="quick-filters" id="quickFilterBar">
+          <button type="button" class="quick-chip active" data-quick="" onclick="setQuickFilter('')">Hamısı</button>
+          <button type="button" class="quick-chip" data-quick="barter" onclick="setQuickFilter('barter')">🔄 Barter</button>
+          <button type="button" class="quick-chip" data-quick="credit" onclick="setQuickFilter('credit')">% Kredit</button>
+          <button type="button" class="quick-chip" data-quick="salon" onclick="setQuickFilter('salon')">🏢 Salon</button>
+          <button type="button" class="quick-chip" data-quick="vip" onclick="setQuickFilter('vip')">👑 VIP (2 AZN)</button>
+          <button type="button" class="quick-chip" data-quick="premium" onclick="setQuickFilter('premium')">⭐ Premium (5 AZN)</button>
+        </div>
+        <button type="button" class="filter-toggle-btn" id="filterToggleBtn" onclick="toggleFiltersPanel()">☷ Filtrlər ▾</button>
       </div>
-      <div class="filters">
-        <div class="field"><label>Marka (axtar və ya seç)</label><input id="searchBrand" list="brandSuggestions" placeholder="Marka axtar (məs: BMW, BYD)..."><datalist id="brandSuggestions"></datalist></div>
-        <div class="field"><label>Model</label><input id="searchModel" list="modelSuggestions" placeholder="Model axtar"><datalist id="modelSuggestions"></datalist></div>
-        <div class="field"><label>Minimum qiymət</label><input id="minPrice" type="number" placeholder="5000"></div>
-        <div class="field"><label>Maksimum qiymət</label><input id="maxPrice" type="number" placeholder="50000"></div>
-        <div class="field"><label>Valyuta</label><select id="searchCurrency"><option value="">Hamısı</option><option>AZN</option><option>USD</option><option>EUR</option></select></div>
-        <div class="field"><label>Şəhər / rayon</label><select id="searchCity"><option value="">Bütün şəhər və rayonlar</option></select></div>
-        <div class="field"><label>Rəng</label><select id="searchColor"><option value="">Bütün rənglər</option></select></div>
-        <div class="field"><label>Mühərrik növü</label><select id="searchFuel"><option value="">Hamısı</option></select></div>
-        <div class="field"><label>Sürətlər qutusu</label><select id="searchGear"><option value="">Hamısı</option></select></div>
-        <div class="field"><label>Buraxılış ili – minimum</label><input id="yearMin" type="number" placeholder="2010"></div>
-        <div class="field"><label>Buraxılış ili – maksimum</label><input id="yearMax" type="number" placeholder="2026"></div>
-        <div class="field"><label>Maksimum yürüş (km)</label><input id="searchMileage" type="number" placeholder="150000"></div>
-        <div class="field"><label>Vəziyyət</label><select id="searchCondition"><option value="">Hamısı</option></select></div>
-        <div class="field"><label>Yerlərin sayı</label><select id="searchSeats"><option value="">Hamısı</option></select></div>
-        <div class="field"><label>Ötürücü</label><select id="searchDrive"><option value="">Hamısı</option><option>Ön</option><option>Arxa</option><option>Tam</option></select></div>
-        <div class="field"><label>İstehsalçı ölkə</label><select id="searchCountry"><option value="">Hamısı</option></select></div>
-        <div class="field"><label>Barter / Kredit / VIP</label><select id="searchDealType"><option value="">Hamısı</option><option value="barter">Barter mümkündür</option><option value="credit">Kredit / %</option><option value="salon">Salon elanları</option><option value="vip">VIP elanlar (2 AZN)</option><option value="premium">Premium elanlar (5 AZN)</option></select></div>
-      </div>
-      <div class="actions">
-        <button class="btn red" onclick="renderCars()">🔍 Axtar</button>
-        <button class="btn white-btn" onclick="resetSearch()">Sıfırla</button>
+
+      <div class="collapsible-filters" id="collapsibleFilters">
+        <div class="filters">
+          <div class="field"><label>Marka (axtar və ya seç)</label><input id="searchBrand" list="brandSuggestions" placeholder="Marka axtar (məs: BMW, BYD)..."><datalist id="brandSuggestions"></datalist></div>
+          <div class="field"><label>Model</label><input id="searchModel" list="modelSuggestions" placeholder="Model axtar"><datalist id="modelSuggestions"></datalist></div>
+          <div class="field"><label>Minimum qiymət</label><input id="minPrice" type="number" placeholder="5000"></div>
+          <div class="field"><label>Maksimum qiymət</label><input id="maxPrice" type="number" placeholder="50000"></div>
+          <div class="field"><label>Valyuta</label><select id="searchCurrency"><option value="">Hamısı</option><option>AZN</option><option>USD</option><option>EUR</option></select></div>
+          <div class="field"><label>Şəhər / rayon</label><select id="searchCity"><option value="">Bütün şəhər və rayonlar</option></select></div>
+          <div class="field"><label>Rəng</label><select id="searchColor"><option value="">Bütün rənglər</option></select></div>
+          <div class="field"><label>Mühərrik növü</label><select id="searchFuel"><option value="">Hamısı</option></select></div>
+          <div class="field"><label>Sürətlər qutusu</label><select id="searchGear"><option value="">Hamısı</option></select></div>
+          <div class="field"><label>Buraxılış ili – minimum</label><input id="yearMin" type="number" placeholder="2010"></div>
+          <div class="field"><label>Buraxılış ili – maksimum</label><input id="yearMax" type="number" placeholder="2026"></div>
+          <div class="field"><label>Maksimum yürüş (km)</label><input id="searchMileage" type="number" placeholder="150000"></div>
+          <div class="field"><label>Vəziyyət</label><select id="searchCondition"><option value="">Hamısı</option></select></div>
+          <div class="field"><label>Yerlərin sayı</label><select id="searchSeats"><option value="">Hamısı</option></select></div>
+          <div class="field"><label>Ötürücü</label><select id="searchDrive"><option value="">Hamısı</option><option>Ön</option><option>Arxa</option><option>Tam</option></select></div>
+          <div class="field"><label>İstehsalçı ölkə</label><select id="searchCountry"><option value="">Hamısı</option></select></div>
+          <div class="field"><label>Barter / Kredit / VIP</label><select id="searchDealType"><option value="">Hamısı</option><option value="barter">Barter mümkündür</option><option value="credit">Kredit / %</option><option value="salon">Salon elanları</option><option value="vip">VIP elanlar (2 AZN)</option><option value="premium">Premium elanlar (5 AZN)</option></select></div>
+        </div>
+        <div class="actions">
+          <button class="btn red" onclick="renderCars()">🔍 Axtar</button>
+          <button class="btn white-btn" onclick="resetSearch()">Sıfırla</button>
+        </div>
       </div>
     </div>
   </div>
@@ -428,10 +504,30 @@ footer{background:linear-gradient(135deg,#0d1321,#162136);color:#cbd5e1;padding:
 <section class="container" id="videos">
   <div class="section-head">
     <h2>▶ Sizin üçün videolar</h2>
-    <button class="btn white-btn" onclick="showAllVideos()">Hamısı ›</button>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn red" onclick="openVideoExplore()">🔥 Kəşf et</button>
+      <button class="btn white-btn" onclick="showAllVideos()">Hamısı ›</button>
+    </div>
   </div>
   <div class="video-strip" id="videoList"></div>
 </section>
+
+<!-- VİDEO KƏŞF ET (ŞAQULİ SÜRÜŞDÜRMƏLİ LENT) -->
+<div class="explore-modal" id="videoExploreModal">
+  <div class="explore-topbar">
+    <h3>🔥 Video Kəşf et <span class="muted" id="exploreCounter" style="color:#94a3b8;margin-left:6px"></span></h3>
+    <div style="display:flex;gap:8px">
+      <button class="btn dark-btn" style="padding:7px 11px;font-size:12px" onclick="stepExploreBy(-1)">↑ Əvvəlki</button>
+      <button class="btn dark-btn" style="padding:7px 11px;font-size:12px" onclick="stepExploreBy(1)">↓ Növbəti</button>
+      <button class="close" onclick="closeVideoExplore()">×</button>
+    </div>
+  </div>
+  <div class="explore-feed" id="exploreFeed"></div>
+  <div class="reel-nav-floating">
+    <button type="button" class="reel-step-btn" onclick="stepExploreBy(-1)" title="Yuxarı">↑</button>
+    <button type="button" class="reel-step-btn" onclick="stepExploreBy(1)" title="Aşağı">↓</button>
+  </div>
+</div>
 
 <section class="container" id="premium">
   <div class="section-head">
@@ -490,6 +586,47 @@ footer{background:linear-gradient(135deg,#0d1321,#162136);color:#cbd5e1;padding:
   <button class="lb-nav lb-next" type="button" onclick="stepLightbox(1)">›</button>
 </div>
 
+<!-- KART İLƏ ÖDƏNİŞ MODALI (VIP 2 AZN / PREMIUM 5 AZN) -->
+<div class="modal" id="paymentModal">
+  <div class="modal-box" style="max-width:480px">
+    <div class="modal-head">
+      <h2>Kart ilə ödəniş</h2>
+      <button class="close" onclick="cancelPaymentModal()">×</button>
+    </div>
+    <form id="cardPaymentForm">
+      <div class="payment-amount-banner">
+        <span id="paymentPackageLabel">Paket: VIP (2 AZN)</span>
+        <span id="paymentTotalAmount">2 AZN</span>
+      </div>
+      <div class="payment-box">
+        <div class="form-grid">
+          <div class="field full">
+            <label>Kart sahibinin adı və soyadı *</label>
+            <input id="cardHolder" type="text" required placeholder="Məhəmməd Yusifov">
+          </div>
+          <div class="field full">
+            <label>Bank kartının nömrəsi *</label>
+            <input id="cardNumber" type="text" inputmode="numeric" maxlength="19" required placeholder="4169 7388 1234 5678">
+          </div>
+          <div class="field">
+            <label>Son istifadə tarixi (AA/İL) *</label>
+            <input id="cardExpiry" type="text" inputmode="numeric" maxlength="5" required placeholder="09/29">
+          </div>
+          <div class="field">
+            <label>CVV / CVC *</label>
+            <input id="cardCvv" type="password" inputmode="numeric" maxlength="4" required placeholder="123">
+          </div>
+        </div>
+        <div class="muted" style="margin-top:10px">Ödəniş təsdiqləndikdən sonra seçdiyiniz VIP / Premium status elana əlavə olunacaq.</div>
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="btn red" id="confirmPayBtn">Ödənişi təsdiqlə</button>
+        <button type="button" class="btn white-btn" onclick="cancelPaymentModal()">Ləğv et</button>
+      </div>
+    </form>
+  </div>
+</div>
+
 <!-- ELAN FORMU -->
 <div class="modal" id="formModal">
   <div class="modal-box">
@@ -526,9 +663,10 @@ footer{background:linear-gradient(135deg,#0d1321,#162136);color:#cbd5e1;padding:
         <div class="field full"><label>Avtomobil videosu (istəyə bağlı, 1 qısa video)</label><input id="videoFile" type="file" accept="video/*"><div class="muted">Video ölçüsü maksimum 15 MB olmalıdır.</div></div>
         <div class="field full"><label>Avtomobil təchizatı</label><div class="chips" id="equipmentChoices"></div></div>
         <div class="field full"><label>Əlavə məlumat</label><textarea id="description" rows="4" placeholder="Avtomobil haqqında ətraflı məlumat..."></textarea></div>
-        <div class="field full" style="display:flex;gap:12px;flex-wrap:wrap">
-          <label class="chip"><input type="checkbox" id="isVip"> 👑 VIP elan (2 AZN)</label>
-          <label class="chip"><input type="checkbox" id="isPremium"> ⭐ Premium elan (5 AZN)</label>
+        <div class="field full" style="display:flex;gap:12px;flex-wrap:wrap;align-items:center">
+          <label class="chip"><input type="checkbox" id="isVip" onchange="handlePromoCheckboxChange('vip', this.checked)"> 👑 VIP elan (2 AZN)</label>
+          <label class="chip"><input type="checkbox" id="isPremium" onchange="handlePromoCheckboxChange('premium', this.checked)"> ⭐ Premium elan (5 AZN)</label>
+          <span class="muted" id="paidStatusNote"></span>
         </div>
       </div>
       <div class="form-actions">
@@ -653,9 +791,12 @@ const EQUIPMENT=["360° kamera","ABS","Arxa kamera görüntüsü","Dəri salon",
 
 const AZN_RATES = { AZN: 1, USD: 1.70, EUR: 1.85 };
 
-let cars=[], favorites=[], compareIds=[], messages=[], cardPhotoIndex={}, favoriteOnly=false, currentUser=null, editingId=null, showingAllVideos=false;
+let cars=[], favorites=[], likedVideos=[], compareIds=[], messages=[], cardPhotoIndex={}, favoriteOnly=false, currentUser=null, editingId=null, showingAllVideos=false;
 let lightboxPhotos=[], lightboxIdx=0;
 let detailPhotosList=[], detailPhotoIdx=0;
+let paidPackages = { vip: false, premium: false };
+let pendingPaymentTier = null;
+let exploreItems = [], activeExploreIdx = 0, exploreScrollTimer = null;
 const DB_NAME="CarVexDB", STORE="cars";
 
 window.addEventListener("scroll", () => {
@@ -666,6 +807,95 @@ window.addEventListener("scroll", () => {
   const topBtn = document.getElementById("scrollTopBtn");
   if (topBtn) topBtn.classList.toggle("show", window.scrollY > 450);
 }, {passive:true});
+
+function toggleFiltersPanel(forceOpen = null){
+  const panel = document.getElementById("collapsibleFilters");
+  const btn = document.getElementById("filterToggleBtn");
+  if(!panel) return;
+  const nextState = typeof forceOpen === "boolean" ? forceOpen : !panel.classList.contains("open");
+  panel.classList.toggle("open", nextState);
+  if(btn) btn.textContent = nextState ? "☷ Filtrləri bağla ▴" : "☷ Filtrlər ▾";
+}
+
+function updatePaidStatusNote(){
+  const note = document.getElementById("paidStatusNote");
+  if(!note) return;
+  const parts = [];
+  if(paidPackages.vip) parts.push("👑 VIP (2 AZN) ödənilib");
+  if(paidPackages.premium) parts.push("⭐ Premium (5 AZN) ödənilib");
+  note.textContent = parts.length ? ("Təsdiqlənib: " + parts.join(" · ")) : "";
+}
+
+function handlePromoCheckboxChange(tier, checked){
+  const checkbox = document.getElementById(tier === "vip" ? "isVip" : "isPremium");
+  if(!checked){
+    paidPackages[tier] = false;
+    updatePaidStatusNote();
+    return;
+  }
+  if(paidPackages[tier]){
+    updatePaidStatusNote();
+    return;
+  }
+  checkbox.checked = false;
+  pendingPaymentTier = tier;
+  const isVip = tier === "vip";
+  const amountText = isVip ? "2 AZN" : "5 AZN";
+  document.getElementById("paymentPackageLabel").textContent = isVip ? "Paket: 👑 VIP elan" : "Paket: ⭐ Premium elan";
+  document.getElementById("paymentTotalAmount").textContent = amountText;
+  document.getElementById("cardPaymentForm").reset();
+  document.getElementById("paymentModal").style.display = "flex";
+}
+
+function cancelPaymentModal(){
+  document.getElementById("paymentModal").style.display = "none";
+  if(pendingPaymentTier){
+    const el = document.getElementById(pendingPaymentTier === "vip" ? "isVip" : "isPremium");
+    if(el) el.checked = false;
+    paidPackages[pendingPaymentTier] = false;
+    pendingPaymentTier = null;
+    updatePaidStatusNote();
+  }
+}
+
+document.getElementById("cardNumber").addEventListener("input", e => {
+  const digits = e.target.value.replace(/\D/g, "").slice(0, 16);
+  e.target.value = digits.replace(/(.{4})/g, "$1 ").trim();
+});
+
+document.getElementById("cardExpiry").addEventListener("input", e => {
+  const digits = e.target.value.replace(/\D/g, "").slice(0, 4);
+  e.target.value = digits.length > 2 ? (digits.slice(0, 2) + "/" + digits.slice(2)) : digits;
+});
+
+document.getElementById("cardPaymentForm").addEventListener("submit", e => {
+  e.preventDefault();
+  const cardDigits = document.getElementById("cardNumber").value.replace(/\D/g, "");
+  const expiry = document.getElementById("cardExpiry").value.trim();
+  const cvv = document.getElementById("cardCvv").value.replace(/\D/g, "");
+  if(cardDigits.length < 16){
+    alert("16 rəqəmli kart nömrəsini tam daxil edin.");
+    return;
+  }
+  if(!/^\d{2}\/\d{2}$/.test(expiry)){
+    alert("Son istifadə tarixini AA/İL formatında daxil edin (məs: 09/29).");
+    return;
+  }
+  if(cvv.length < 3){
+    alert("CVV kodunu daxil edin.");
+    return;
+  }
+  if(pendingPaymentTier){
+    paidPackages[pendingPaymentTier] = true;
+    const cb = document.getElementById(pendingPaymentTier === "vip" ? "isVip" : "isPremium");
+    if(cb) cb.checked = true;
+    const label = pendingPaymentTier === "vip" ? "VIP (2 AZN)" : "Premium (5 AZN)";
+    pendingPaymentTier = null;
+    document.getElementById("paymentModal").style.display = "none";
+    updatePaidStatusNote();
+    alert(`${label} üçün kart ödənişi təsdiqləndi!`);
+  }
+});
 
 function generateUUID() {
   if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
@@ -739,7 +969,8 @@ function normalizeCar(row){
     photos: Array.isArray(row.photos) ? row.photos : (typeof row.photos === "string" && row.photos.startsWith("[") ? JSON.parse(row.photos) : (row.photos ? [row.photos] : [])),
     equipment: Array.isArray(row.equipment) ? row.equipment : (typeof row.equipment === "string" && row.equipment.startsWith("[") ? JSON.parse(row.equipment) : []),
     date: Number(row.date || (row.created_at ? new Date(row.created_at).getTime() : Date.now())),
-    views: Number(row.views || 0)
+    views: Number(row.views || 0),
+    likes: Number(row.likes || 0)
   };
 }
 
@@ -753,6 +984,7 @@ function updatePromoStats(){
 
 async function loadData(){
   favorites = JSON.parse(localStorage.getItem("carvexFavorites") || "[]");
+  likedVideos = JSON.parse(localStorage.getItem("carvexLikedVideos") || "[]");
   messages = JSON.parse(localStorage.getItem("carvexMessages") || "[]");
 
   if (supabaseClient) {
@@ -783,6 +1015,7 @@ async function loadData(){
 }
 
 function saveFavorites(){localStorage.setItem("carvexFavorites",JSON.stringify(favorites));}
+function saveLikedVideos(){localStorage.setItem("carvexLikedVideos",JSON.stringify(likedVideos));}
 function saveMessages(){localStorage.setItem("carvexMessages",JSON.stringify(messages));}
 function updateFavoriteCount(){document.getElementById("favCount").textContent=favorites.length;}
 function updateCompareCount(){
@@ -977,7 +1210,10 @@ function toggleDriveMusic(){
 
 function openForm(){
   editingId=null;
+  paidPackages = { vip: false, premium: false };
+  pendingPaymentTier = null;
   document.getElementById("carForm").reset();
+  updatePaidStatusNote();
   document.getElementById("submitCar").textContent="Elanı yerləşdir";
   document.getElementById("formModal").style.display="flex";
 }
@@ -985,6 +1221,9 @@ function openForm(){
 function hideForm(){
   document.getElementById("formModal").style.display="none";
   document.getElementById("carForm").reset();
+  paidPackages = { vip: false, premium: false };
+  pendingPaymentTier = null;
+  updatePaidStatusNote();
   editingId=null;
 }
 
@@ -996,6 +1235,7 @@ function closeMessages(){document.getElementById("messagesModal").style.display=
 function toggleFavorite(id){
   favorites=favorites.includes(id)?favorites.filter(x=>x!==id):[...favorites,id];
   saveFavorites();
+  updateFavoriteCount();
   renderCars();
 }
 
@@ -1230,16 +1470,17 @@ function renderVideos(){
     el.innerHTML='<div class="empty" style="min-width:100%">Hələ video elanı yoxdur. Elan yerləşdirərkən avtomobil videosu əlavə edə bilərsiniz.</div>';
     return;
   }
-  el.innerHTML=visible.map(c=>{
+  el.innerHTML=visible.map((c, idx)=>{
     const thumb = c.photos?.[0] || FALLBACK_CAR_IMG;
     const safeVideo = String(c.video || "").includes("#") ? c.video : `${c.video}#t=0.5`;
+    const isLiked = likedVideos.includes(c.id);
     return `
-    <div class="video-card" onclick="playCarVideo('${c.id}')">
+    <div class="video-card" onclick="openVideoExplore('${c.id}')">
       <img src="${thumb}" alt="${escapeHTML(c.brand)} ${escapeHTML(c.model)}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
       <video src="${safeVideo}" poster="${thumb}" muted playsinline preload="metadata" style="position:relative;z-index:1;background:transparent"></video>
       <div class="video-shade" style="z-index:2"></div>
-      <span class="video-views" style="z-index:3">▶ ${Number(c.views||0).toLocaleString("az-AZ")}</span>
-      <button class="video-play" style="z-index:3" aria-label="Videoya bax">▶</button>
+      <span class="video-views" style="z-index:3">▶ ${Number(c.views||0).toLocaleString("az-AZ")} · ${isLiked?"❤️":"🤍"} ${(c.likes||0) + (isLiked?1:0)}</span>
+      <button class="video-play" style="z-index:3" aria-label="Kəşf et">🔥</button>
       <div class="video-meta" style="z-index:3">
         <strong>${money(c)}</strong>
         <small>${escapeHTML(c.brand)} ${escapeHTML(c.model)} · ${c.year}</small>
@@ -1250,6 +1491,168 @@ function renderVideos(){
   }).join("");
 }
 
+function getLikeTotal(car){
+  const isLiked = likedVideos.includes(car.id);
+  return Number(car.likes || 0) + (isLiked ? 1 : 0);
+}
+
+function toggleExploreLike(carId){
+  const idx = likedVideos.indexOf(carId);
+  if(idx >= 0) likedVideos.splice(idx, 1);
+  else likedVideos.push(carId);
+  saveLikedVideos();
+  renderVideos();
+  updateReelActionButtons(carId);
+}
+
+function toggleExploreSave(carId){
+  toggleFavorite(carId);
+  updateReelActionButtons(carId);
+}
+
+function updateReelActionButtons(carId){
+  const car = cars.find(x => x.id === carId);
+  if(!car) return;
+  const reelEl = document.querySelector(`.reel-item[data-car-id="${carId}"]`);
+  if(!reelEl) return;
+  const isLiked = likedVideos.includes(carId);
+  const isSaved = favorites.includes(carId);
+  const likeBtn = reelEl.querySelector(".js-like-btn");
+  const likeLbl = reelEl.querySelector(".js-like-label");
+  const saveBtn = reelEl.querySelector(".js-save-btn");
+  const saveLbl = reelEl.querySelector(".js-save-label");
+  if(likeBtn){
+    likeBtn.classList.toggle("liked", isLiked);
+    likeBtn.textContent = isLiked ? "❤️" : "🤍";
+  }
+  if(likeLbl) likeLbl.textContent = String(getLikeTotal(car));
+  if(saveBtn){
+    saveBtn.classList.toggle("saved", isSaved);
+    saveBtn.textContent = isSaved ? "🔖" : "📑";
+  }
+  if(saveLbl) saveLbl.textContent = isSaved ? "Kayd edildi" : "Kayd et";
+}
+
+function syncActiveReelVideo(){
+  const feed = document.getElementById("exploreFeed");
+  if(!feed) return;
+  const items = Array.from(feed.querySelectorAll(".reel-item"));
+  if(!items.length) return;
+  const feedRect = feed.getBoundingClientRect();
+  const centerY = feedRect.top + feedRect.height / 2;
+  let bestIdx = 0;
+  let bestDist = Infinity;
+
+  items.forEach((el, idx) => {
+    const r = el.getBoundingClientRect();
+    const elCenter = r.top + r.height / 2;
+    const dist = Math.abs(elCenter - centerY);
+    if(dist < bestDist){
+      bestDist = dist;
+      bestIdx = idx;
+    }
+  });
+
+  activeExploreIdx = bestIdx;
+  const counterEl = document.getElementById("exploreCounter");
+  if(counterEl) counterEl.textContent = `${bestIdx + 1} / ${items.length}`;
+
+  items.forEach((el, idx) => {
+    const vid = el.querySelector("video");
+    if(!vid) return;
+    if(idx === bestIdx){
+      vid.play().catch(()=>{});
+      const carId = el.getAttribute("data-car-id");
+      const car = cars.find(x => x.id === carId);
+      if(car && !el.dataset.counted){
+        el.dataset.counted = "1";
+        car.views = Number(car.views || 0) + 1;
+        if(supabaseClient){
+          supabaseClient.from("cars").update({ views: car.views }).eq("id", car.id).then(()=>{});
+        } else {
+          dbPut(car).catch(()=>{});
+        }
+        renderVideos();
+      }
+    } else {
+      vid.pause();
+    }
+  });
+}
+
+function stepExploreBy(dir){
+  const feed = document.getElementById("exploreFeed");
+  if(!feed) return;
+  const items = feed.querySelectorAll(".reel-item");
+  if(!items.length) return;
+  const nextIdx = Math.max(0, Math.min(items.length - 1, activeExploreIdx + dir));
+  items[nextIdx].scrollIntoView({ behavior: "smooth", block: "center" });
+}
+
+function openVideoExplore(startCarId = null){
+  exploreItems = cars.filter(c => c.video);
+  const feed = document.getElementById("exploreFeed");
+  if(!exploreItems.length){
+    feed.innerHTML = '<div class="empty" style="max-width:420px;margin:auto"><h3>Video elanı tapılmadı</h3><p>Elan yerləşdirərkən avtomobil videosu əlavə edib Kəşf et bölməsində izləyə bilərsiniz.</p></div>';
+    document.getElementById("exploreCounter").textContent = "0 / 0";
+    document.getElementById("videoExploreModal").style.display = "flex";
+    return;
+  }
+
+  feed.innerHTML = exploreItems.map((c, idx) => {
+    const thumb = c.photos?.[0] || FALLBACK_CAR_IMG;
+    const isLiked = likedVideos.includes(c.id);
+    const isSaved = favorites.includes(c.id);
+    return `
+      <div class="reel-item" data-car-id="${c.id}" data-index="${idx}">
+        <video src="${c.video}" poster="${thumb}" loop playsinline controls onclick="this.paused ? this.play() : this.pause()"></video>
+        <div class="reel-gradient"></div>
+        <div class="reel-badge-top">🔥 Kəşf et · #${escapeHTML(c.listingNo)}</div>
+        <div class="reel-info">
+          <div class="reel-price">${money(c)}</div>
+          <div class="reel-title">${escapeHTML(c.brand)} ${escapeHTML(c.model)} · ${c.year}</div>
+          <div class="reel-meta">📍 ${escapeHTML(c.city)} · 🛣 ${Number(c.mileage).toLocaleString("az-AZ")} km · ⚙️ ${escapeHTML(c.gear)}</div>
+        </div>
+        <div class="reel-actions">
+          <button type="button" class="reel-act-btn js-like-btn ${isLiked?"liked":""}" onclick="toggleExploreLike('${c.id}')" title="Bəyən">${isLiked?"❤️":"🤍"}</button>
+          <span class="reel-act-label js-like-label">${getLikeTotal(c)}</span>
+
+          <button type="button" class="reel-act-btn js-save-btn ${isSaved?"saved":""}" onclick="toggleExploreSave('${c.id}')" title="Kayd et">${isSaved?"🔖":"📑"}</button>
+          <span class="reel-act-label js-save-label">${isSaved?"Kayd edildi":"Kayd et"}</span>
+
+          <button type="button" class="reel-act-btn" onclick="callSeller('${c.id}')" title="Zəng et">📞</button>
+          <span class="reel-act-label">Zəng</span>
+
+          <button type="button" class="reel-act-btn" onclick="closeVideoExplore();messageSeller('${c.id}')" title="Mesaj yaz">✉</button>
+          <span class="reel-act-label">Mesaj</span>
+
+          <button type="button" class="reel-act-btn" onclick="closeVideoExplore();showDetails('${c.id}')" title="Ətraflı">ℹ</button>
+          <span class="reel-act-label">Elan</span>
+        </div>
+      </div>
+    `;
+  }).join("");
+
+  document.getElementById("videoExploreModal").style.display = "flex";
+  feed.onscroll = () => {
+    clearTimeout(exploreScrollTimer);
+    exploreScrollTimer = setTimeout(syncActiveReelVideo, 80);
+  };
+
+  const targetIdx = startCarId ? Math.max(0, exploreItems.findIndex(x => x.id === startCarId)) : 0;
+  setTimeout(() => {
+    const targetEl = feed.querySelectorAll(".reel-item")[targetIdx];
+    if(targetEl) targetEl.scrollIntoView({ behavior: "instant", block: "center" });
+    syncActiveReelVideo();
+  }, 40);
+}
+
+function closeVideoExplore(){
+  const feed = document.getElementById("exploreFeed");
+  feed.querySelectorAll("video").forEach(v => { v.pause(); });
+  document.getElementById("videoExploreModal").style.display = "none";
+}
+
 function showAllVideos(){
   showingAllVideos=!showingAllVideos;
   renderVideos();
@@ -1257,22 +1660,7 @@ function showAllVideos(){
 }
 
 async function playCarVideo(id){
-  const c=cars.find(x=>x.id===id);
-  if(!c?.video)return;
-  c.views=(c.views||0)+1;
-  if (supabaseClient) {
-    await supabaseClient.from("cars").update({ views: c.views }).eq("id", c.id);
-  } else {
-    await dbPut(c);
-  }
-  renderVideos();
-  document.getElementById("videoContent").innerHTML=`
-    <video controls autoplay playsinline style="width:100%;max-height:65vh;background:#000;border-radius:10px" src="${c.video}"></video>
-    <h3>${escapeHTML(c.brand)} ${escapeHTML(c.model)}</h3>
-    <p>${money(c)} · ${escapeHTML(c.city)} · 👁 ${c.views}</p>
-    <button class="btn red" onclick="callSeller('${c.id}')">Satıcıya zəng et</button>
-  `;
-  document.getElementById("videoModal").style.display="flex";
+  openVideoExplore(id);
 }
 
 function compressImage(file, maxWidth = 1100, quality = 0.72) {
@@ -1339,8 +1727,8 @@ document.getElementById("carForm").addEventListener("submit",async e=>{
       prevHistory.push({ date: new Date().toLocaleDateString("az-AZ"), price: newPrice, currency: newCurr });
     }
 
-    const isVip = document.getElementById("isVip").checked;
-    const isPremium = document.getElementById("isPremium").checked;
+    const isVip = document.getElementById("isVip").checked && paidPackages.vip;
+    const isPremium = document.getElementById("isPremium").checked && paidPackages.premium;
     const promoFee = (isVip ? 2 : 0) + (isPremium ? 5 : 0);
 
     const dbRow = {
@@ -1379,22 +1767,41 @@ document.getElementById("carForm").addEventListener("submit",async e=>{
       views: old?.views || 0
     };
 
+    let vipColumnMissing = false;
     if (supabaseClient) {
-      const { error } = await supabaseClient.from("cars").upsert(dbRow);
+      let { error } = await supabaseClient.from("cars").upsert(dbRow);
+      if (error && String(error.message || "").includes("'vip'")) {
+        vipColumnMissing = true;
+        const fallbackRow = { ...dbRow };
+        delete fallbackRow.vip;
+        const retry = await supabaseClient.from("cars").upsert(fallbackRow);
+        error = retry.error;
+      }
       if (error) {
         throw new Error(error.message + (error.details ? " (" + error.details + ")" : ""));
+      }
+      if (vipColumnMissing) {
+        await dbPut(dbRow);
       }
     } else {
       await dbPut(dbRow);
     }
 
     await loadData();
+    if (vipColumnMissing) {
+      const idx = cars.findIndex(x => x.id === dbRow.id);
+      if (idx >= 0) cars[idx] = normalizeCar(dbRow);
+      else cars.unshift(normalizeCar(dbRow));
+      updatePromoStats();
+    }
+
     hideForm();
     renderCars();
     renderVideos();
     document.getElementById("elanlar").scrollIntoView({behavior:"smooth"});
-    const feeNote = promoFee > 0 ? ` (Seçilmiş paket: ${promoFee} AZN)` : "";
-    alert(isUpdate ? ("Elan yeniləndi." + feeNote) : ("Elan Supabase bazasına uğurla yerləşdirildi!" + feeNote));
+    const feeNote = promoFee > 0 ? ` (Ödənilmiş paket: ${promoFee} AZN)` : "";
+    const colNote = vipColumnMissing ? " Qeyd: Supabase-də 'vip' sütunu əlavə edilsə, VIP status bazada da qalıcı saxlanacaq." : "";
+    alert(isUpdate ? ("Elan yeniləndi." + feeNote + colNote) : ("Elan uğurla yerləşdirildi!" + feeNote + colNote));
   }catch(err){
     console.error(err);
     alert("Xəta baş verdi: " + (err?.message || "Yadda saxlamaq mümkün olmadı."));
@@ -1411,12 +1818,15 @@ function editCar(id){
   if(!c)return;
   closeProfile();
   editingId=id;
+  paidPackages = { vip: !!c.vip, premium: !!c.premium };
+  pendingPaymentTier = null;
   const set=(k,v)=>{const el=document.getElementById(k);if(el)el.value=v??"";};
   ["brand","model","price","currency","year","mileage","city","color","gear","drive","engine","fuel","horsepower","seats","condition","country","phone","description","creditRate"].forEach(k=>set(k,c[k]));
   set("sellerType", c.sellerType || c.seller_type || "Şəxsi");
   updateModelSuggestions(c.brand);
   document.getElementById("isVip").checked=!!c.vip;
   document.getElementById("isPremium").checked=!!c.premium;
+  updatePaidStatusNote();
   document.getElementById("allowBarter").checked=!!c.barter;
   document.getElementById("allowCredit").checked=!!c.credit;
   document.querySelectorAll('input[name="equipment"]').forEach(x=>x.checked=(c.equipment||[]).includes(x.value));
@@ -1583,7 +1993,8 @@ function setActiveMenu(index){
 }
 
 function openFilters(){
-  document.querySelector(".search-box").scrollIntoView({behavior:"smooth",block:"center"});
+  toggleFiltersPanel(true);
+  document.getElementById("collapsibleFilters").scrollIntoView({behavior:"smooth",block:"center"});
 }
 
 function openMessages(topic=""){
