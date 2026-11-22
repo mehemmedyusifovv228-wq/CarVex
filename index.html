@@ -76,6 +76,36 @@ header{
 .dark-btn:hover{background:rgba(255,255,255,0.16)}
 .white-btn{background:#fff;color:var(--dark);border:1px solid var(--line)}
 .white-btn:hover{border-color:#cbd5e1;background:#f8fafc}
+.navy-btn{background:linear-gradient(135deg,#0d1321,#1e2d4d);color:#fff;border:1px solid #243558;box-shadow:0 6px 16px rgba(13,19,33,.18)}
+.navy-btn:hover{filter:brightness(1.08)}
+.logout-btn{background:#fff1f3;color:#e11d48;border:1px solid #fecdd3;width:100%;margin-top:12px}
+.logout-btn:hover{background:#ffe4e8}
+
+/* ŞƏXSİ KABİNET KREATİV KART */
+.profile-hero-card{
+  background:linear-gradient(135deg,#0d1321 0%,#1b2c49 60%,#2c1938 100%);
+  color:#fff;border-radius:16px;padding:16px;margin-bottom:14px;
+  box-shadow:0 12px 28px rgba(13,19,33,.2);position:relative;overflow:hidden;
+}
+.profile-hero-top{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.profile-avatar{
+  width:50px;height:50px;border-radius:14px;flex:none;
+  background:linear-gradient(135deg,var(--red),var(--red-2));
+  display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:900;color:#fff;
+  box-shadow:0 6px 16px rgba(255,59,92,.35);
+}
+.profile-rank-badge{
+  display:inline-flex;align-items:center;gap:5px;
+  background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);
+  padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700;color:#ffd166;margin-top:4px;
+}
+.profile-stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.profile-stat-box{
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);
+  border-radius:11px;padding:9px 8px;text-align:center;
+}
+.profile-stat-box strong{display:block;font-size:16px;color:#fff}
+.profile-stat-box span{font-size:10px;color:#cbd5e1}
 
 /* YIĞCAM HERO VƏ AÇILIB-BAĞLANAN FİLTR BÖLMƏSİ */
 .hero{
@@ -324,7 +354,7 @@ footer{background:linear-gradient(135deg,#0d1321,#162136);color:#cbd5e1;padding:
 }
 
 .chips{display:flex;flex-wrap:wrap;gap:8px}.chips input{width:auto}.chip{display:flex;align-items:center;gap:6px;padding:7px 9px;border:1px solid var(--line);border-radius:9px;font-size:12px;background:#fafbfc}.chip input{width:auto}
-.notice{background:#fff4e5;color:#875400;padding:11px;border-radius:10px;font-size:12px;line-height:1.5}.muted{color:var(--muted);font-size:12px}.profile-row{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}.profile-row button{flex:1}.tabbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:15px}.tabbar button{background:#edf1f7;border:0;border-radius:8px;padding:9px 12px}.tabbar button.active{background:var(--dark);color:#fff}
+.notice{background:#fff4e5;color:#875400;padding:11px;border-radius:10px;font-size:12px;line-height:1.5}.muted{color:var(--muted);font-size:12px}.profile-row{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0 4px}.profile-row button{flex:1;min-width:130px}.tabbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:15px}.tabbar button{background:#edf1f7;border:0;border-radius:8px;padding:9px 12px;font-weight:700}.tabbar button.active{background:var(--dark);color:#fff}
 .msg-item{background:#f3f5f9;padding:10px 12px;border-radius:8px;margin-bottom:8px;font-size:13px}
 
 .scroll-top-btn{
@@ -1862,19 +1892,58 @@ function openProfile(){
   setActiveMenu(4);
 }
 
+function getSellerRank(mine){
+  const count = mine.length;
+  const hasPromo = mine.some(c => c.vip || c.premium);
+  if(hasPromo) return "👑 VIP Diler";
+  if(count >= 5) return "🏆 Avto Ekspert";
+  if(count >= 2) return "🚗 Aktiv Satıcı";
+  return "✨ Yeni Sürücü";
+}
+
 function renderProfile(message=""){
   const el=document.getElementById("profileContent");
   if(currentUser){
     const mine=cars.filter(c=>c.owner===currentUser.id);
-    const displayName=currentUser.name ? `${currentUser.name} (${currentUser.phone||currentUser.email||""})` : (currentUser.phone||currentUser.email||"İstifadəçi");
+    const totalViews = mine.reduce((sum, c) => sum + Number(c.views || 0), 0);
+    const promoCount = mine.filter(c => c.vip || c.premium).length;
+    const rankLabel = getSellerRank(mine);
+    const displayName=currentUser.name ? currentUser.name : (currentUser.phone||currentUser.email||"İstifadəçi");
+    const subContact = currentUser.phone || currentUser.email || "";
+    const avatarInitial = String(displayName).replace(/[^a-zA-ZƏəÖöÜüĞğÇçŞşİı]/g, "").charAt(0).toUpperCase() || "🚗";
+
     el.innerHTML=`
-      <p>Hesab: <b>${escapeHTML(displayName)}</b></p>
+      <div class="profile-hero-card">
+        <div class="profile-hero-top">
+          <div class="profile-avatar">${escapeHTML(avatarInitial)}</div>
+          <div>
+            <div style="font-size:16px;font-weight:800">${escapeHTML(displayName)}</div>
+            ${subContact && subContact !== displayName ? `<div style="font-size:12px;color:#cbd5e1">${escapeHTML(subContact)}</div>` : ""}
+            <div class="profile-rank-badge">${rankLabel}</div>
+          </div>
+        </div>
+        <div class="profile-stats-grid">
+          <div class="profile-stat-box">
+            <strong>${mine.length}</strong>
+            <span>Aktiv elan</span>
+          </div>
+          <div class="profile-stat-box">
+            <strong>${totalViews.toLocaleString("az-AZ")}</strong>
+            <span>Ümumi baxış</span>
+          </div>
+          <div class="profile-stat-box">
+            <strong>${promoCount}</strong>
+            <span>VIP / Premium</span>
+          </div>
+        </div>
+      </div>
+
       <div class="tabbar">
         <button class="active" onclick="renderProfile()">Mənim elanlarım (${mine.length})</button>
         <button onclick="renderNotifications()">Bildirişlər</button>
       </div>
       ${mine.length?mine.map(c=>`<div class="detail-item" style="display:flex;justify-content:space-between;gap:8px;align-items:center;margin:8px 0"><span><b>${escapeHTML(c.brand)} ${escapeHTML(c.model)}</b><br>${money(c)} · ${c.year}</span><span><button class="btn white-btn" onclick="editCar('${c.id}')">Redaktə</button> <button class="btn red" onclick="deleteCar('${c.id}')">Sil</button></span></div>`).join(""):"Hələ elanınız yoxdur."}
-      <br><button class="btn dark-btn" onclick="signOut()">Hesabdan çıx</button>
+      <button class="btn logout-btn" onclick="signOut()">🚪 Hesabdan çıx</button>
     `;
     return;
   }
@@ -1884,11 +1953,11 @@ function renderProfile(message=""){
     ${message?'<p class="notice">'+escapeHTML(message)+'</p>':""}
     <p>Telefon nömrəsi və şifrə ilə daxil ol və ya qeydiyyatdan keç</p>
     <div class="field"><label>Ad (yalnız qeydiyyat üçün)</label><input id="authName" type="text" placeholder="Adınız"></div>
-    <div class="field"><label>Telefon nömrəsi (ölkə kodu ilə)</label><input id="authPhone" type="tel" placeholder="+994501234567"></div>
-    <div class="field"><label>Şifrə (ən azı 6 simvol)</label><input id="authPassword" type="password" placeholder="Şifrənizi daxil edin"></div>
+    <div class="field" style="margin-top:8px"><label>Telefon nömrəsi (ölkə kodu ilə)</label><input id="authPhone" type="tel" placeholder="+994501234567"></div>
+    <div class="field" style="margin-top:8px"><label>Şifrə (ən azı 6 simvol)</label><input id="authPassword" type="password" placeholder="Şifrənizi daxil edin"></div>
     <div class="profile-row">
       <button class="btn red" onclick="signInWithPassword()">Daxil ol</button>
-      <button class="btn dark-btn" onclick="signUpWithPassword()">Qeydiyyatdan keç</button>
+      <button class="btn navy-btn" onclick="signUpWithPassword()">✨ Qeydiyyatdan keç</button>
     </div>
     ${localCars.length ? `<hr style="margin:20px 0;border:0;border-top:1px solid #eee"><h3>Yerləşdirilən elanlar (${localCars.length})</h3>` + localCars.map(c=>`<div class="detail-item" style="display:flex;justify-content:space-between;gap:8px;align-items:center;margin:8px 0"><span><b>${escapeHTML(c.brand)} ${escapeHTML(c.model)}</b><br>${money(c)} · ${c.year}</span><span><button class="btn white-btn" onclick="editCar('${c.id}')">Redaktə</button> <button class="btn red" onclick="deleteCar('${c.id}')">Sil</button></span></div>`).join("") : ""}
   `;
