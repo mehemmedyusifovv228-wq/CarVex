@@ -659,7 +659,7 @@ footer{background:linear-gradient(135deg,#0d1321,#162136);color:#cbd5e1;padding:
         <div class="field"><label>Model *</label><input id="model" list="modelSuggestions" required placeholder="E-Class / Dena / Saina"></div>
         <div class="field"><label>Qiymət *</label><input id="price" type="number" min="1" required></div>
         <div class="field"><label>Valyuta *</label><select id="currency" required><option>AZN</option><option>USD</option><option>EUR</option></select></div>
-        <div class="field"><label>Buraxılış ili *</label><input id="year" type="number" min="1950" max="2026" required></div>
+        <div class="field"><label>Buraxılış ili *</label><input id="year" type="number" min="1950" max="2100" required></div>
         <div class="field"><label>Yürüş (km) *</label><input id="mileage" type="number" min="0" required></div>
         <div class="field"><label>Şəhər / rayon *</label><select id="city" required></select></div>
         <div class="field"><label>Rəng *</label><select id="color" required></select></div>
@@ -816,11 +816,13 @@ const DB_NAME="CarVexDB", STORE="cars";
 function safeParseJsonArray(val, fallback = []){
   if(Array.isArray(val)) return val;
   if(typeof val === "string"){
+    const trimmed = val.trim();
+    if(!trimmed) return fallback;
     try {
-      const parsed = JSON.parse(val);
+      const parsed = JSON.parse(trimmed);
       return Array.isArray(parsed) ? parsed : fallback;
     } catch {
-      return val ? [val] : fallback;
+      return [trimmed];
     }
   }
   return fallback;
@@ -979,28 +981,40 @@ async function dbDelete(id){
 function normalizeCar(row){
   const price = Number(row.price || 0);
   const parsedHistory = safeParseJsonArray(row.priceHistory, null);
+  const ts = Number(row.date || (row.created_at ? new Date(row.created_at).getTime() : Date.now()));
   const history = parsedHistory && parsedHistory.length
     ? parsedHistory
-    : [{ date: new Date(Number(row.date || Date.now())).toLocaleDateString("az-AZ"), price, currency: row.currency || "AZN" }];
+    : [{ date: new Date(ts).toLocaleDateString("az-AZ"), price, currency: row.currency || "AZN" }];
+
+  const photosArr = Array.isArray(row.image_urls) && row.image_urls.length
+    ? row.image_urls.filter(Boolean)
+    : safeParseJsonArray(row.photos, [])
+        .map(p => (typeof p === "string" ? p : (p?.url || p?.src || null)))
+        .filter(Boolean);
+
   return {
     ...row,
     id: String(row.id),
     listingNo: row.listingNo || ("CV-" + String(row.id).replace(/\D/g, "").slice(0, 6).padEnd(6, "7")),
     price,
     year: Number(row.year || 0),
-    mileage: Number(row.mileage || 0),
+    mileage: Number(row.mileage_km ?? row.mileage ?? 0),
+    fuel: row.fuel_type ?? row.fuel ?? "",
+    gear: row.transmission ?? row.gear ?? "",
     barter: Boolean(row.barter),
     credit: Boolean(row.credit),
     creditRate: row.creditRate ?? row.credit_rate ?? "",
     vip: Boolean(row.vip),
-    premium: Boolean(row.premium),
+    premium: Boolean(row.is_premium ?? row.premium),
     priceHistory: history,
     sellerType: row.seller_type ?? row.sellerType ?? "Şəxsi",
-    photos: safeParseJsonArray(row.photos, []),
+    photos: photosArr,
+    video: row.video || row.video_url || "",
     equipment: safeParseJsonArray(row.equipment, []),
-    date: Number(row.date || (row.created_at ? new Date(row.created_at).getTime() : Date.now())),
+    date: ts,
     views: Number(row.views || 0),
-    likes: Number(row.likes || 0)
+    likes: Number(row.likes || 0),
+    status: row.status || "published"
   };
 }
 
@@ -1017,22 +1031,13 @@ async function loadData(){
   likedVideos = JSON.parse(localStorage.getItem("carvexLikedVideos") || "[]");
   messages = JSON.parse(localStorage.getItem("carvexMessages") || "[]");
 
-  try {
-    const cached = JSON.parse(localStorage.getItem("carvexCarsCache") || "[]");
-    if (Array.isArray(cached) && cached.length) {
-      cars = cached.map(normalizeCar);
-      updatePromoStats();
-      renderCars();
-    }
-  } catch (e) {}
-
   if (supabaseClient) {
     for (let attempt = 1; attempt <= 2; attempt++) {
       try {
         const { data, error } = await supabaseClient
           .from("cars")
           .select("*")
-          .order("date", { ascending: false });
+          .order("created_at", { ascending: false });
 
         if (!error && Array.isArray(data)) {
           cars = data.map(normalizeCar);
@@ -1046,15 +1051,23 @@ async function loadData(){
       } catch (e) {
         console.warn(`Supabase qoşulma cəhdi ${attempt}:`, e);
       }
-      await new Promise(r => setTimeout(r, 800));
+      await new Promise(r => setTimeout(r, 600));
     }
-    if (cars.length) return;
   }
+
+  try {
+    const cached = JSON.parse(localStorage.getItem("carvexCarsCache") || "[]");
+    if (Array.isArray(cached) && cached.length) {
+      cars = cached.map(normalizeCar);
+      updatePromoStats();
+      return;
+    }
+  } catch (e) {}
 
   try {
     cars = (await dbGetAll()).map(normalizeCar);
   } catch (e) {
-    if (!cars.length) cars = [];
+    cars = [];
     console.error(e);
   }
   updatePromoStats();
@@ -1132,7 +1145,7 @@ function openCompare(){
           <thead>
             <tr>
               <th>Göstərici</th>
-              ${selected.map(c => `<th><img src="${c.photos?.[0] || FALLBACK_CAR_IMG}" style="width:100%;height:95px;object-fit:cover;border-radius:7px;margin-bottom:6px"><br>${escapeHTML(c.brand)} ${escapeHTML(c.model)}</th>`).join("")}
+              ${selected.map(c => `<th><img src="${escapeHTML(c.photos?.[0] || FALLBACK_CAR_IMG)}" style="width:100%;height:95px;object-fit:cover;border-radius:7px;margin-bottom:6px"><br>${escapeHTML(c.brand)} ${escapeHTML(c.model)}</th>`).join("")}
             </tr>
           </thead>
           <tbody>
@@ -1194,6 +1207,12 @@ function aznEquivalent(c){
   if(curr === "AZN" || !AZN_RATES[curr]) return "";
   const aznVal = Math.round(Number(c.price || 0) * AZN_RATES[curr]);
   return `≈ ${aznVal.toLocaleString("az-AZ")} AZN`;
+}
+
+function openLightboxByCarId(carId, idx = 0){
+  const c = cars.find(x => x.id === carId);
+  const photosList = (c?.photos && c.photos.length) ? c.photos : [FALLBACK_CAR_IMG];
+  openLightbox(photosList[idx] || photosList[0], photosList);
 }
 
 function openLightbox(src, photosList=[]){
@@ -1306,10 +1325,11 @@ function renderCars(){
   let list=cars.filter(c=>{
     const v=id=>document.getElementById(id).value;
     const brandQuery = v("searchBrand").trim().toLowerCase();
+    const modelQuery = v("searchModel").trim().toLowerCase();
     const min=Number(v("minPrice"))||0,max=Number(v("maxPrice"))||Infinity,ymin=Number(v("yearMin"))||0,ymax=Number(v("yearMax"))||9999,km=Number(v("searchMileage"))||Infinity;
     const deal = v("searchDealType");
     return(!brandQuery||String(c.brand||"").toLowerCase().includes(brandQuery))&&
-          (!v("searchModel")||c.model.toLowerCase().includes(v("searchModel").toLowerCase()))&&
+          (!modelQuery||String(c.model||"").toLowerCase().includes(modelQuery))&&
           Number(c.price)>=min&&Number(c.price)<=max&&
           (!v("searchCurrency")||c.currency===v("searchCurrency"))&&
           (!v("searchCity")||c.city===v("searchCity"))&&
@@ -1319,7 +1339,7 @@ function renderCars(){
           Number(c.year)>=ymin&&Number(c.year)<=ymax&&
           Number(c.mileage)<=km&&
           (!v("searchCondition")||c.condition===v("searchCondition"))&&
-          (!v("searchSeats")||c.seats===v("searchSeats"))&&
+          (!v("searchSeats")||String(c.seats||"")===v("searchSeats"))&&
           (!v("searchDrive")||c.drive===v("searchDrive"))&&
           (!v("searchCountry")||c.country===v("searchCountry"))&&
           (!deal || (deal==="barter" && c.barter) || (deal==="credit" && c.credit) || (deal==="salon" && c.sellerType==="Salon") || (deal==="vip" && c.vip) || (deal==="premium" && c.premium))&&
@@ -1348,11 +1368,11 @@ function renderCars(){
     const isCompared = compareIds.includes(c.id);
     return `
     <div class="car">
-      <div class="car-image" data-car-id="${c.id}">
-        <img src="${imgSrc}" loading="lazy" decoding="async" alt="Avtomobil" onclick='openLightbox("${imgSrc}", ${JSON.stringify(photosList)})'>
+      <div class="car-image" data-car-id="${escapeHTML(c.id)}">
+        <img src="${escapeHTML(imgSrc)}" loading="lazy" decoding="async" alt="${escapeHTML(c.brand)} ${escapeHTML(c.model)}" onclick="openLightboxByCarId('${escapeHTML(c.id)}', ${pIdx})">
         ${photosList.length > 1 ? `
-          <button type="button" class="slide-btn prev" onclick="slideCardPhoto(event,'${c.id}',-1)" aria-label="Əvvəlki şəkil">‹</button>
-          <button type="button" class="slide-btn next" onclick="slideCardPhoto(event,'${c.id}',1)" aria-label="Növbəti şəkil">›</button>
+          <button type="button" class="slide-btn prev" onclick="slideCardPhoto(event,'${escapeHTML(c.id)}',-1)" aria-label="Əvvəlki şəkil">‹</button>
+          <button type="button" class="slide-btn next" onclick="slideCardPhoto(event,'${escapeHTML(c.id)}',1)" aria-label="Növbəti şəkil">›</button>
           <span class="photo-counter">${pIdx + 1}/${photosList.length}</span>
         ` : ""}
         ${(c.premium || c.vip) ? `
@@ -1361,8 +1381,8 @@ function renderCars(){
             ${c.vip ? '<span class="vip-badge">👑 VIP (2 AZN)</span>' : ""}
           </div>
         ` : ""}
-        <button class="heart" onclick="toggleFavorite('${c.id}')">${favorites.includes(c.id)?"❤️":"🤍"}</button>
-        <button class="compare-toggle ${isCompared?"active":""}" onclick="toggleCompare('${c.id}')">${isCompared?"✓ Seçilib":"⚖ Müqayisə"}</button>
+        <button class="heart" onclick="toggleFavorite('${escapeHTML(c.id)}')">${favorites.includes(c.id)?"❤️":"🤍"}</button>
+        <button class="compare-toggle ${isCompared?"active":""}" onclick="toggleCompare('${escapeHTML(c.id)}')">${isCompared?"✓ Seçilib":"⚖ Müqayisə"}</button>
         <div class="badges-row">
           ${c.barter?'<span class="tag-badge">🔄 Barter</span>':""}
           ${c.credit?`<span class="tag-badge pct">% Kredit${c.creditRate?" ("+escapeHTML(c.creditRate)+"%)":""}</span>`:""}
@@ -1380,12 +1400,12 @@ function renderCars(){
           <span>👁 ${Number(c.views||0)}</span>
         </div>
         <div class="card-buttons">
-          <button class="details-btn" onclick="showDetails('${c.id}')">Ətraflı məlumat</button>
-          <button class="call-btn" onclick="callSeller('${c.id}')">☎ Zəng et</button>
+          <button class="details-btn" onclick="showDetails('${escapeHTML(c.id)}')">Ətraflı məlumat</button>
+          <button class="call-btn" onclick="callSeller('${escapeHTML(c.id)}')">☎ Zəng et</button>
         </div>
       </div>
       <div class="car-footer">
-        <span>📍 ${escapeHTML(c.city)} · #${escapeHTML(c.listingNo)}</span>
+        <span>📍 ${escapeHTML(c.city || "Bakı")} · #${escapeHTML(c.listingNo)}</span>
         <span>${c.video?"▶ Video var":"CarVex"}</span>
       </div>
     </div>
@@ -1399,7 +1419,7 @@ function renderCars(){
 
 function callSeller(id){
   const c=cars.find(x=>x.id===id);
-  if(c)location.href="tel:"+c.phone.replace(/[^\d+]/g,"");
+  if(c && c.phone)location.href="tel:"+String(c.phone).replace(/[^\d+]/g,"");
 }
 
 function setDetailPhoto(idx){
@@ -1426,7 +1446,6 @@ function showDetails(id){
   const c=cars.find(x=>x.id===id);
   if(!c)return;
 
-  // Modalı və məzmunu dərhal aç ki, gözləmə hiss olunmasın
   detailPhotosList = (c.photos && c.photos.length) ? c.photos : [FALLBACK_CAR_IMG];
   detailPhotoIdx = 0;
   const mainPhoto = detailPhotosList[0] || FALLBACK_CAR_IMG;
@@ -1440,13 +1459,13 @@ function showDetails(id){
 
   document.getElementById("detailContent").innerHTML=`
     <div class="detail-image-wrap">
-      <img id="detailMainImg" class="detail-image" src="${mainPhoto}" fetchpriority="high" decoding="sync" onclick='openLightbox(this.src, detailPhotosList)'>
+      <img id="detailMainImg" class="detail-image" src="${escapeHTML(mainPhoto)}" fetchpriority="high" decoding="sync" onclick="openLightbox(this.src, detailPhotosList)">
       ${detailPhotosList.length > 1 ? `
         <button type="button" class="detail-nav-btn prev" onclick="setDetailPhoto(detailPhotoIdx - 1)" aria-label="Əvvəlki şəkil">‹</button>
         <button type="button" class="detail-nav-btn next" onclick="setDetailPhoto(detailPhotoIdx + 1)" aria-label="Növbəti şəkil">›</button>
       ` : ""}
     </div>
-    <div class="detail-gallery" id="detailThumbs">${detailPhotosList.map((x,i)=>'<img src="'+x+'" decoding="async" class="'+(i===0?'active-thumb':'')+'" alt="Avtomobil şəkli" onclick="setDetailPhoto('+i+')">').join("")}</div>
+    <div class="detail-gallery" id="detailThumbs">${detailPhotosList.map((x,i)=>'<img src="'+escapeHTML(x)+'" decoding="async" class="'+(i===0?'active-thumb':'')+'" alt="Avtomobil şəkli" onclick="setDetailPhoto('+i+')">').join("")}</div>
     <h2>${escapeHTML(c.brand)} ${escapeHTML(c.model)}</h2>
     <h2 style="color:#ff3b5c;margin-bottom:4px">${money(c)} ${c.premium?"· ⭐ Premium (5 AZN)":""} ${c.vip?"· 👑 VIP (2 AZN)":""} ${c.barter?"· 🔄 Barter":""} ${c.credit?`· % Kredit${c.creditRate?" ("+escapeHTML(c.creditRate)+"%)":""}`:""}</h2>
     ${eqText ? `<div class="azn-eq" style="font-size:14px;margin-bottom:12px">${eqText}</div>` : ""}
@@ -1469,15 +1488,15 @@ function showDetails(id){
     <p>${escapeHTML((c.equipment||[]).join(", ")||"Qeyd edilməyib")}</p>
     <h3>Əlavə məlumat</h3>
     <p>${escapeHTML(c.description||"Əlavə məlumat yoxdur.")}</p>
-    ${c.video?'<button class="btn dark-btn" onclick="playCarVideo(\''+c.id+'\')">▶ Videoya bax</button> ':""}
-    <button class="btn red" onclick="callSeller('${c.id}')">☎ Satıcıya zəng et</button>
-    <button class="btn dark-btn" onclick="messageSeller('${c.id}')">✉ Mesaj yaz</button>
-    <button class="btn white-btn" onclick="shareCar('${c.id}')">Paylaş</button>
+    ${c.video?'<button class="btn dark-btn" onclick="playCarVideo(\''+escapeHTML(c.id)+'\')">▶ Videoya bax</button> ':""}
+    <button class="btn red" onclick="callSeller('${escapeHTML(c.id)}')">☎ Satıcıya zəng et</button>
+    <button class="btn dark-btn" onclick="messageSeller('${escapeHTML(c.id)}')">✉ Mesaj yaz</button>
+    <button class="btn white-btn" onclick="shareCar('${escapeHTML(c.id)}')">Paylaş</button>
     <h3 style="margin-top:20px">Bənzər maşınlar</h3>
     <div class="similar-grid">
       ${similar.length ? similar.map(s=>`
-        <div class="similar-card" onclick="closeDetails();showDetails('${s.id}')">
-          <img src="${s.photos?.[0]||FALLBACK_CAR_IMG}" loading="lazy" alt="">
+        <div class="similar-card" onclick="closeDetails();showDetails('${escapeHTML(s.id)}')">
+          <img src="${escapeHTML(s.photos?.[0]||FALLBACK_CAR_IMG)}" loading="lazy" alt="">
           <div style="font-weight:bold;margin-top:6px;font-size:13px">${escapeHTML(s.brand)} ${escapeHTML(s.model)}</div>
           <div style="color:#ff3b5c;font-weight:bold;font-size:12px">${money(s)}</div>
           ${aznEquivalent(s)?`<div class="muted" style="font-size:10px">${aznEquivalent(s)}</div>`:""}
@@ -1489,7 +1508,6 @@ function showDetails(id){
   calcLoan(baseAzn);
   document.getElementById("detailModal").style.display="flex";
 
-  // Baxış sayını arxa planda yenilə
   c.views = Number(c.views || 0) + 1;
   if (supabaseClient) {
     supabaseClient.from("cars").update({ views: c.views }).eq("id", c.id).then(()=>{});
@@ -1524,9 +1542,9 @@ function renderVideos(){
     const safeVideo = String(c.video || "").includes("#") ? c.video : `${c.video}#t=0.5`;
     const isLiked = likedVideos.includes(c.id);
     return `
-    <div class="video-card" onclick="openVideoExplore('${c.id}')">
-      <img src="${thumb}" alt="${escapeHTML(c.brand)} ${escapeHTML(c.model)}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
-      <video src="${safeVideo}" poster="${thumb}" muted playsinline preload="metadata" style="position:relative;z-index:1;background:transparent"></video>
+    <div class="video-card" onclick="openVideoExplore('${escapeHTML(c.id)}')">
+      <img src="${escapeHTML(thumb)}" alt="${escapeHTML(c.brand)} ${escapeHTML(c.model)}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+      <video src="${escapeHTML(safeVideo)}" poster="${escapeHTML(thumb)}" muted playsinline preload="metadata" style="position:relative;z-index:1;background:transparent"></video>
       <div class="video-shade" style="z-index:2"></div>
       <span class="video-views" style="z-index:3">▶ ${Number(c.views||0).toLocaleString("az-AZ")} · ${isLiked?"❤️":"🤍"} ${(c.likes||0) + (isLiked?1:0)}</span>
       <button class="video-play" style="z-index:3" aria-label="Kəşf et">🔥</button>
@@ -1653,8 +1671,8 @@ function openVideoExplore(startCarId = null){
     const isLiked = likedVideos.includes(c.id);
     const isSaved = favorites.includes(c.id);
     return `
-      <div class="reel-item" data-car-id="${c.id}" data-index="${idx}">
-        <video src="${c.video}" poster="${thumb}" loop playsinline controls onclick="this.paused ? this.play() : this.pause()"></video>
+      <div class="reel-item" data-car-id="${escapeHTML(c.id)}" data-index="${idx}">
+        <video src="${escapeHTML(c.video)}" poster="${escapeHTML(thumb)}" loop playsinline controls onclick="this.paused ? this.play() : this.pause()"></video>
         <div class="reel-gradient"></div>
         <div class="reel-badge-top">🔥 Kəşf et · #${escapeHTML(c.listingNo)}</div>
         <div class="reel-info">
@@ -1663,19 +1681,19 @@ function openVideoExplore(startCarId = null){
           <div class="reel-meta">📍 ${escapeHTML(c.city)} · 🛣 ${Number(c.mileage).toLocaleString("az-AZ")} km · ⚙️ ${escapeHTML(c.gear)}</div>
         </div>
         <div class="reel-actions">
-          <button type="button" class="reel-act-btn js-like-btn ${isLiked?"liked":""}" onclick="toggleExploreLike('${c.id}')" title="Bəyən">${isLiked?"❤️":"🤍"}</button>
+          <button type="button" class="reel-act-btn js-like-btn ${isLiked?"liked":""}" onclick="toggleExploreLike('${escapeHTML(c.id)}')" title="Bəyən">${isLiked?"❤️":"🤍"}</button>
           <span class="reel-act-label js-like-label">${getLikeTotal(c)}</span>
 
-          <button type="button" class="reel-act-btn js-save-btn ${isSaved?"saved":""}" onclick="toggleExploreSave('${c.id}')" title="Kayd et">${isSaved?"🔖":"📑"}</button>
+          <button type="button" class="reel-act-btn js-save-btn ${isSaved?"saved":""}" onclick="toggleExploreSave('${escapeHTML(c.id)}')" title="Kayd et">${isSaved?"🔖":"📑"}</button>
           <span class="reel-act-label js-save-label">${isSaved?"Kayd edildi":"Kayd et"}</span>
 
-          <button type="button" class="reel-act-btn" onclick="callSeller('${c.id}')" title="Zəng et">📞</button>
+          <button type="button" class="reel-act-btn" onclick="callSeller('${escapeHTML(c.id)}')" title="Zəng et">📞</button>
           <span class="reel-act-label">Zəng</span>
 
-          <button type="button" class="reel-act-btn" onclick="closeVideoExplore();messageSeller('${c.id}')" title="Mesaj yaz">✉</button>
+          <button type="button" class="reel-act-btn" onclick="closeVideoExplore();messageSeller('${escapeHTML(c.id)}')" title="Mesaj yaz">✉</button>
           <span class="reel-act-label">Mesaj</span>
 
-          <button type="button" class="reel-act-btn" onclick="closeVideoExplore();showDetails('${c.id}')" title="Ətraflı">ℹ</button>
+          <button type="button" class="reel-act-btn" onclick="closeVideoExplore();showDetails('${escapeHTML(c.id)}')" title="Ətraflı">ℹ</button>
           <span class="reel-act-label">Elan</span>
         </div>
       </div>
@@ -1769,6 +1787,9 @@ document.getElementById("carForm").addEventListener("submit",async e=>{
     const video=videoFile?await fileToData(videoFile):(old?.video||"");
     const newPrice = Number(val("price"));
     const newCurr = val("currency");
+    const mileageNum = Number(val("mileage"));
+    const fuelStr = val("fuel");
+    const gearStr = val("gear");
     const prevHistory = Array.isArray(old?.priceHistory) ? [...old.priceHistory] : [];
     if(!old){
       prevHistory.push({ date: new Date().toLocaleDateString("az-AZ"), price: newPrice, currency: newCurr });
@@ -1782,6 +1803,8 @@ document.getElementById("carForm").addEventListener("submit",async e=>{
 
     const dbRow = {
       id: old?.id || generateUUID(),
+      user_id: currentUser?.id || null,
+      title: `${val("brand")} ${val("model")} ${val("year")}`.trim(),
       listingNo: old?.listingNo || ("CV-" + Math.floor(100000 + Math.random() * 900000)),
       brand: val("brand"),
       model: val("model"),
@@ -1792,65 +1815,53 @@ document.getElementById("carForm").addEventListener("submit",async e=>{
       credit: document.getElementById("allowCredit").checked,
       creditRate: val("creditRate"),
       year: Number(val("year")),
-      mileage: Number(val("mileage")),
+      mileage: mileageNum,
+      mileage_km: mileageNum,
       city: val("city"),
       color: val("color"),
-      gear: val("gear"),
+      gear: gearStr,
+      transmission: gearStr,
       drive: val("drive"),
       engine: val("engine"),
-      fuel: val("fuel"),
-      horsepower: val("horsepower"),
+      fuel: fuelStr,
+      fuel_type: fuelStr,
+      horsepower: val("horsepower") ? Number(val("horsepower")) : null,
       seats: val("seats"),
       condition: val("condition"),
       country: val("country"),
       phone: val("phone"),
       seller_type: val("sellerType"),
       description: val("description"),
+      status: "published",
       vip: isVip,
       premium: isPremium,
+      is_premium: isPremium,
       photos: photos,
+      image_urls: photos,
       video: video,
+      video_url: video || null,
       equipment: Array.from(document.querySelectorAll('input[name="equipment"]:checked')).map(x=>x.value),
       owner: currentUser?.id || "local-user",
       date: old?.date || Date.now(),
       views: old?.views || 0
     };
 
-    let vipColumnMissing = false;
     if (supabaseClient) {
-      let { error } = await supabaseClient.from("cars").upsert(dbRow);
-      if (error && String(error.message || "").includes("'vip'")) {
-        vipColumnMissing = true;
-        const fallbackRow = { ...dbRow };
-        delete fallbackRow.vip;
-        const retry = await supabaseClient.from("cars").upsert(fallbackRow);
-        error = retry.error;
-      }
+      const { error } = await supabaseClient.from("cars").upsert(dbRow);
       if (error) {
         throw new Error(error.message + (error.details ? " (" + error.details + ")" : ""));
-      }
-      if (vipColumnMissing) {
-        await dbPut(dbRow);
       }
     } else {
       await dbPut(dbRow);
     }
 
     await loadData();
-    if (vipColumnMissing) {
-      const idx = cars.findIndex(x => x.id === dbRow.id);
-      if (idx >= 0) cars[idx] = normalizeCar(dbRow);
-      else cars.unshift(normalizeCar(dbRow));
-      updatePromoStats();
-    }
-
     hideForm();
     renderCars();
     renderVideos();
     document.getElementById("elanlar").scrollIntoView({behavior:"smooth"});
     const feeNote = promoFee > 0 ? ` (Ödənilmiş paket: ${promoFee} AZN)` : "";
-    const colNote = vipColumnMissing ? " Qeyd: Supabase-də 'vip' sütunu əlavə edilsə, VIP status bazada da qalıcı saxlanacaq." : "";
-    alert(isUpdate ? ("Elan yeniləndi." + feeNote + colNote) : ("Elan uğurla yerləşdirildi!" + feeNote + colNote));
+    alert(isUpdate ? ("Elan yeniləndi." + feeNote) : ("Elan uğurla yerləşdirildi!" + feeNote));
   }catch(err){
     console.error(err);
     alert("Xəta baş verdi: " + (err?.message || "Yadda saxlamaq mümkün olmadı."));
@@ -1923,7 +1934,7 @@ function getSellerRank(mine){
 function renderProfile(message=""){
   const el=document.getElementById("profileContent");
   if(currentUser){
-    const mine=cars.filter(c=>c.owner===currentUser.id);
+    const mine=cars.filter(c=>c.owner===currentUser.id || c.user_id===currentUser.id);
     const totalViews = mine.reduce((sum, c) => sum + Number(c.views || 0), 0);
     const promoCount = mine.filter(c => c.vip || c.premium).length;
     const rankLabel = getSellerRank(mine);
@@ -1961,13 +1972,13 @@ function renderProfile(message=""){
         <button class="active" onclick="renderProfile()">Mənim elanlarım (${mine.length})</button>
         <button onclick="renderNotifications()">Bildirişlər</button>
       </div>
-      ${mine.length?mine.map(c=>`<div class="detail-item" style="display:flex;justify-content:space-between;gap:8px;align-items:center;margin:8px 0"><span><b>${escapeHTML(c.brand)} ${escapeHTML(c.model)}</b><br>${money(c)} · ${c.year}</span><span><button class="btn white-btn" onclick="editCar('${c.id}')">Redaktə</button> <button class="btn red" onclick="deleteCar('${c.id}')">Sil</button></span></div>`).join(""):"Hələ elanınız yoxdur."}
+      ${mine.length?mine.map(c=>`<div class="detail-item" style="display:flex;justify-content:space-between;gap:8px;align-items:center;margin:8px 0"><span><b>${escapeHTML(c.brand)} ${escapeHTML(c.model)}</b><br>${money(c)} · ${c.year}</span><span><button class="btn white-btn" onclick="editCar('${escapeHTML(c.id)}')">Redaktə</button> <button class="btn red" onclick="deleteCar('${escapeHTML(c.id)}')">Sil</button></span></div>`).join(""):"Hələ elanınız yoxdur."}
       <button class="btn logout-btn" onclick="signOut()">🚪 Hesabdan çıx</button>
     `;
     return;
   }
 
-  const localCars = cars.filter(c=>c.owner==="local-user");
+  const localCars = cars.filter(c=>c.owner==="local-user" || !c.user_id);
   el.innerHTML=`
     ${message?'<p class="notice">'+escapeHTML(message)+'</p>':""}
     <p>Telefon nömrəsi və şifrə ilə daxil ol və ya qeydiyyatdan keç</p>
@@ -1978,7 +1989,7 @@ function renderProfile(message=""){
       <button class="btn red" onclick="signInWithPassword()">Daxil ol</button>
       <button class="btn navy-btn" onclick="signUpWithPassword()">✨ Qeydiyyatdan keç</button>
     </div>
-    ${localCars.length ? `<hr style="margin:20px 0;border:0;border-top:1px solid #eee"><h3>Yerləşdirilən elanlar (${localCars.length})</h3>` + localCars.map(c=>`<div class="detail-item" style="display:flex;justify-content:space-between;gap:8px;align-items:center;margin:8px 0"><span><b>${escapeHTML(c.brand)} ${escapeHTML(c.model)}</b><br>${money(c)} · ${c.year}</span><span><button class="btn white-btn" onclick="editCar('${c.id}')">Redaktə</button> <button class="btn red" onclick="deleteCar('${c.id}')">Sil</button></span></div>`).join("") : ""}
+    ${localCars.length ? `<hr style="margin:20px 0;border:0;border-top:1px solid #eee"><h3>Yerləşdirilən elanlar (${localCars.length})</h3>` + localCars.map(c=>`<div class="detail-item" style="display:flex;justify-content:space-between;gap:8px;align-items:center;margin:8px 0"><span><b>${escapeHTML(c.brand)} ${escapeHTML(c.model)}</b><br>${money(c)} · ${c.year}</span><span><button class="btn white-btn" onclick="editCar('${escapeHTML(c.id)}')">Redaktə</button> <button class="btn red" onclick="deleteCar('${escapeHTML(c.id)}')">Sil</button></span></div>`).join("") : ""}
   `;
 }
 
@@ -2002,6 +2013,7 @@ async function signUpWithPassword(){
     currentUser={id:data.user.id,name:data.user.user_metadata?.name||name,phone:data.user.user_metadata?.phone||phone,email:data.user.email};
     await loadData();
     renderCars();
+    renderVideos();
     renderProfile("Qeydiyyat tamamlandı və hesaba daxil oldunuz.");
   }else{
     renderProfile("Qeydiyyat sorğusu göndərildi. İndi Daxil ol düyməsinə basın.");
@@ -2027,6 +2039,7 @@ async function signInWithPassword(){
   };
   await loadData();
   renderCars();
+  renderVideos();
   renderProfile();
   alert("Hesaba uğurla daxil oldunuz.");
 }
