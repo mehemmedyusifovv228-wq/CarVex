@@ -1017,28 +1017,44 @@ async function loadData(){
   likedVideos = JSON.parse(localStorage.getItem("carvexLikedVideos") || "[]");
   messages = JSON.parse(localStorage.getItem("carvexMessages") || "[]");
 
-  if (supabaseClient) {
-    try {
-      const { data, error } = await supabaseClient
-        .from("cars")
-        .select("*");
-
-      if (error) {
-        console.error("Supabase oxuma xətası:", error);
-      } else if (Array.isArray(data)) {
-        cars = data.map(normalizeCar).sort((a, b) => b.date - a.date);
-        updatePromoStats();
-        return;
-      }
-    } catch (e) {
-      console.error("Supabase qoşulma xətası:", e);
+  try {
+    const cached = JSON.parse(localStorage.getItem("carvexCarsCache") || "[]");
+    if (Array.isArray(cached) && cached.length) {
+      cars = cached.map(normalizeCar);
+      updatePromoStats();
+      renderCars();
     }
+  } catch (e) {}
+
+  if (supabaseClient) {
+    for (let attempt = 1; attempt <= 2; attempt++) {
+      try {
+        const { data, error } = await supabaseClient
+          .from("cars")
+          .select("*")
+          .order("date", { ascending: false });
+
+        if (!error && Array.isArray(data)) {
+          cars = data.map(normalizeCar);
+          updatePromoStats();
+          try {
+            localStorage.setItem("carvexCarsCache", JSON.stringify(cars.slice(0, 30)));
+          } catch (e) {}
+          return;
+        }
+        console.warn(`Supabase cəhd ${attempt} uğursuz oldu:`, error);
+      } catch (e) {
+        console.warn(`Supabase qoşulma cəhdi ${attempt}:`, e);
+      }
+      await new Promise(r => setTimeout(r, 800));
+    }
+    if (cars.length) return;
   }
 
   try {
     cars = (await dbGetAll()).map(normalizeCar);
   } catch (e) {
-    cars = [];
+    if (!cars.length) cars = [];
     console.error(e);
   }
   updatePromoStats();
@@ -1333,7 +1349,7 @@ function renderCars(){
     return `
     <div class="car">
       <div class="car-image" data-car-id="${c.id}">
-        <img src="${imgSrc}" alt="Avtomobil" onclick='openLightbox("${imgSrc}", ${JSON.stringify(photosList)})'>
+        <img src="${imgSrc}" loading="lazy" decoding="async" alt="Avtomobil" onclick='openLightbox("${imgSrc}", ${JSON.stringify(photosList)})'>
         ${photosList.length > 1 ? `
           <button type="button" class="slide-btn prev" onclick="slideCardPhoto(event,'${c.id}',-1)" aria-label="Əvvəlki şəkil">‹</button>
           <button type="button" class="slide-btn next" onclick="slideCardPhoto(event,'${c.id}',1)" aria-label="Növbəti şəkil">›</button>
