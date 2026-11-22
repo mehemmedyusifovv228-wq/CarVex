@@ -81,7 +81,6 @@ header{
 .logout-btn{background:#fff1f3;color:#e11d48;border:1px solid #fecdd3;width:100%;margin-top:12px}
 .logout-btn:hover{background:#ffe4e8}
 
-/* ŞƏXSİ KABİNET KREATİV KART */
 .profile-hero-card{
   background:linear-gradient(135deg,#0d1321 0%,#1b2c49 60%,#2c1938 100%);
   color:#fff;border-radius:16px;padding:16px;margin-bottom:14px;
@@ -107,7 +106,6 @@ header{
 .profile-stat-box strong{display:block;font-size:16px;color:#fff}
 .profile-stat-box span{font-size:10px;color:#cbd5e1}
 
-/* YIĞCAM HERO VƏ AÇILIB-BAĞLANAN FİLTR BÖLMƏSİ */
 .hero{
   position:relative;overflow:hidden;
   background:linear-gradient(125deg,#0d1321,#1b2c49 58%,#271936);
@@ -181,7 +179,6 @@ header{
 .car-image img{width:100%;height:100%;object-fit:cover;cursor:zoom-in;display:block;transition:transform .35s ease}
 .car:hover .car-image img{transform:scale(1.03)}
 
-/* Ana səhifədə kart üzərində sağ-sol oxlar görünməsin */
 .car .slide-btn{display:none!important}
 
 .photo-counter{
@@ -302,7 +299,6 @@ footer{background:linear-gradient(135deg,#0d1321,#162136);color:#cbd5e1;padding:
 .video-views{position:absolute;top:12px;left:12px;background:#0009;padding:6px 9px;border-radius:20px;font-size:12px}
 .video-play{position:absolute;right:12px;top:12px;border:0;border-radius:50%;background:#fff;color:#111;width:38px;height:38px}
 
-/* VİDEO KƏŞF ET (TİKTOK / REELS ŞAQULİ SÜRÜŞDÜRMƏ) */
 .explore-modal{display:none;position:fixed;inset:0;background:#070a12;z-index:1600;flex-direction:column;color:#fff}
 .explore-topbar{
   display:flex;align-items:center;justify-content:space-between;gap:10px;
@@ -367,7 +363,6 @@ footer{background:linear-gradient(135deg,#0d1321,#162136);color:#cbd5e1;padding:
 
 .mobile-bottom-nav, .floating-filter { display: none; }
 
-/* MOBİL VƏ PLANŞET: 2 SÜTUNLU DÜZÜLÜŞ */
 @media(max-width:850px){
   body{padding-bottom:92px}
   .cars,.similar-grid,.promo-tariffs{grid-template-columns:repeat(2,1fr);gap:12px}
@@ -401,7 +396,6 @@ footer{background:linear-gradient(135deg,#0d1321,#162136);color:#cbd5e1;padding:
   }
 }
 
-/* KİÇİK MOBİL EKRANLARDA DA 2 SÜTUN QALSIN */
 @media(max-width:550px){
   .top{padding:11px 12px}
   .logo{font-size:23px}
@@ -542,7 +536,6 @@ footer{background:linear-gradient(135deg,#0d1321,#162136);color:#cbd5e1;padding:
   <div class="video-strip" id="videoList"></div>
 </section>
 
-<!-- VİDEO KƏŞF ET (ŞAQULİ SÜRÜŞDÜRMƏLİ LENT) -->
 <div class="explore-modal" id="videoExploreModal">
   <div class="explore-topbar">
     <h3>🔥 Video Kəşf et <span class="muted" id="exploreCounter" style="color:#94a3b8;margin-left:6px"></span></h3>
@@ -597,7 +590,6 @@ footer{background:linear-gradient(135deg,#0d1321,#162136);color:#cbd5e1;padding:
 
 <button class="scroll-top-btn" id="scrollTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Yuxarı qalx" aria-label="Yuxarı qalx">↑</button>
 
-<!-- MÜQAYİSƏ MODALI -->
 <div class="modal" id="compareModal">
   <div class="modal-box">
     <div class="modal-head">
@@ -608,7 +600,6 @@ footer{background:linear-gradient(135deg,#0d1321,#162136);color:#cbd5e1;padding:
   </div>
 </div>
 
-<!-- ŞƏKİL GENİŞLƏNDİRMƏ (LIGHTBOX) -->
 <div class="lightbox" id="lightboxModal" onclick="closeLightbox(event)">
   <button class="close" onclick="closeLightbox()">×</button>
   <button class="lb-nav lb-prev" type="button" onclick="stepLightbox(-1)">‹</button>
@@ -616,7 +607,6 @@ footer{background:linear-gradient(135deg,#0d1321,#162136);color:#cbd5e1;padding:
   <button class="lb-nav lb-next" type="button" onclick="stepLightbox(1)">›</button>
 </div>
 
-<!-- KART İLƏ ÖDƏNİŞ MODALI (VIP 2 AZN / PREMIUM 5 AZN) -->
 <div class="modal" id="paymentModal">
   <div class="modal-box" style="max-width:480px">
     <div class="modal-head">
@@ -657,7 +647,6 @@ footer{background:linear-gradient(135deg,#0d1321,#162136);color:#cbd5e1;padding:
   </div>
 </div>
 
-<!-- ELAN FORMU -->
 <div class="modal" id="formModal">
   <div class="modal-box">
     <div class="modal-head">
@@ -707,7 +696,6 @@ footer{background:linear-gradient(135deg,#0d1321,#162136);color:#cbd5e1;padding:
   </div>
 </div>
 
-<!-- DETAL -->
 <div class="modal" id="detailModal">
   <div class="modal-box">
     <div class="modal-head">
@@ -718,7 +706,6 @@ footer{background:linear-gradient(135deg,#0d1321,#162136);color:#cbd5e1;padding:
   </div>
 </div>
 
-<!-- HESAB -->
 <div class="modal" id="profileModal">
   <div class="modal-box">
     <div class="modal-head">
@@ -729,7 +716,6 @@ footer{background:linear-gradient(135deg,#0d1321,#162136);color:#cbd5e1;padding:
   </div>
 </div>
 
-<!-- VIDEO -->
 <div class="modal" id="videoModal">
   <div class="modal-box">
     <div class="modal-head">
@@ -740,7 +726,6 @@ footer{background:linear-gradient(135deg,#0d1321,#162136);color:#cbd5e1;padding:
   </div>
 </div>
 
-<!-- MESAJLAR PƏNCƏRƏSİ -->
 <div class="modal" id="messagesModal">
   <div class="modal-box">
     <div class="modal-head">
@@ -756,7 +741,6 @@ footer{background:linear-gradient(135deg,#0d1321,#162136);color:#cbd5e1;padding:
   </div>
 </div>
 
-<!-- CARVEX ALT MENYU -->
 <nav class="mobile-bottom-nav">
   <button class="active" onclick="goHome()">
     <span class="bottom-icon">⌂</span>
@@ -828,6 +812,19 @@ let paidPackages = { vip: false, premium: false };
 let pendingPaymentTier = null;
 let exploreItems = [], activeExploreIdx = 0, exploreScrollTimer = null;
 const DB_NAME="CarVexDB", STORE="cars";
+
+function safeParseJsonArray(val, fallback = []){
+  if(Array.isArray(val)) return val;
+  if(typeof val === "string"){
+    try {
+      const parsed = JSON.parse(val);
+      return Array.isArray(parsed) ? parsed : fallback;
+    } catch {
+      return val ? [val] : fallback;
+    }
+  }
+  return fallback;
+}
 
 window.addEventListener("scroll", () => {
   const h = document.documentElement;
@@ -981,7 +978,10 @@ async function dbDelete(id){
 
 function normalizeCar(row){
   const price = Number(row.price || 0);
-  const history = Array.isArray(row.priceHistory) ? row.priceHistory : [{ date: new Date(Number(row.date || Date.now())).toLocaleDateString("az-AZ"), price, currency: row.currency || "AZN" }];
+  const parsedHistory = safeParseJsonArray(row.priceHistory, null);
+  const history = parsedHistory && parsedHistory.length
+    ? parsedHistory
+    : [{ date: new Date(Number(row.date || Date.now())).toLocaleDateString("az-AZ"), price, currency: row.currency || "AZN" }];
   return {
     ...row,
     id: String(row.id),
@@ -996,8 +996,8 @@ function normalizeCar(row){
     premium: Boolean(row.premium),
     priceHistory: history,
     sellerType: row.seller_type ?? row.sellerType ?? "Şəxsi",
-    photos: Array.isArray(row.photos) ? row.photos : (typeof row.photos === "string" && row.photos.startsWith("[") ? JSON.parse(row.photos) : (row.photos ? [row.photos] : [])),
-    equipment: Array.isArray(row.equipment) ? row.equipment : (typeof row.equipment === "string" && row.equipment.startsWith("[") ? JSON.parse(row.equipment) : []),
+    photos: safeParseJsonArray(row.photos, []),
+    equipment: safeParseJsonArray(row.equipment, []),
     date: Number(row.date || (row.created_at ? new Date(row.created_at).getTime() : Date.now())),
     views: Number(row.views || 0),
     likes: Number(row.likes || 0)
@@ -1422,17 +1422,11 @@ function calcLoan(baseAznPrice){
   out.innerHTML = `Kredit məbləği: <b>${principal.toLocaleString("az-AZ")} AZN</b> · Təxmini aylıq ödəniş (${months} ay): <b style="color:var(--red)">${monthly.toLocaleString("az-AZ")} AZN / ay</b>`;
 }
 
-async function showDetails(id){
+function showDetails(id){
   const c=cars.find(x=>x.id===id);
   if(!c)return;
-  c.views = Number(c.views || 0) + 1;
-  if (supabaseClient) {
-    supabaseClient.from("cars").update({ views: c.views }).eq("id", c.id).then(()=>{});
-  } else {
-    dbPut(c).catch(()=>{});
-  }
-  renderCars();
 
+  // Modalı və məzmunu dərhal aç ki, gözləmə hiss olunmasın
   detailPhotosList = (c.photos && c.photos.length) ? c.photos : [FALLBACK_CAR_IMG];
   detailPhotoIdx = 0;
   const mainPhoto = detailPhotosList[0] || FALLBACK_CAR_IMG;
@@ -1446,18 +1440,18 @@ async function showDetails(id){
 
   document.getElementById("detailContent").innerHTML=`
     <div class="detail-image-wrap">
-      <img id="detailMainImg" class="detail-image" src="${mainPhoto}" onclick='openLightbox(this.src, detailPhotosList)'>
+      <img id="detailMainImg" class="detail-image" src="${mainPhoto}" fetchpriority="high" decoding="sync" onclick='openLightbox(this.src, detailPhotosList)'>
       ${detailPhotosList.length > 1 ? `
         <button type="button" class="detail-nav-btn prev" onclick="setDetailPhoto(detailPhotoIdx - 1)" aria-label="Əvvəlki şəkil">‹</button>
         <button type="button" class="detail-nav-btn next" onclick="setDetailPhoto(detailPhotoIdx + 1)" aria-label="Növbəti şəkil">›</button>
       ` : ""}
     </div>
-    <div class="detail-gallery" id="detailThumbs">${detailPhotosList.map((x,i)=>'<img src="'+x+'" class="'+(i===0?'active-thumb':'')+'" alt="Avtomobil şəkli" onclick="setDetailPhoto('+i+')">').join("")}</div>
+    <div class="detail-gallery" id="detailThumbs">${detailPhotosList.map((x,i)=>'<img src="'+x+'" decoding="async" class="'+(i===0?'active-thumb':'')+'" alt="Avtomobil şəkli" onclick="setDetailPhoto('+i+')">').join("")}</div>
     <h2>${escapeHTML(c.brand)} ${escapeHTML(c.model)}</h2>
     <h2 style="color:#ff3b5c;margin-bottom:4px">${money(c)} ${c.premium?"· ⭐ Premium (5 AZN)":""} ${c.vip?"· 👑 VIP (2 AZN)":""} ${c.barter?"· 🔄 Barter":""} ${c.credit?`· % Kredit${c.creditRate?" ("+escapeHTML(c.creditRate)+"%)":""}`:""}</h2>
     ${eqText ? `<div class="azn-eq" style="font-size:14px;margin-bottom:12px">${eqText}</div>` : ""}
     <div class="detail-list">
-      ${[["Elan nömrəsi","#"+c.listingNo],["Baxış sayı",c.views],["Buraxılış ili",c.year],["Yürüş",c.mileage+" km"],["Rəng",c.color],["Sürətlər qutusu",c.gear],["Ötürücü",c.drive],["Mühərrik",c.engine||"-"],["Yanacaq",c.fuel],["Yerlərin sayı",c.seats||"-"],["Vəziyyət",c.condition||"-"],["İstehsalçı ölkə",c.country||"-"],["At gücü",c.horsepower||"-"],["Şəhər",c.city],["Telefon",c.phone]].map(([a,b])=>'<div class="detail-item"><b>'+a+':</b> '+escapeHTML(b)+'</div>').join("")}
+      ${[["Elan nömrəsi","#"+c.listingNo],["Baxış sayı",Number(c.views||0) + 1],["Buraxılış ili",c.year],["Yürüş",c.mileage+" km"],["Rəng",c.color],["Sürətlər qutusu",c.gear],["Ötürücü",c.drive],["Mühərrik",c.engine||"-"],["Yanacaq",c.fuel],["Yerlərin sayı",c.seats||"-"],["Vəziyyət",c.condition||"-"],["İstehsalçı ölkə",c.country||"-"],["At gücü",c.horsepower||"-"],["Şəhər",c.city],["Telefon",c.phone]].map(([a,b])=>'<div class="detail-item"><b>'+a+':</b> '+escapeHTML(b)+'</div>').join("")}
     </div>
     <h3>Təxmini kredit kalkulyatoru</h3>
     <div class="loan-box">
@@ -1483,7 +1477,7 @@ async function showDetails(id){
     <div class="similar-grid">
       ${similar.length ? similar.map(s=>`
         <div class="similar-card" onclick="closeDetails();showDetails('${s.id}')">
-          <img src="${s.photos?.[0]||FALLBACK_CAR_IMG}" alt="">
+          <img src="${s.photos?.[0]||FALLBACK_CAR_IMG}" loading="lazy" alt="">
           <div style="font-weight:bold;margin-top:6px;font-size:13px">${escapeHTML(s.brand)} ${escapeHTML(s.model)}</div>
           <div style="color:#ff3b5c;font-weight:bold;font-size:12px">${money(s)}</div>
           ${aznEquivalent(s)?`<div class="muted" style="font-size:10px">${aznEquivalent(s)}</div>`:""}
@@ -1494,6 +1488,15 @@ async function showDetails(id){
   `;
   calcLoan(baseAzn);
   document.getElementById("detailModal").style.display="flex";
+
+  // Baxış sayını arxa planda yenilə
+  c.views = Number(c.views || 0) + 1;
+  if (supabaseClient) {
+    supabaseClient.from("cars").update({ views: c.views }).eq("id", c.id).then(()=>{});
+  } else {
+    dbPut(c).catch(()=>{});
+  }
+  renderCars();
 }
 
 function messageSeller(id){
@@ -1516,7 +1519,7 @@ function renderVideos(){
     el.innerHTML='<div class="empty" style="min-width:100%">Hələ video elanı yoxdur. Elan yerləşdirərkən avtomobil videosu əlavə edə bilərsiniz.</div>';
     return;
   }
-  el.innerHTML=visible.map((c, idx)=>{
+  el.innerHTML=visible.map(c=>{
     const thumb = c.photos?.[0] || FALLBACK_CAR_IMG;
     const safeVideo = String(c.video || "").includes("#") ? c.video : `${c.video}#t=0.5`;
     const isLiked = likedVideos.includes(c.id);
@@ -1756,12 +1759,12 @@ document.getElementById("carForm").addEventListener("submit",async e=>{
   if(videoFile&&videoFile.size>15*1024*1024){alert("Video maksimum 15 MB olmalıdır. Daha kiçik fayl seçin.");return;}
 
   const old=editingId?cars.find(x=>x.id===editingId):null;
+  const isUpdate=!!editingId;
   const btn=document.getElementById("submitCar");
   btn.disabled=true;
   btn.textContent="Bazaya yüklənir...";
 
   try{
-    const isUpdate=!!editingId;
     const photos=photoFiles.length?await Promise.all(photoFiles.map(f=>compressImage(f))):(old?.photos||[]);
     const video=videoFile?await fileToData(videoFile):(old?.video||"");
     const newPrice = Number(val("price"));
@@ -1853,7 +1856,7 @@ document.getElementById("carForm").addEventListener("submit",async e=>{
     alert("Xəta baş verdi: " + (err?.message || "Yadda saxlamaq mümkün olmadı."));
   }finally{
     btn.disabled=false;
-    btn.textContent="Elanı yerləşdir";
+    btn.textContent=isUpdate?"Dəyişiklikləri yadda saxla":"Elanı yerləşdir";
   }
 });
 
