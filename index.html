@@ -1841,7 +1841,7 @@ document.getElementById("carForm").addEventListener("submit",async e=>{
       video: video,
       video_url: video || null,
       equipment: Array.from(document.querySelectorAll('input[name="equipment"]:checked')).map(x=>x.value),
-      owner: currentUser?.id || "local-user",
+      owner: currentUser?.id || null,
       date: old?.date || Date.now(),
       views: old?.views || 0
     };
@@ -1978,7 +1978,6 @@ function renderProfile(message=""){
     return;
   }
 
-  const localCars = cars.filter(c=>c.owner==="local-user" || !c.user_id);
   el.innerHTML=`
     ${message?'<p class="notice">'+escapeHTML(message)+'</p>':""}
     <p>Telefon nömrəsi və şifrə ilə daxil ol və ya qeydiyyatdan keç</p>
@@ -1989,7 +1988,6 @@ function renderProfile(message=""){
       <button class="btn red" onclick="signInWithPassword()">Daxil ol</button>
       <button class="btn navy-btn" onclick="signUpWithPassword()">✨ Qeydiyyatdan keç</button>
     </div>
-    ${localCars.length ? `<hr style="margin:20px 0;border:0;border-top:1px solid #eee"><h3>Yerləşdirilən elanlar (${localCars.length})</h3>` + localCars.map(c=>`<div class="detail-item" style="display:flex;justify-content:space-between;gap:8px;align-items:center;margin:8px 0"><span><b>${escapeHTML(c.brand)} ${escapeHTML(c.model)}</b><br>${money(c)} · ${c.year}</span><span><button class="btn white-btn" onclick="editCar('${escapeHTML(c.id)}')">Redaktə</button> <button class="btn red" onclick="deleteCar('${escapeHTML(c.id)}')">Sil</button></span></div>`).join("") : ""}
   `;
 }
 
