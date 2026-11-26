@@ -400,6 +400,16 @@ header{
 
 footer{background:linear-gradient(135deg,#0d1321,#162136);color:#cbd5e1;padding:34px 20px;margin-top:48px}
 .footer-inner{max-width:1250px;margin:auto}footer a{color:#fff}
+.footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:22px;margin-top:16px}
+.footer-card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.09);border-radius:14px;padding:16px;font-size:13px;line-height:1.6}
+.footer-card h4{margin:0 0 10px;color:#fff;font-size:15px}
+.legal-links{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.legal-link-btn{background:rgba(255,255,255,0.08);color:#fff;border:1px solid rgba(255,255,255,0.16);border-radius:9px;padding:8px 12px;font-size:12px;font-weight:700}
+.legal-link-btn:hover{background:rgba(255,255,255,0.16)}
+.security-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(56,189,248,0.14);border:1px solid rgba(56,189,248,0.35);color:#bae6fd;padding:6px 11px;border-radius:999px;font-size:12px;font-weight:700;margin-top:10px}
+.legal-modal-body{font-size:14px;line-height:1.7;color:#1b2432}
+.legal-modal-body h3{margin:16px 0 6px;font-size:16px;color:#0d1321}
+.legal-modal-body ul{margin:6px 0 12px;padding-left:20px}
 
 .video-strip{display:flex;gap:15px;overflow-x:auto;padding:2px 1px 12px;scroll-snap-type:x mandatory}
 .video-card{position:relative;flex:0 0 260px;height:330px;border-radius:18px;overflow:hidden;background:#172235;scroll-snap-align:start;color:#fff;cursor:pointer;box-shadow:0 10px 24px rgba(13,19,33,.14)}
@@ -478,6 +488,7 @@ footer{background:linear-gradient(135deg,#0d1321,#162136);color:#cbd5e1;padding:
 @media(max-width:850px){
   body{padding-bottom:92px}
   .cars,.similar-grid,.promo-tariffs{grid-template-columns:repeat(2,1fr);gap:12px}
+  .footer-grid{grid-template-columns:1fr}
   .filters{grid-template-columns:repeat(2,1fr)}
   .nav{display:none}
   .scroll-top-btn{display:none!important}
@@ -702,11 +713,48 @@ footer{background:linear-gradient(135deg,#0d1321,#162136);color:#cbd5e1;padding:
       <div class="animated-logo" aria-hidden="true">🚗</div>
       <div class="logo">Car<span>Vex</span></div>
     </div>
-    <p>Avtomobil alışı və satışının yeni ünvanı.</p>
-    <p>© 2026 CarVex. Bütün hüquqlar qorunur.</p>
-    <p>Əlaqə: <a href="mailto:info@carvex.az">info@carvex.az</a></p>
+    <p>Avtomobil alışı və satışının yeni ünvanı · Domen: <b>carvex.com.az</b></p>
+    <div class="security-badge">🔒 Təhlükəsiz Sayt · SSL (HTTPS) Qorunması və Rəsmi Kart Ödənişi</div>
+
+    <div class="footer-grid">
+      <div class="footer-card">
+        <h4>Müəllif hüquqları və sahiblik</h4>
+        <p style="margin:0 0 8px">© 2026 <b>CarVex (carvex.com.az)</b>. Bütün hüquqlar qorunur.</p>
+        <p style="margin:0 0 8px">Platformanın yaradıcısı və rəsmi sahibi: <b>Məhəmməd Yusifov</b>.</p>
+        <p style="margin:0;color:#94a3b8;font-size:12px">Saytın dizaynı, kodu, loqosu və materialları müəllif hüququ ilə qorunur; icazəsiz kopyalanması və ya kommersiya məqsədilə istifadəsi qadağandır.</p>
+      </div>
+
+      <div class="footer-card">
+        <h4>Təhlükəsizlik və ödəniş qorunması</h4>
+        <p style="margin:0 0 8px"><b>Təhlükəsiz sayt:</b> Sayt SSL/TLS şifrələmə (`https://`) ilə qorunur və istifadəçi məlumatlarının təhlükəsizliyi təmin olunur.</p>
+        <p style="margin:0 0 8px"><b>Kart məlumatları:</b> Bank kartı nömrələri, CVV və digər ödəniş məlumatları CarVex serverlərində saxlanılmır; ödənişlər qorunan prosessinq kanalı ilə həyata keçirilir.</p>
+        <div style="font-size:12px;font-weight:700;color:#e2e8f0">💳 Dəstəklənən kartlar: VISA · MASTERCARD (AZN)</div>
+      </div>
+
+      <div class="footer-card">
+        <h4>Hüquqi sənədlər və rekvizitlər</h4>
+        <p style="margin:0 0 6px"><b>Sahibkar / Müəllif:</b> Məhəmməd Yusifov</p>
+        <p style="margin:0 0 6px"><b>VÖEN:</b> (VÖEN təsdiqləndikdən sonra əlavə ediləcək)</p>
+        <p style="margin:0 0 6px"><b>Əlaqə:</b> <a href="mailto:info@carvex.az">info@carvex.az</a></p>
+        <div class="legal-links">
+          <button type="button" class="legal-link-btn" onclick="openLegalModal('terms')">A) İstifadəçi razılaşması</button>
+          <button type="button" class="legal-link-btn" onclick="openLegalModal('privacy')">B) Məxfilik siyasəti</button>
+          <button type="button" class="legal-link-btn" onclick="openLegalModal('refund')">C) Geri qaytarma şərtləri</button>
+        </div>
+      </div>
+    </div>
   </div>
 </footer>
+
+<div class="modal" id="legalModal">
+  <div class="modal-box" style="max-width:720px">
+    <div class="modal-head">
+      <h2 id="legalModalTitle">Hüquqi sənəd</h2>
+      <button class="close" onclick="closeLegalModal()">×</button>
+    </div>
+    <div class="legal-modal-body" id="legalModalBody"></div>
+  </div>
+</div>
 
 <button class="scroll-top-btn" id="scrollTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Yuxarı qalx" aria-label="Yuxarı qalx">↑</button>
 
@@ -924,6 +972,60 @@ const COUNTRIES=["Almaniya","ABŞ","Azərbaycan","Böyük Britaniya","Çin","Cə
 const EQUIPMENT=["360° kamera","ABS","Arxa kamera görüntüsü","Dəri salon","Kondisioner","Lyuk","Head-up displey","Ksenon lampalar","Mərkəzi kilidləmə","Oturacaqların isidilməsi","Oturacaqların ventilyasiyası","Park radarı","Yan pərdələr","Start-Stop","Yağış sensoru","İşıq sensoru","Yüngül lehimli disklər","Ön kamera görüntüsü","Adaptiv kruiz-kontrol","Apple CarPlay","Android Auto","Bluetooth","Naviqasiya","Panoramik dam","Elektrik oturacaqlar","Açarsız giriş","Elektrik baqaj qapısı","Kor zona nəzarəti"];
 
 const AZN_RATES = { AZN: 1, USD: 1.70, EUR: 1.85 };
+
+const LEGAL_DOCS = {
+  terms: {
+    title: "A) İstifadəçi Razılaşması – CarVex (carvex.com.az)",
+    html: `
+      <h3>1. Ümumi müddəalar</h3>
+      <p>CarVex platforması (bundan sonra "Platforma") avtomobil alqı-satqısı elanlarının yerləşdirilməsi və axtarışı üçün nəzərdə tutulmuş onlayn xidmətdir. Platformadan istifadə edən hər bir şəxs bu razılaşmanın şərtlərini qəbul etmiş sayılır.</p>
+      <h3>2. Elanların yerləşdirilməsi</h3>
+      <p>İstifadəçi yerləşdirdiyi elandakı məlumatların, şəkillərin və qiymətin doğruluğuna görə şəxsən məsuliyyət daşıyır. Yanlış, təkrar və ya qanunvericiliyə zidd elanlar administrasiya tərəfindən silinə bilər.</p>
+      <h3>3. Ödənişli xidmətlər (VIP və Premium)</h3>
+      <ul>
+        <li><b>VIP elan (2.00 AZN):</b> Elanın əsas siyahıda önə çəkilməsi və VIP bölməsində göstərilməsi.</li>
+        <li><b>Premium elan (5.00 AZN):</b> Elanın saytın ən üst hissəsində prioritet qaydada nümayiş etdirilməsi.</li>
+      </ul>
+      <p>Ödəniş təsdiqləndikdən sonra seçilmiş xidmət elana avtomatik tətbiq olunur.</p>
+      <h3>4. Məsuliyyətin məhdudlaşdırılması</h3>
+      <p>Platforma alıcı və satıcı arasında bağlanan alqı-satqı əməliyyatlarının tərəfi deyil və avtomobillərin texniki vəziyyətinə görə məsuliyyət daşımır.</p>
+    `
+  },
+  privacy: {
+    title: "B) Məxfilik Siyasəti – CarVex (carvex.com.az)",
+    html: `
+      <h3>1. Toplanan məlumatlar</h3>
+      <p>Qeydiyyat və elan yerləşdirilməsi zamanı istifadəçinin adı, telefon nömrəsi, e-poçt ünvanı və elana aid media faylları toplanır.</p>
+      <h3>2. Bank kartı məlumatlarının təhlükəsizliyi</h3>
+      <p>CarVex istifadəçilərin bank kartı nömrələrini, CVV kodlarını və digər ödəniş rekvizitlərini öz serverlərində saxlamır. Bütün kart əməliyyatları rəsmi lisenziyalı ödəniş prosessinq mərkəzinin qorunan səhifəsi üzərindən həyata keçirilir.</p>
+      <h3>3. Məlumatların istifadəsi</h3>
+      <p>Toplanan əlaqə məlumatları yalnız elanların dərc edilməsi, alıcıların satıcı ilə əlaqə saxlaması və texniki dəstək məqsədilə istifadə olunur, üçüncü şəxslərə satılmır.</p>
+    `
+  },
+  refund: {
+    title: "C) Ödəniş və Geri Qaytarma Şərtləri",
+    html: `
+      <h3>1. Ödəniş üsulları</h3>
+      <p>Xidmətlərin haqqı Visa və Mastercard bank kartları vasitəsilə onlayn şəkildə ödənilir. Bütün qiymətlər Azərbaycan manatı (AZN) ilə göstərilmişdir.</p>
+      <h3>2. Xidmətin aktivləşdirilməsi</h3>
+      <p>Ödəniş uğurla tamamlandıqdan dərhal sonra müvafiq VIP (2.00 AZN) və ya Premium (5.00 AZN) statusu elana avtomatik tətbiq edilir.</p>
+      <h3>3. Geri qaytarma (Refund)</h3>
+      <p>Rəqəmsal xidmət (VIP/Premium statusu) elana tətbiq edildikdən sonra ödənilmiş məbləğ geri qaytarılmır. Texniki nasazlıq səbəbindən xidmət aktivləşməzsə, ödəniş çekini təqdim etməklə 3 iş günü ərzində məbləğin geri qaytarılması və ya xidmətin aktivləşdirilməsi üçün dəstək xidmətinə müraciət edə bilərsiniz.</p>
+    `
+  }
+};
+
+function openLegalModal(key){
+  const doc = LEGAL_DOCS[key];
+  if(!doc) return;
+  document.getElementById("legalModalTitle").textContent = doc.title;
+  document.getElementById("legalModalBody").innerHTML = doc.html;
+  document.getElementById("legalModal").style.display = "flex";
+}
+
+function closeLegalModal(){
+  document.getElementById("legalModal").style.display = "none";
+}
 
 let cars=[], favorites=[], likedVideos=[], compareIds=[], messages=[], cardPhotoIndex={}, favoriteOnly=false, currentUser=null, editingId=null, showingAllVideos=false;
 let lightboxPhotos=[], lightboxIdx=0;
