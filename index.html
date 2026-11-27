@@ -79,11 +79,27 @@ header{
   0%,100%{transform:translateX(-50%) rotate(-5deg) scale(1)}
   50%{transform:translateX(-50%) rotate(5deg) scale(1.08)}
 }
+@keyframes vexMove{
+  0%,100%{transform:translateX(0) translateY(0) scale(1);filter:drop-shadow(0 0 0 rgba(255,59,92,0))}
+  50%{transform:translateX(3px) translateY(-1.5px) scale(1.04);filter:drop-shadow(0 2px 8px rgba(255,59,92,0.45))}
+}
+@keyframes carBadgePulse{
+  0%,100%{transform:scale(1)}
+  50%{transform:scale(1.05)}
+}
 
 .cv-creative-brand{
   display:inline-flex;align-items:center;gap:8px;
   font-weight:900;letter-spacing:.2px;line-height:1.1;
   user-select:none;
+}
+.cv-car-icon-badge{
+  display:inline-flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,#ff3b5c,#ff6b6b);
+  color:#fff;
+  box-shadow:0 4px 12px rgba(255,59,92,.35);
+  flex:none;
+  animation:carBadgePulse 2.4s ease-in-out infinite;
 }
 .cv-year-2027{
   display:inline-flex;align-items:center;gap:4px;
@@ -101,8 +117,10 @@ header{
   font-size:28px;font-weight:900;color:#fff;
 }
 .cv-wordmark .cv-vex{
+  display:inline-block;
   background:linear-gradient(90deg,var(--red),var(--red-2));
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  animation:vexMove 2s ease-in-out infinite;
 }
 .cv-x-holder{
   position:relative;display:inline-block;
@@ -1078,6 +1096,24 @@ if (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase) {
   supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 }
 
+/* Görsəldəki kırmızı/mercan araba loqosu — CarVex yazısının önündə */
+function getCarBadgeSVG(badgeSize = 38, iconSize = 20){
+  const radius = Math.max(8, Math.round(badgeSize * 0.28));
+  return `
+    <span class="cv-car-icon-badge" style="width:${badgeSize}px;height:${badgeSize}px;border-radius:${radius}px" aria-hidden="true">
+      <svg width="${iconSize}" height="${iconSize}" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M5.2 11.2L6.6 7.4C6.9 6.6 7.7 6 8.6 6H15.4C16.3 6 17.1 6.6 17.4 7.4L18.8 11.2" stroke="#ffffff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M3.5 12.2C3.5 11.5 4.1 11 4.8 11H19.2C19.9 11 20.5 11.5 20.5 12.2V16.2C20.5 16.9 19.9 17.5 19.2 17.5H17.8" stroke="#ffffff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M6.2 17.5H14.2" stroke="#ffffff" stroke-width="1.9" stroke-linecap="round"/>
+        <circle cx="6.8" cy="17.6" r="1.9" fill="#ffffff"/>
+        <circle cx="16.2" cy="17.6" r="1.9" fill="#ffffff"/>
+        <circle cx="6.8" cy="17.6" r="0.7" fill="#ff3b5c"/>
+        <circle cx="16.2" cy="17.6" r="0.7" fill="#ff3b5c"/>
+      </svg>
+    </span>
+  `;
+}
+
 /* Yaşıl yolka SVG — "x" hərfinin tam üstündə dayanır */
 const PINE_TREE_SVG = `
 <svg class="cv-x-tree" viewBox="0 0 32 38" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -1097,12 +1133,15 @@ function renderCreativeBrandLogo(opts = {}){
   const yearFontPx = opts.yearFontPx || Math.max(11, Math.round(sizePx * 0.46));
   const treeW = Math.max(16, Math.round(sizePx * 0.78));
   const treeH = Math.max(20, Math.round(sizePx * 0.92));
+  const badgeSize = opts.badgeSize || Math.max(22, Math.round(sizePx * 1.32));
+  const iconSize = Math.max(13, Math.round(badgeSize * 0.54));
 
   return `
     <span class="cv-creative-brand">
       <span class="cv-year-2027" style="font-size:${yearFontPx}px">2027</span>
+      ${getCarBadgeSVG(badgeSize, iconSize)}
       <span class="cv-wordmark" style="font-size:${sizePx}px">
-        <span>CarVe</span><span class="cv-x-holder">x${PINE_TREE_SVG.replace('class="cv-x-tree"', `class="cv-x-tree" style="width:${treeW}px;height:${treeH}px"`)}</span>
+        <span>Car</span><span class="cv-vex">Ve</span><span class="cv-x-holder"><span class="cv-vex">x</span>${PINE_TREE_SVG.replace('class="cv-x-tree"', `class="cv-x-tree" style="width:${treeW}px;height:${treeH}px"`)}</span>
       </span>
     </span>
   `;
@@ -1110,9 +1149,9 @@ function renderCreativeBrandLogo(opts = {}){
 
 function mountCreativeBrands(){
   const headerSlot = document.getElementById("headerBrandSlot");
-  if(headerSlot) headerSlot.innerHTML = renderCreativeBrandLogo({ sizePx: 28, yearFontPx: 13 });
+  if(headerSlot) headerSlot.innerHTML = renderCreativeBrandLogo({ sizePx: 28, yearFontPx: 13, badgeSize: 38 });
   const footerSlot = document.getElementById("footerBrandSlot");
-  if(footerSlot) footerSlot.innerHTML = renderCreativeBrandLogo({ sizePx: 26, yearFontPx: 12 });
+  if(footerSlot) footerSlot.innerHTML = renderCreativeBrandLogo({ sizePx: 26, yearFontPx: 12, badgeSize: 36 });
 }
 
 const BRANDS=["Khazar","Saipa","Acura","Aion","Aixam","Alfa Romeo","Alpina","Aston Martin","Aurus","Audi","Avatr","BAIC","Baojun","Bentley","Bestune","BMW","Borgward","Brilliance","Bugatti","Buick","BYD","Cadillac","Changan","Chery","Chevrolet","Chrysler","Citroën","Cupra","Dacia","Daewoo","Daihatsu","Datsun","Deepal","Denza","Dodge","Dongfeng","DS Automobiles","FAW","Ferrari","Fiat","Fisker","Ford","Foton","GAC","Geely","Genesis","GMC","Great Wall","Haval","HiPhi","Honda","Hongqi","Hummer","Hyundai","Infiniti","Isuzu","JAC","Jaecoo","Jaguar","Jeep","Jetour","Jetta","Karma","KGM","Kia","Koenigsegg","Lada","Lamborghini","Lancia","Land Rover","Leapmotor","Lexus","Li Auto","Lincoln","Lotus","Lucid","Lynk & Co","Mahindra","Maruti Suzuki","Maserati","Maxus","Maybach","Mazda","McLaren","Mercedes-Benz","Mercury","MG","Mini","Mitsubishi","Mitsuoka","Neta","Nio","Nissan","Oldsmobile","Opel","Pagani","Perodua","Peugeot","Plymouth","Polestar","Pontiac","Porsche","Proton","RAM","Ravon","Renault","Rimac","Rivian","Rolls-Royce","Rover","Saab","Saleen","Saturn","Scion","Seat","Seres","Škoda","Smart","Soueast","SsangYong","Subaru","Suzuki","Tata","Tesla","Theon","Toyota","VinFast","Volkswagen","Volvo","Voyah","Wey","Wuling","Xiaomi","Xpeng","Yangwang","Zeekr","Zotye","ZAZ","АЗЛК (Moskvich)","ГАЗ","ЗИЛ","ЛуАЗ","Москвич","УАЗ","Chery Exeed","Evolute","Forthing","Ineos","INEOS Grenadier","Livan","Omoda","Onvo","Ora","Rox","Skywell","SWM","Togg","Vauxhall","Wiesmann"];
@@ -1222,7 +1261,7 @@ function renderLiveLogoStrip(){
     <div class="mini-logo-pill">
       <span class="spin-dot">⚡</span>
       <span class="mini-year-tag">2027</span>
-      <span>${renderCreativeBrandLogo({ sizePx: 14, yearFontPx: 10 })} · ${escapeHTML(text)}</span>
+      <span>${renderCreativeBrandLogo({ sizePx: 14, yearFontPx: 10, badgeSize: 20 })} · ${escapeHTML(text)}</span>
     </div>
   `).join("");
 }
@@ -1983,7 +2022,7 @@ function showDetails(id){
           </div>
           <div>
             <div class="creative-brand-title">
-              ${renderCreativeBrandLogo({ sizePx: 20, yearFontPx: 11 })} <span style="font-size:12px;font-weight:800;color:#cbd5e1;background:rgba(255,255,255,0.1);padding:3px 9px;border-radius:999px">ELAN #${escapeHTML(c.listingNo)}</span>
+              ${renderCreativeBrandLogo({ sizePx: 20, yearFontPx: 11, badgeSize: 28 })} <span style="font-size:12px;font-weight:800;color:#cbd5e1;background:rgba(255,255,255,0.1);padding:3px 9px;border-radius:999px">ELAN #${escapeHTML(c.listingNo)}</span>
             </div>
             <div style="font-size:12px;color:#cbd5e1;margin-top:3px">
               ${escapeHTML(headingTitle)} · ${escapeHTML(c.city || "Bakı")}
