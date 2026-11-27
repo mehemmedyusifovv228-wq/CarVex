@@ -52,17 +52,7 @@ header{
 }
 .top{max-width:1250px;margin:auto;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;gap:15px}
 .logo-wrap{display:flex;align-items:center;gap:10px}
-.animated-logo{
-  width:38px;height:38px;border-radius:12px;
-  background:linear-gradient(135deg,var(--red),var(--red-2));
-  display:flex;align-items:center;justify-content:center;font-size:18px;
-  animation:logoPulse 2.4s infinite ease-in-out;
-  box-shadow:0 6px 18px rgba(255,59,92,.35);
-}
-@keyframes logoPulse{
-  0%,100%{transform:translateY(0) scale(1)}
-  50%{transform:translateY(-2px) scale(1.06)}
-}
+
 @keyframes spinSlow{
   from{transform:rotate(0deg)}
   to{transform:rotate(360deg)}
@@ -76,9 +66,60 @@ header{
   0%,100%{transform:translateY(0px)}
   50%{transform:translateY(-4px)}
 }
+@keyframes rainbowShift{
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+@keyframes yearBounce{
+  0%,100%{transform:translateY(0) scale(1) rotate(-1.5deg)}
+  50%{transform:translateY(-3px) scale(1.06) rotate(1.5deg)}
+}
+@keyframes treeSway{
+  0%,100%{transform:translateX(-50%) rotate(-5deg) scale(1)}
+  50%{transform:translateX(-50%) rotate(5deg) scale(1.08)}
+}
 
-.logo{font-size:28px;font-weight:900;color:#fff;letter-spacing:.2px}
-.logo span{background:linear-gradient(90deg,var(--red),var(--red-2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.cv-creative-brand{
+  display:inline-flex;align-items:center;gap:8px;
+  font-weight:900;letter-spacing:.2px;line-height:1.1;
+  user-select:none;
+}
+.cv-year-2027{
+  display:inline-flex;align-items:center;gap:4px;
+  padding:4px 9px;border-radius:10px;
+  font-size:13px;font-weight:900;letter-spacing:.6px;
+  background:linear-gradient(120deg,#ff2a55,#ffae00,#00e5a8,#00b4ff,#b54cff,#ff2a55);
+  background-size:300% 300%;
+  color:#fff;
+  text-shadow:0 1px 4px rgba(0,0,0,.45);
+  box-shadow:0 4px 14px rgba(255,59,92,.35);
+  animation:rainbowShift 3.2s ease infinite, yearBounce 2.2s ease-in-out infinite;
+}
+.cv-wordmark{
+  position:relative;display:inline-flex;align-items:baseline;
+  font-size:28px;font-weight:900;color:#fff;
+}
+.cv-wordmark .cv-vex{
+  background:linear-gradient(90deg,var(--red),var(--red-2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.cv-x-holder{
+  position:relative;display:inline-block;
+}
+.cv-x-tree{
+  position:absolute;
+  left:50%;
+  bottom:86%;
+  width:22px;
+  height:26px;
+  pointer-events:none;
+  z-index:5;
+  transform-origin:bottom center;
+  animation:treeSway 2.4s ease-in-out infinite;
+  filter:drop-shadow(0 2px 5px rgba(22,163,74,.55));
+}
+
 .nav{display:flex;gap:18px}
 .nav a{color:#dce3ef;text-decoration:none;font-size:14px;position:relative;padding:4px 0}
 .nav a:hover{color:#fff}
@@ -130,6 +171,11 @@ header{
   background:linear-gradient(135deg,var(--red),var(--red-2));
   font-size:10px;animation:spinSlow 5s linear infinite;
 }
+.mini-year-tag{
+  padding:1px 6px;border-radius:6px;font-size:10px;font-weight:900;color:#fff;
+  background:linear-gradient(120deg,#ff2a55,#ffae00,#00e5a8,#00b4ff,#b54cff);
+  background-size:250% 250%;animation:rainbowShift 3s ease infinite;
+}
 
 /* Elana basanda açılan Kreativ Loqo Banneri */
 .creative-listing-logo-card{
@@ -166,10 +212,6 @@ header{
 .creative-brand-title{
   font-size:19px;font-weight:900;letter-spacing:.3px;
   display:flex;align-items:center;gap:8px;flex-wrap:wrap;
-}
-.creative-brand-title span{
-  background:linear-gradient(90deg,var(--red),var(--red-2),var(--accent));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
 }
 .creative-logo-tag{
   display:inline-flex;align-items:center;gap:6px;
@@ -542,8 +584,9 @@ footer{background:linear-gradient(135deg,#0d1321,#162136);color:#cbd5e1;padding:
 
 @media(max-width:550px){
   .top{padding:11px 12px}
-  .logo{font-size:23px}
-  .animated-logo{width:34px;height:34px;font-size:16px}
+  .cv-wordmark{font-size:22px}
+  .cv-year-2027{font-size:11px;padding:3px 7px}
+  .cv-x-tree{width:18px;height:21px}
   .header-right .dark-btn{display:none}
   .btn{padding:9px 11px;font-size:12px}
   .hero{padding:18px 12px 22px}
@@ -586,10 +629,7 @@ footer{background:linear-gradient(135deg,#0d1321,#162136);color:#cbd5e1;padding:
 <div class="scroll-progress" id="scrollProgress"></div>
 <header>
   <div class="top">
-    <div class="logo-wrap">
-      <div class="animated-logo" aria-hidden="true">🚗</div>
-      <div class="logo">Car<span>Vex</span></div>
-    </div>
+    <div class="logo-wrap" id="headerBrandSlot"></div>
     <nav class="nav">
       <a href="#">Ana səhifə</a>
       <a href="#elanlar">Elanlar</a>
@@ -772,11 +812,8 @@ footer{background:linear-gradient(135deg,#0d1321,#162136);color:#cbd5e1;padding:
 
 <footer id="elaqe">
   <div class="footer-inner">
-    <div class="logo-wrap" style="margin-bottom:8px">
-      <div class="animated-logo" aria-hidden="true">🚗</div>
-      <div class="logo">Car<span>Vex</span></div>
-    </div>
-    <p>Avtomobil alışı, satışı və zapçasların yeni ünvanı · Domen: <b>carvex.com.az</b></p>
+    <div class="logo-wrap" style="margin-bottom:8px" id="footerBrandSlot"></div>
+    <p>Avtomobil alışı, satışı və zapçasların ünvanı · Domen: <b>carvex.com.az</b></p>
     <div class="security-badge">🔒 Təhlükəsiz Sayt · SSL (HTTPS) Qorunması və Rəsmi Kart Ödənişi</div>
 
     <div class="footer-grid">
@@ -881,7 +918,7 @@ footer{background:linear-gradient(135deg,#0d1321,#162136);color:#cbd5e1;padding:
 <div class="modal" id="formModal">
   <div class="modal-box">
     <div class="modal-head">
-      <h2>Yeni elan yerləşdir</h2>
+      <h2>Elan yerləşdir</h2>
       <button class="close" onclick="hideForm()">×</button>
     </div>
     <form id="carForm">
@@ -1014,7 +1051,7 @@ footer{background:linear-gradient(135deg,#0d1321,#162136);color:#cbd5e1;padding:
     <span class="bottom-icon">♡</span>
     <span>SEÇİLMİŞLƏR</span>
   </button>
-  <button class="add-nav" onclick="openForm()" aria-label="Yeni elan">
+  <button class="add-nav" onclick="openForm()" aria-label="Elan">
     <span class="bottom-icon">+</span>
   </button>
   <button onclick="openMessages()">
@@ -1039,6 +1076,43 @@ const FALLBACK_CAR_IMG = "https://images.unsplash.com/photo-1492144534655-ae79c9
 let supabaseClient = null;
 if (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase) {
   supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+}
+
+/* Yaşıl yolka SVG — "x" hərfinin tam üstündə dayanır */
+const PINE_TREE_SVG = `
+<svg class="cv-x-tree" viewBox="0 0 32 38" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <rect x="13.5" y="30" width="5" height="6" rx="1.5" fill="#854d0e"/>
+  <polygon points="16,2 5,15 27,15" fill="#16a34a" stroke="#15803d" stroke-width="1.2" stroke-linejoin="round"/>
+  <polygon points="16,9 3.5,23 28.5,23" fill="#22c55e" stroke="#15803d" stroke-width="1.2" stroke-linejoin="round"/>
+  <polygon points="16,16 2,31 30,31" fill="#15803d" stroke="#14532d" stroke-width="1.2" stroke-linejoin="round"/>
+  <circle cx="16" cy="2" r="2.2" fill="#facc15"/>
+  <circle cx="11" cy="19" r="1.4" fill="#ff3b5c"/>
+  <circle cx="21" cy="21" r="1.4" fill="#38bdf8"/>
+  <circle cx="10" cy="28" r="1.4" fill="#fde047"/>
+  <circle cx="22" cy="27" r="1.4" fill="#fb7185"/>
+</svg>`;
+
+function renderCreativeBrandLogo(opts = {}){
+  const sizePx = opts.sizePx || 28;
+  const yearFontPx = opts.yearFontPx || Math.max(11, Math.round(sizePx * 0.46));
+  const treeW = Math.max(16, Math.round(sizePx * 0.78));
+  const treeH = Math.max(20, Math.round(sizePx * 0.92));
+
+  return `
+    <span class="cv-creative-brand">
+      <span class="cv-year-2027" style="font-size:${yearFontPx}px">2027</span>
+      <span class="cv-wordmark" style="font-size:${sizePx}px">
+        <span>CarVe</span><span class="cv-x-holder">x${PINE_TREE_SVG.replace('class="cv-x-tree"', `class="cv-x-tree" style="width:${treeW}px;height:${treeH}px"`)}</span>
+      </span>
+    </span>
+  `;
+}
+
+function mountCreativeBrands(){
+  const headerSlot = document.getElementById("headerBrandSlot");
+  if(headerSlot) headerSlot.innerHTML = renderCreativeBrandLogo({ sizePx: 28, yearFontPx: 13 });
+  const footerSlot = document.getElementById("footerBrandSlot");
+  if(footerSlot) footerSlot.innerHTML = renderCreativeBrandLogo({ sizePx: 26, yearFontPx: 12 });
 }
 
 const BRANDS=["Khazar","Saipa","Acura","Aion","Aixam","Alfa Romeo","Alpina","Aston Martin","Aurus","Audi","Avatr","BAIC","Baojun","Bentley","Bestune","BMW","Borgward","Brilliance","Bugatti","Buick","BYD","Cadillac","Changan","Chery","Chevrolet","Chrysler","Citroën","Cupra","Dacia","Daewoo","Daihatsu","Datsun","Deepal","Denza","Dodge","Dongfeng","DS Automobiles","FAW","Ferrari","Fiat","Fisker","Ford","Foton","GAC","Geely","Genesis","GMC","Great Wall","Haval","HiPhi","Honda","Hongqi","Hummer","Hyundai","Infiniti","Isuzu","JAC","Jaecoo","Jaguar","Jeep","Jetour","Jetta","Karma","KGM","Kia","Koenigsegg","Lada","Lamborghini","Lancia","Land Rover","Leapmotor","Lexus","Li Auto","Lincoln","Lotus","Lucid","Lynk & Co","Mahindra","Maruti Suzuki","Maserati","Maxus","Maybach","Mazda","McLaren","Mercedes-Benz","Mercury","MG","Mini","Mitsubishi","Mitsuoka","Neta","Nio","Nissan","Oldsmobile","Opel","Pagani","Perodua","Peugeot","Plymouth","Polestar","Pontiac","Porsche","Proton","RAM","Ravon","Renault","Rimac","Rivian","Rolls-Royce","Rover","Saab","Saleen","Saturn","Scion","Seat","Seres","Škoda","Smart","Soueast","SsangYong","Subaru","Suzuki","Tata","Tesla","Theon","Toyota","VinFast","Volkswagen","Volvo","Voyah","Wey","Wuling","Xiaomi","Xpeng","Yangwang","Zeekr","Zotye","ZAZ","АЗЛК (Moskvich)","ГАЗ","ЗИЛ","ЛуАЗ","Москвич","УАЗ","Chery Exeed","Evolute","Forthing","Ineos","INEOS Grenadier","Livan","Omoda","Onvo","Ora","Rox","Skywell","SWM","Togg","Vauxhall","Wiesmann"];
@@ -1136,7 +1210,7 @@ function renderLiveLogoStrip(){
   const track = document.getElementById("liveLogoTrack");
   if(!track) return;
   const badges = [
-    "CarVex Turbo Elan",
+    "Turbo Elan",
     "Canlı Avto Bazar",
     "Maşın Zapçasları",
     "Barter & Kredit %",
@@ -1147,7 +1221,8 @@ function renderLiveLogoStrip(){
   track.innerHTML = repeated.map(text => `
     <div class="mini-logo-pill">
       <span class="spin-dot">⚡</span>
-      <span>Car<b>Vex</b> · ${escapeHTML(text)}</span>
+      <span class="mini-year-tag">2027</span>
+      <span>${renderCreativeBrandLogo({ sizePx: 14, yearFontPx: 10 })} · ${escapeHTML(text)}</span>
     </div>
   `).join("");
 }
@@ -1759,7 +1834,7 @@ function renderCars(){
   document.getElementById("resultCount").textContent=list.length+" elan tapıldı";
   const area=document.getElementById("carList");
   if(!list.length){
-    area.innerHTML='<div class="empty">🚘<h3>Elan tapılmadı</h3><p>'+(favoriteOnly?'Seçilmişlər siyahınız boşdur.':'Axtarış şərtlərini dəyişdirin və ya yeni elan / zapças yerləşdirin.')+'</p></div>';
+    area.innerHTML='<div class="empty">🚘<h3>Elan tapılmadı</h3><p>'+(favoriteOnly?'Seçilmişlər siyahınız boşdur.':'Axtarış şərtlərini dəyişdirin və ya elan / zapças yerləşdirin.')+'</p></div>';
     updateFavoriteCount();
     return;
   }
@@ -1908,7 +1983,7 @@ function showDetails(id){
           </div>
           <div>
             <div class="creative-brand-title">
-              Car<span>Vex</span> <span style="font-size:12px;font-weight:800;color:#cbd5e1;background:rgba(255,255,255,0.1);padding:3px 9px;border-radius:999px">ELAN #${escapeHTML(c.listingNo)}</span>
+              ${renderCreativeBrandLogo({ sizePx: 20, yearFontPx: 11 })} <span style="font-size:12px;font-weight:800;color:#cbd5e1;background:rgba(255,255,255,0.1);padding:3px 9px;border-radius:999px">ELAN #${escapeHTML(c.listingNo)}</span>
             </div>
             <div style="font-size:12px;color:#cbd5e1;margin-top:3px">
               ${escapeHTML(headingTitle)} · ${escapeHTML(c.city || "Bakı")}
@@ -2409,7 +2484,7 @@ function getSellerRank(mine){
   if(hasPromo) return "👑 VIP Diler";
   if(count >= 5) return "🏆 Avto Ekspert";
   if(count >= 2) return "🚗 Aktiv Satıcı";
-  return "✨ Yeni Sürücü";
+  return "✨ Sürücü";
 }
 
 function renderProfile(message=""){
@@ -2530,7 +2605,7 @@ async function signOut(){
 }
 
 function renderNotifications(){
-  document.getElementById("profileContent").innerHTML='<h3>Bildirişlər</h3><p>Yeni mesaj və elan bildirişləri burada görünəcək.</p><button class="btn white-btn" onclick="renderProfile()">Geri</button>';
+  document.getElementById("profileContent").innerHTML='<h3>Bildirişlər</h3><p>Mesaj və elan bildirişləri burada görünəcək.</p><button class="btn white-btn" onclick="renderProfile()">Geri</button>';
 }
 
 function renderMessagesList(){
@@ -2585,6 +2660,7 @@ function openMessages(topic=""){
 }
 
 window.addEventListener("load",async()=>{
+  mountCreativeBrands();
   renderLiveLogoStrip();
   fillAll();
   toggleListingKindFields();
