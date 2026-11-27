@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#0d1321">
-<title>CarVex - Avtomobil Elanları</title>
+<title>CarVex - Avtomobil və Maşın Zapçasları Elanları</title>
 <link rel="icon" type="image/png" href="./favicon.png">
 <link rel="shortcut icon" type="image/png" href="./favicon.png">
 <link rel="apple-touch-icon" href="./favicon.png">
@@ -255,6 +255,23 @@ header{
 }
 .filter-toggle-btn:hover{background:#e2e8f2}
 
+.parts-filter-bar{
+  margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);
+}
+.parts-filter-title{
+  font-size:11px;font-weight:800;color:#475569;margin-bottom:6px;
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;
+}
+.parts-chips{display:flex;gap:6px;flex-wrap:wrap}
+.part-chip{
+  border:1px solid #dbe4f0;background:#f1f5f9;color:#1e293b;
+  padding:5px 10px;border-radius:16px;font-size:11px;font-weight:700;
+}
+.part-chip.active{
+  background:linear-gradient(135deg,#0d1321,#243b6b);
+  color:#fff;border-color:#0d1321;
+}
+
 .collapsible-filters{display:none;margin-top:10px;padding-top:10px;border-top:1px dashed var(--line)}
 .collapsible-filters.open{display:block}
 
@@ -308,6 +325,10 @@ header{
   background:linear-gradient(135deg,#38bdf8,#2563eb);
   color:#fff;padding:5px 9px;border-radius:8px;font-size:11px;font-weight:800;
   box-shadow:0 4px 10px rgba(37,99,235,.28);
+}
+.part-badge{
+  background:linear-gradient(135deg,#0d1321,#2563eb);
+  color:#fff;padding:5px 9px;border-radius:8px;font-size:11px;font-weight:800;
 }
 .badges-row{position:absolute;left:10px;bottom:10px;display:flex;gap:5px;flex-wrap:wrap;z-index:2}
 .tag-badge{background:rgba(13,19,33,.82);color:#fff;padding:4px 8px;border-radius:7px;font-size:11px;font-weight:700}
@@ -542,7 +563,7 @@ footer{background:linear-gradient(135deg,#0d1321,#162136);color:#cbd5e1;padding:
   .card-buttons{gap:5px;margin-top:9px}
   .card-buttons button{padding:7px 4px;font-size:10px;border-radius:7px}
   .top-badges{top:7px;left:7px;gap:3px}
-  .premium,.vip-badge{padding:3px 6px;font-size:9px}
+  .premium,.vip-badge,.part-badge{padding:3px 6px;font-size:9px}
   .heart{width:28px;height:28px;font-size:14px;top:7px;right:7px}
   .compare-toggle{padding:3px 6px;font-size:9px;bottom:7px;right:7px}
   .badges-row{bottom:7px;left:7px;gap:3px}
@@ -589,11 +610,13 @@ footer{background:linear-gradient(135deg,#0d1321,#162136);color:#cbd5e1;padding:
 <section class="hero">
   <div class="hero-inner">
     <h1>Xəyalındakı avtomobili tap!</h1>
-    <p>CarVex ilə avtomobil alışı və satışı daha rahatdır.</p>
+    <p>CarVex ilə avtomobil alışı, satışı və maşın zapçasları daha rahatdır.</p>
     <div class="search-box">
       <div class="compact-bar">
         <div class="quick-filters" id="quickFilterBar">
           <button type="button" class="quick-chip active" data-quick="" onclick="setQuickFilter('')">Hamısı</button>
+          <button type="button" class="quick-chip" data-quick="cars_only" onclick="setQuickFilter('cars_only')">🚘 Avtomobillər</button>
+          <button type="button" class="quick-chip" data-quick="parts_only" onclick="setQuickFilter('parts_only')">🔧 Maşın zapçasları</button>
           <button type="button" class="quick-chip" data-quick="barter" onclick="setQuickFilter('barter')">🔄 Barter</button>
           <button type="button" class="quick-chip" data-quick="credit" onclick="setQuickFilter('credit')">% Kredit</button>
           <button type="button" class="quick-chip" data-quick="salon" onclick="setQuickFilter('salon')">🏢 Salon</button>
@@ -603,11 +626,51 @@ footer{background:linear-gradient(135deg,#0d1321,#162136);color:#cbd5e1;padding:
         <button type="button" class="filter-toggle-btn" id="filterToggleBtn" onclick="toggleFiltersPanel()">☷ Filtrlər ▾</button>
       </div>
 
+      <!-- Maşın zapçası bölməsi üzrə filtr zolağı -->
+      <div class="parts-filter-bar" id="partsFilterBar">
+        <div class="parts-filter-title">
+          <span>🔧 Maşın zapçası filtrleri</span>
+          <span class="muted" id="partsActiveLabel">Kateqoriya: Hamısı</span>
+        </div>
+        <div class="parts-chips" id="partsCategoryChips">
+          <button type="button" class="part-chip active" data-part-cat="" onclick="setPartCategory('')">Hamısı</button>
+          <button type="button" class="part-chip" data-part-cat="Mühərrik və sürətlər qutusu" onclick="setPartCategory('Mühərrik və sürətlər qutusu')">⚙️ Mühərrik &amp; Karobka</button>
+          <button type="button" class="part-chip" data-part-cat="Asqı və əyləc sistemi" onclick="setPartCategory('Asqı və əyləc sistemi')">🛑 Asqı &amp; Əyləc</button>
+          <button type="button" class="part-chip" data-part-cat="Təkər və disklər" onclick="setPartCategory('Təkər və disklər')">🛞 Təkər &amp; Disklər</button>
+          <button type="button" class="part-chip" data-part-cat="Kuzov, fara və güzgü" onclick="setPartCategory('Kuzov, fara və güzgü')">💡 Kuzov, Fara &amp; Güzgü</button>
+          <button type="button" class="part-chip" data-part-cat="Yağ, filtr və mayelər" onclick="setPartCategory('Yağ, filtr və mayelər')">🛢 Yağ &amp; Filtrlər</button>
+          <button type="button" class="part-chip" data-part-cat="Elektronika və salon" onclick="setPartCategory('Elektronika və salon')">🎛 Elektronika &amp; Salon</button>
+        </div>
+        <div class="filters" style="margin-top:8px">
+          <div class="field">
+            <label>Zapças adı və ya OEM kodu</label>
+            <input id="searchPartQuery" type="text" placeholder="Məs: amortizator, fara, 5W-40, disk...">
+          </div>
+          <div class="field">
+            <label>Zapças vəziyyəti</label>
+            <select id="searchPartCondition">
+              <option value="">Hamısı</option>
+              <option value="Yeni (Orijinal)">Yeni (Orijinal)</option>
+              <option value="Yeni (AnalOq / Firma)">Yeni (AnalOq / Firma)</option>
+              <option value="İşlənmiş (Üstdən çıxma)">İşlənmiş (Üstdən çıxma)</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Zapças üçün marka</label>
+            <input id="searchPartBrand" list="brandSuggestions" placeholder="Məs: Lada, BMW, Mercedes...">
+          </div>
+          <div class="field">
+            <label>Zapças üçün model</label>
+            <input id="searchPartModel" list="modelSuggestions" placeholder="Məs: 2107, E-Class, Camry...">
+          </div>
+        </div>
+      </div>
+
       <div class="collapsible-filters" id="collapsibleFilters">
         <div class="filters">
           <div class="field"><label>Marka (axtar və ya seç)</label><input id="searchBrand" list="brandSuggestions" placeholder="Marka axtar (məs: BMW, BYD)..."><datalist id="brandSuggestions"></datalist></div>
           <div class="field"><label>Model</label><input id="searchModel" list="modelSuggestions" placeholder="Model axtar"><datalist id="modelSuggestions"></datalist></div>
-          <div class="field"><label>Minimum qiymət</label><input id="minPrice" type="number" placeholder="5000"></div>
+          <div class="field"><label>Minimum qiymət</label><input id="minPrice" type="number" placeholder="50"></div>
           <div class="field"><label>Maksimum qiymət</label><input id="maxPrice" type="number" placeholder="50000"></div>
           <div class="field"><label>Valyuta</label><select id="searchCurrency"><option value="">Hamısı</option><option>AZN</option><option>USD</option><option>EUR</option></select></div>
           <div class="field"><label>Şəhər / rayon</label><select id="searchCity"><option value="">Bütün şəhər və rayonlar</option></select></div>
@@ -621,7 +684,7 @@ footer{background:linear-gradient(135deg,#0d1321,#162136);color:#cbd5e1;padding:
           <div class="field"><label>Yerlərin sayı</label><select id="searchSeats"><option value="">Hamısı</option></select></div>
           <div class="field"><label>Ötürücü</label><select id="searchDrive"><option value="">Hamısı</option><option>Ön</option><option>Arxa</option><option>Tam</option></select></div>
           <div class="field"><label>İstehsalçı ölkə</label><select id="searchCountry"><option value="">Hamısı</option></select></div>
-          <div class="field"><label>Barter / Kredit / VIP</label><select id="searchDealType"><option value="">Hamısı</option><option value="barter">Barter mümkündür</option><option value="credit">Kredit / %</option><option value="salon">Salon elanları</option><option value="vip">VIP elanlar (2 AZN)</option><option value="premium">Premium elanlar (5 AZN)</option></select></div>
+          <div class="field"><label>Barter / Kredit / VIP / Növ</label><select id="searchDealType"><option value="">Hamısı</option><option value="cars_only">Yalnız avtomobillər</option><option value="parts_only">Yalnız maşın zapçasları</option><option value="barter">Barter mümkündür</option><option value="credit">Kredit / %</option><option value="salon">Salon elanları</option><option value="vip">VIP elanlar (2 AZN)</option><option value="premium">Premium elanlar (5 AZN)</option></select></div>
         </div>
         <div class="actions">
           <button class="btn red" onclick="renderCars()">🔍 Axtar</button>
@@ -641,7 +704,7 @@ footer{background:linear-gradient(135deg,#0d1321,#162136);color:#cbd5e1;padding:
 
 <main class="container" id="elanlar">
   <div class="section-head">
-    <h2>🚘 Avtomobil elanları</h2>
+    <h2>🚘 Avtomobil və Zapças elanları</h2>
     <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
       <button class="btn white-btn" onclick="openCompare()">⚖ Müqayisə (<span id="compareCountInline">0</span>)</button>
       <select id="sortCars" onchange="renderCars()" style="padding:10px;border-radius:10px;border:1px solid #ddd;background:#fff">
@@ -713,7 +776,7 @@ footer{background:linear-gradient(135deg,#0d1321,#162136);color:#cbd5e1;padding:
       <div class="animated-logo" aria-hidden="true">🚗</div>
       <div class="logo">Car<span>Vex</span></div>
     </div>
-    <p>Avtomobil alışı və satışının yeni ünvanı · Domen: <b>carvex.com.az</b></p>
+    <p>Avtomobil alışı, satışı və zapçasların yeni ünvanı · Domen: <b>carvex.com.az</b></p>
     <div class="security-badge">🔒 Təhlükəsiz Sayt · SSL (HTTPS) Qorunması və Rəsmi Kart Ödənişi</div>
 
     <div class="footer-grid">
@@ -735,7 +798,7 @@ footer{background:linear-gradient(135deg,#0d1321,#162136);color:#cbd5e1;padding:
         <h4>Hüquqi sənədlər və rekvizitlər</h4>
         <p style="margin:0 0 6px"><b>Sahibkar / Müəllif:</b> Məhəmməd Yusifov</p>
         <p style="margin:0 0 6px"><b>VÖEN:</b> (VÖEN təsdiqləndikdən sonra əlavə ediləcək)</p>
-        <p style="margin:0 0 6px"><b>Əlaqə:</b> <a href="mailto:info@carvex.com.az">info@carvex.az</a></p>
+        <p style="margin:0 0 6px"><b>Əlaqə:</b> <a href="mailto:info@carvex.com.az">info@carvex.com.az</a></p>
         <div class="legal-links">
           <button type="button" class="legal-link-btn" onclick="openLegalModal('terms')">A) İstifadəçi razılaşması</button>
           <button type="button" class="legal-link-btn" onclick="openLegalModal('privacy')">B) Məxfilik siyasəti</button>
@@ -761,7 +824,7 @@ footer{background:linear-gradient(135deg,#0d1321,#162136);color:#cbd5e1;padding:
 <div class="modal" id="compareModal">
   <div class="modal-box">
     <div class="modal-head">
-      <h2>Avtomobillərin müqayisəsi</h2>
+      <h2>Elanların müqayisəsi</h2>
       <button class="close" onclick="closeCompare()">×</button>
     </div>
     <div id="compareContent"></div>
@@ -823,8 +886,41 @@ footer{background:linear-gradient(135deg,#0d1321,#162136);color:#cbd5e1;padding:
     </div>
     <form id="carForm">
       <div class="form-grid">
-        <div class="field"><label>Marka * (axtar və ya seç)</label><input id="brand" list="brandSuggestions" required placeholder="Marka yazın və ya seçin..."></div>
-        <div class="field"><label>Model *</label><input id="model" list="modelSuggestions" required placeholder="E-Class / Dena / Saina"></div>
+        <div class="field">
+          <label>Elan növü *</label>
+          <select id="listingKind" onchange="toggleListingKindFields()" required>
+            <option value="car">🚘 Avtomobil</option>
+            <option value="part">🔧 Maşın zapçası</option>
+          </select>
+        </div>
+        <div class="field" id="partCategoryField" style="display:none">
+          <label>Zapças kateqoriyası *</label>
+          <select id="partCategory">
+            <option value="">Kateqoriya seçin</option>
+            <option value="Mühərrik və sürətlər qutusu">Mühərrik və sürətlər qutusu</option>
+            <option value="Asqı və əyləc sistemi">Asqı və əyləc sistemi</option>
+            <option value="Təkər və disklər">Təkər və disklər</option>
+            <option value="Kuzov, fara və güzgü">Kuzov, fara və güzgü</option>
+            <option value="Yağ, filtr və mayelər">Yağ, filtr və mayelər</option>
+            <option value="Elektronika və salon">Elektronika və salon</option>
+          </select>
+        </div>
+        <div class="field" id="partTitleField" style="display:none">
+          <label>Zapçasın adı / OEM kodu *</label>
+          <input id="partTitle" type="text" placeholder="Məs: VAZ-2107 ön amortizator / 5W-40 yağ">
+        </div>
+        <div class="field" id="partConditionField" style="display:none">
+          <label>Zapçasın vəziyyəti</label>
+          <select id="partCondition">
+            <option value="">Seçin</option>
+            <option value="Yeni (Orijinal)">Yeni (Orijinal)</option>
+            <option value="Yeni (AnalOq / Firma)">Yeni (AnalOq / Firma)</option>
+            <option value="İşlənmiş (Üstdən çıxma)">İşlənmiş (Üstdən çıxma)</option>
+          </select>
+        </div>
+
+        <div class="field"><label id="brandLabel">Marka * (axtar və ya seç)</label><input id="brand" list="brandSuggestions" required placeholder="Marka yazın və ya seçin..."></div>
+        <div class="field"><label id="modelLabel">Model *</label><input id="model" list="modelSuggestions" required placeholder="E-Class / Dena / Saina"></div>
         <div class="field"><label>Qiymət *</label><input id="price" type="number" min="1" required></div>
         <div class="field"><label>Valyuta *</label><select id="currency" required><option>AZN</option><option>USD</option><option>EUR</option></select></div>
         <div class="field"><label>Buraxılış ili *</label><input id="year" type="number" min="1950" max="2100" required></div>
@@ -840,16 +936,16 @@ footer{background:linear-gradient(135deg,#0d1321,#162136);color:#cbd5e1;padding:
         <div class="field"><label>Vəziyyəti</label><select id="condition"></select></div>
         <div class="field"><label>İstehsalçı ölkə</label><select id="country"></select></div>
         <div class="field"><label>Telefon nömrəsi *</label><input id="phone" type="tel" required placeholder="+994 50 123 45 67"></div>
-        <div class="field"><label>Elan növü</label><select id="sellerType"><option>Şəxsi</option><option>Salon</option></select></div>
+        <div class="field"><label>Elan növü (Satıcı)</label><select id="sellerType"><option>Şəxsi</option><option>Salon</option></select></div>
         <div class="field"><label>Kredit faizi (%)</label><input id="creditRate" type="number" min="0" max="100" step="0.1" placeholder="məs: 12"></div>
         <div class="field" style="display:flex;align-items:flex-end;gap:14px">
           <label class="chip"><input type="checkbox" id="allowBarter"> 🔄 Barter</label>
           <label class="chip"><input type="checkbox" id="allowCredit"> % Kredit</label>
         </div>
         <div class="field full"><label>Şəkillər (maksimum 10) *</label><input id="photos" type="file" accept="image/*" multiple><div class="muted">Şəkillər avtomatik sıxılaraq bazaya yüklənir.</div></div>
-        <div class="field full"><label>Avtomobil videosu (istəyə bağlı, 1 qısa video)</label><input id="videoFile" type="file" accept="video/*"><div class="muted">Video ölçüsü maksimum 15 MB olmalıdır.</div></div>
+        <div class="field full"><label>Avtomobil / zapças videosu (istəyə bağlı, 1 qısa video)</label><input id="videoFile" type="file" accept="video/*"><div class="muted">Video ölçüsü maksimum 15 MB olmalıdır.</div></div>
         <div class="field full"><label>Avtomobil təchizatı</label><div class="chips" id="equipmentChoices"></div></div>
-        <div class="field full"><label>Əlavə məlumat</label><textarea id="description" rows="4" placeholder="Avtomobil haqqında ətraflı məlumat..."></textarea></div>
+        <div class="field full"><label>Əlavə məlumat</label><textarea id="description" rows="4" placeholder="Avtomobil və ya zapças haqqında ətraflı məlumat..."></textarea></div>
         <div class="field full" style="display:flex;gap:12px;flex-wrap:wrap;align-items:center">
           <label class="chip"><input type="checkbox" id="isVip" onchange="handlePromoCheckboxChange('vip', this.checked)"> 👑 VIP elan (2 AZN)</label>
           <label class="chip"><input type="checkbox" id="isPremium" onchange="handlePromoCheckboxChange('premium', this.checked)"> ⭐ Premium elan (5 AZN)</label>
@@ -867,7 +963,7 @@ footer{background:linear-gradient(135deg,#0d1321,#162136);color:#cbd5e1;padding:
 <div class="modal" id="detailModal">
   <div class="modal-box">
     <div class="modal-head">
-      <h2>Avtomobil haqqında</h2>
+      <h2>Elan haqqında</h2>
       <button class="close" onclick="closeDetails()">×</button>
     </div>
     <div id="detailContent"></div>
@@ -887,7 +983,7 @@ footer{background:linear-gradient(135deg,#0d1321,#162136);color:#cbd5e1;padding:
 <div class="modal" id="videoModal">
   <div class="modal-box">
     <div class="modal-head">
-      <h2>Avtomobil videosu</h2>
+      <h2>Elan videosu</h2>
       <button class="close" onclick="closeVideo()">×</button>
     </div>
     <div id="videoContent"></div>
@@ -902,7 +998,7 @@ footer{background:linear-gradient(135deg,#0d1321,#162136);color:#cbd5e1;padding:
     </div>
     <div id="messagesList"></div>
     <form id="quickMsgForm" style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
-      <input id="msgCarTitle" placeholder="Avtomobil / mövzu" style="flex:1;min-width:160px;padding:10px;border:1px solid var(--line);border-radius:8px">
+      <input id="msgCarTitle" placeholder="Avtomobil / zapças / mövzu" style="flex:1;min-width:160px;padding:10px;border:1px solid var(--line);border-radius:8px">
       <input id="msgText" placeholder="Mesajınızı yazın..." required style="flex:2;min-width:200px;padding:10px;border:1px solid var(--line);border-radius:8px">
       <button class="btn red" type="submit">Göndər</button>
     </form>
@@ -978,7 +1074,7 @@ const LEGAL_DOCS = {
     title: "A) İstifadəçi Razılaşması – CarVex (carvex.com.az)",
     html: `
       <h3>1. Ümumi müddəalar</h3>
-      <p>CarVex platforması (bundan sonra "Platforma") avtomobil alqı-satqısı elanlarının yerləşdirilməsi və axtarışı üçün nəzərdə tutulmuş onlayn xidmətdir. Platformadan istifadə edən hər bir şəxs bu razılaşmanın şərtlərini qəbul etmiş sayılır.</p>
+      <p>CarVex platforması (bundan sonra "Platforma") avtomobil alqı-satqısı və zapças elanlarının yerləşdirilməsi və axtarışı üçün nəzərdə tutulmuş onlayn xidmətdir. Platformadan istifadə edən hər bir şəxs bu razılaşmanın şərtlərini qəbul etmiş sayılır.</p>
       <h3>2. Elanların yerləşdirilməsi</h3>
       <p>İstifadəçi yerləşdirdiyi elandakı məlumatların, şəkillərin və qiymətin doğruluğuna görə şəxsən məsuliyyət daşıyır. Yanlış, təkrar və ya qanunvericiliyə zidd elanlar administrasiya tərəfindən silinə bilər.</p>
       <h3>3. Ödənişli xidmətlər (VIP və Premium)</h3>
@@ -988,7 +1084,7 @@ const LEGAL_DOCS = {
       </ul>
       <p>Ödəniş təsdiqləndikdən sonra seçilmiş xidmət elana avtomatik tətbiq olunur.</p>
       <h3>4. Məsuliyyətin məhdudlaşdırılması</h3>
-      <p>Platforma alıcı və satıcı arasında bağlanan alqı-satqı əməliyyatlarının tərəfi deyil və avtomobillərin texniki vəziyyətinə görə məsuliyyət daşımır.</p>
+      <p>Platforma alıcı və satıcı arasında bağlanan alqı-satqı əməliyyatlarının tərəfi deyil və avtomobillərin və ya ehtiyat hissələrinin texniki vəziyyətinə görə məsuliyyət daşımır.</p>
     `
   },
   privacy: {
@@ -1008,7 +1104,7 @@ const LEGAL_DOCS = {
       <h3>1. Ödəniş üsulları</h3>
       <p>Xidmətlərin haqqı Visa və Mastercard bank kartları vasitəsilə onlayn şəkildə ödənilir. Bütün qiymətlər Azərbaycan manatı (AZN) ilə göstərilmişdir.</p>
       <h3>2. Xidmətin aktivləşdirilməsi</h3>
-      <p>Ödəniş uğurla tamamlandıqdan dərhal sonra müvafiq VIP (2.00 AZN) və ya Premium (5.00 AZN) statusu elana avtomatik tətbiq edilir.</p>
+      <p>Ödəniş uğurla tamamlandıktan dərhal sonra müvafiq VIP (2.00 AZN) və ya Premium (5.00 AZN) statusu elana avtomatik tətbiq edilir.</p>
       <h3>3. Geri qaytarma (Refund)</h3>
       <p>Rəqəmsal xidmət (VIP/Premium statusu) elana tətbiq edildikdən sonra ödənilmiş məbləğ geri qaytarılmır. Texniki nasazlıq səbəbindən xidmət aktivləşməzsə, ödəniş çekini təqdim etməklə 3 iş günü ərzində məbləğin geri qaytarılması və ya xidmətin aktivləşdirilməsi üçün dəstək xidmətinə müraciət edə bilərsiniz.</p>
     `
@@ -1028,6 +1124,7 @@ function closeLegalModal(){
 }
 
 let cars=[], favorites=[], likedVideos=[], compareIds=[], messages=[], cardPhotoIndex={}, favoriteOnly=false, currentUser=null, editingId=null, showingAllVideos=false;
+let activePartCategory = "";
 let lightboxPhotos=[], lightboxIdx=0;
 let detailPhotosList=[], detailPhotoIdx=0;
 let paidPackages = { vip: false, premium: false };
@@ -1041,10 +1138,10 @@ function renderLiveLogoStrip(){
   const badges = [
     "CarVex Turbo Elan",
     "Canlı Avto Bazar",
+    "Maşın Zapçasları",
     "Barter & Kredit %",
     "VIP & Premium Seçim",
-    "Video Kəşf Rejimi",
-    "Sürətli Alış-Satış"
+    "Video Kəşf Rejimi"
   ];
   const repeated = [...badges, ...badges, ...badges];
   track.innerHTML = repeated.map(text => `
@@ -1086,6 +1183,18 @@ function toggleFiltersPanel(forceOpen = null){
   const nextState = typeof forceOpen === "boolean" ? forceOpen : !panel.classList.contains("open");
   panel.classList.toggle("open", nextState);
   if(btn) btn.textContent = nextState ? "☷ Filtrləri bağla ▴" : "☷ Filtrlər ▾";
+}
+
+function toggleListingKindFields(){
+  const kind = document.getElementById("listingKind")?.value || "car";
+  const isPart = kind === "part";
+  document.getElementById("partCategoryField").style.display = isPart ? "" : "none";
+  document.getElementById("partTitleField").style.display = isPart ? "" : "none";
+  document.getElementById("partConditionField").style.display = isPart ? "" : "none";
+  document.getElementById("partCategory").required = isPart;
+  document.getElementById("partTitle").required = isPart;
+  document.getElementById("brandLabel").textContent = isPart ? "Uyğun marka * (axtar və ya seç)" : "Marka * (axtar və ya seç)";
+  document.getElementById("modelLabel").textContent = isPart ? "Uyğun model *" : "Model *";
 }
 
 function updatePaidStatusNote(){
@@ -1234,9 +1343,15 @@ function normalizeCar(row){
         .map(p => (typeof p === "string" ? p : (p?.url || p?.src || null)))
         .filter(Boolean);
 
+  const kind = row.listingKind === "part" || row.category === "part" ? "part" : "car";
+
   return {
     ...row,
     id: String(row.id),
+    listingKind: kind,
+    partCategory: row.partCategory || "",
+    partTitle: row.partTitle || "",
+    partCondition: row.partCondition || "",
     listingNo: row.listingNo || ("CV-" + String(row.id).replace(/\D/g, "").slice(0, 6).padEnd(6, "7")),
     price,
     year: Number(row.year || 0),
@@ -1355,7 +1470,7 @@ function toggleCompare(id){
     compareIds = compareIds.filter(x => x !== id);
   } else {
     if(compareIds.length >= 3){
-      alert("Eyni anda maksimum 3 avtomobil müqayisə edilə bilər.");
+      alert("Eyni anda maksimum 3 elan müqayisə edilə bilər.");
       return;
     }
     compareIds.push(id);
@@ -1368,9 +1483,10 @@ function openCompare(){
   const selected = cars.filter(c => compareIds.includes(c.id));
   const box = document.getElementById("compareContent");
   if(selected.length < 2){
-    box.innerHTML = `<p class="muted">Müqayisə üçün ən azı 2, maksimum 3 avtomobil seçin. Hazırda seçilib: <b>${selected.length}</b>.</p>`;
+    box.innerHTML = `<p class="muted">Müqayisə üçün ən azı 2, maksimum 3 elan seçin. Hazırda seçilib: <b>${selected.length}</b>.</p>`;
   } else {
     const rows = [
+      ["Növ", c => c.listingKind === "part" ? `🔧 Zapças (${escapeHTML(c.partCategory || "-")})` : "🚘 Avtomobil"],
       ["Qiymət", c => `<b>${money(c)}</b>${aznEquivalent(c) ? `<br><span class="muted">${aznEquivalent(c)}</span>` : ""}`],
       ["Buraxılış ili", c => c.year],
       ["Yürüş", c => Number(c.mileage).toLocaleString("az-AZ") + " km"],
@@ -1387,7 +1503,7 @@ function openCompare(){
           <thead>
             <tr>
               <th>Göstərici</th>
-              ${selected.map(c => `<th><img src="${escapeHTML(c.photos?.[0] || FALLBACK_CAR_IMG)}" style="width:100%;height:95px;object-fit:cover;border-radius:7px;margin-bottom:6px"><br>${escapeHTML(c.brand)} ${escapeHTML(c.model)}</th>`).join("")}
+              ${selected.map(c => `<th><img src="${escapeHTML(c.photos?.[0] || FALLBACK_CAR_IMG)}" style="width:100%;height:95px;object-fit:cover;border-radius:7px;margin-bottom:6px"><br>${escapeHTML(c.partTitle || (c.brand + " " + c.model))}</th>`).join("")}
             </tr>
           </thead>
           <tbody>
@@ -1407,6 +1523,22 @@ function setQuickFilter(type){
   document.querySelectorAll("#quickFilterBar .quick-chip").forEach(btn => {
     btn.classList.toggle("active", btn.getAttribute("data-quick") === type);
   });
+  renderCars();
+}
+
+function setPartCategory(cat){
+  activePartCategory = cat;
+  document.querySelectorAll("#partsCategoryChips .part-chip").forEach(btn => {
+    btn.classList.toggle("active", (btn.getAttribute("data-part-cat") || "") === cat);
+  });
+  const lbl = document.getElementById("partsActiveLabel");
+  if(lbl) lbl.textContent = "Kateqoriya: " + (cat || "Hamısı");
+  if(cat){
+    const dealSel = document.getElementById("searchDealType");
+    if(dealSel && dealSel.value === "cars_only"){
+      setQuickFilter("");
+    }
+  }
   renderCars();
 }
 
@@ -1520,6 +1652,8 @@ function openForm(){
   paidPackages = { vip: false, premium: false };
   pendingPaymentTier = null;
   document.getElementById("carForm").reset();
+  document.getElementById("listingKind").value = "car";
+  toggleListingKindFields();
   updatePaidStatusNote();
   document.getElementById("submitCar").textContent="Elanı yerləşdir";
   document.getElementById("formModal").style.display="flex";
@@ -1528,6 +1662,8 @@ function openForm(){
 function hideForm(){
   document.getElementById("formModal").style.display="none";
   document.getElementById("carForm").reset();
+  document.getElementById("listingKind").value = "car";
+  toggleListingKindFields();
   paidPackages = { vip: false, premium: false };
   pendingPaymentTier = null;
   updatePaidStatusNote();
@@ -1554,7 +1690,16 @@ function showFavorites(){
 }
 
 function resetSearch(){
-  ["searchBrand","searchModel","minPrice","maxPrice","searchCurrency","searchCity","searchColor","searchFuel","searchGear","yearMin","yearMax","searchMileage","searchCondition","searchSeats","searchDrive","searchCountry","searchDealType"].forEach(id=>document.getElementById(id).value="");
+  ["searchBrand","searchModel","minPrice","maxPrice","searchCurrency","searchCity","searchColor","searchFuel","searchGear","yearMin","yearMax","searchMileage","searchCondition","searchSeats","searchDrive","searchCountry","searchDealType","searchPartQuery","searchPartCondition","searchPartBrand","searchPartModel"].forEach(id=>{
+    const el = document.getElementById(id);
+    if(el) el.value = "";
+  });
+  activePartCategory = "";
+  document.querySelectorAll("#partsCategoryChips .part-chip").forEach(btn => {
+    btn.classList.toggle("active", (btn.getAttribute("data-part-cat") || "") === "");
+  });
+  const lbl = document.getElementById("partsActiveLabel");
+  if(lbl) lbl.textContent = "Kateqoriya: Hamısı";
   document.querySelectorAll("#quickFilterBar .quick-chip").forEach(btn => btn.classList.toggle("active", btn.getAttribute("data-quick") === ""));
   updateModelSuggestions("");
   favoriteOnly=false;
@@ -1565,11 +1710,28 @@ function resetSearch(){
 
 function renderCars(){
   let list=cars.filter(c=>{
-    const v=id=>document.getElementById(id).value;
+    const v=id=>document.getElementById(id)?.value || "";
     const brandQuery = v("searchBrand").trim().toLowerCase();
     const modelQuery = v("searchModel").trim().toLowerCase();
     const min=Number(v("minPrice"))||0,max=Number(v("maxPrice"))||Infinity,ymin=Number(v("yearMin"))||0,ymax=Number(v("yearMax"))||9999,km=Number(v("searchMileage"))||Infinity;
     const deal = v("searchDealType");
+
+    const partQ = v("searchPartQuery").trim().toLowerCase();
+    const partCond = v("searchPartCondition");
+    const partBrandQ = v("searchPartBrand").trim().toLowerCase();
+    const partModelQ = v("searchPartModel").trim().toLowerCase();
+    const hasPartFilter = Boolean(activePartCategory || partQ || partCond || partBrandQ || partModelQ);
+
+    if(hasPartFilter && c.listingKind !== "part") return false;
+    if(activePartCategory && c.partCategory !== activePartCategory) return false;
+    if(partCond && c.partCondition !== partCond) return false;
+    if(partBrandQ && !String(c.brand||"").toLowerCase().includes(partBrandQ)) return false;
+    if(partModelQ && !String(c.model||"").toLowerCase().includes(partModelQ)) return false;
+    if(partQ){
+      const hay = `${c.partTitle||""} ${c.partCategory||""} ${c.brand||""} ${c.model||""} ${c.description||""}`.toLowerCase();
+      if(!hay.includes(partQ)) return false;
+    }
+
     return(!brandQuery||String(c.brand||"").toLowerCase().includes(brandQuery))&&
           (!modelQuery||String(c.model||"").toLowerCase().includes(modelQuery))&&
           Number(c.price)>=min&&Number(c.price)<=max&&
@@ -1584,7 +1746,7 @@ function renderCars(){
           (!v("searchSeats")||String(c.seats||"")===v("searchSeats"))&&
           (!v("searchDrive")||c.drive===v("searchDrive"))&&
           (!v("searchCountry")||c.country===v("searchCountry"))&&
-          (!deal || (deal==="barter" && c.barter) || (deal==="credit" && c.credit) || (deal==="salon" && c.sellerType==="Salon") || (deal==="vip" && c.vip) || (deal==="premium" && c.premium))&&
+          (!deal || (deal==="cars_only" && c.listingKind!=="part") || (deal==="parts_only" && c.listingKind==="part") || (deal==="barter" && c.barter) || (deal==="credit" && c.credit) || (deal==="salon" && c.sellerType==="Salon") || (deal==="vip" && c.vip) || (deal==="premium" && c.premium))&&
           (!favoriteOnly||favorites.includes(c.id));
   });
 
@@ -1594,35 +1756,39 @@ function renderCars(){
   if(sort==="year")list.sort((a,b)=>b.year-a.year);
   if(sort==="new")list.sort((a,b)=>b.date-a.date);
 
-  document.getElementById("resultCount").textContent=list.length+" avtomobil tapıldı";
+  document.getElementById("resultCount").textContent=list.length+" elan tapıldı";
   const area=document.getElementById("carList");
   if(!list.length){
-    area.innerHTML='<div class="empty">🚘<h3>Avtomobil tapılmadı</h3><p>'+(favoriteOnly?'Seçilmişlər siyahınız boşdur.':'Axtarış şərtlərini dəyişdirin və ya yeni elan yerləşdirin.')+'</p></div>';
+    area.innerHTML='<div class="empty">🚘<h3>Elan tapılmadı</h3><p>'+(favoriteOnly?'Seçilmişlər siyahınız boşdur.':'Axtarış şərtlərini dəyişdirin və ya yeni elan / zapças yerləşdirin.')+'</p></div>';
     updateFavoriteCount();
     return;
   }
 
   area.innerHTML=list.map(c=>{
+    const isPart = c.listingKind === "part";
     const photosList = (c.photos && c.photos.length) ? c.photos : [FALLBACK_CAR_IMG];
     const pIdx = (cardPhotoIndex[c.id] || 0) % photosList.length;
     const imgSrc = photosList[pIdx] || FALLBACK_CAR_IMG;
     const eqText = aznEquivalent(c);
     const isCompared = compareIds.includes(c.id);
+    const displayTitle = isPart
+      ? (c.partTitle || `${c.brand} ${c.model} zapçası`)
+      : `${c.brand} ${c.model}`;
+
     return `
     <div class="car">
       <div class="car-image" data-car-id="${escapeHTML(c.id)}">
-        <img src="${escapeHTML(imgSrc)}" loading="lazy" decoding="async" alt="${escapeHTML(c.brand)} ${escapeHTML(c.model)}" onclick="openLightboxByCarId('${escapeHTML(c.id)}', ${pIdx})">
+        <img src="${escapeHTML(imgSrc)}" loading="lazy" decoding="async" alt="${escapeHTML(displayTitle)}" onclick="openLightboxByCarId('${escapeHTML(c.id)}', ${pIdx})">
         ${photosList.length > 1 ? `
           <button type="button" class="slide-btn prev" onclick="slideCardPhoto(event,'${escapeHTML(c.id)}',-1)" aria-label="Əvvəlki şəkil">‹</button>
           <button type="button" class="slide-btn next" onclick="slideCardPhoto(event,'${escapeHTML(c.id)}',1)" aria-label="Növbəti şəkil">›</button>
           <span class="photo-counter">${pIdx + 1}/${photosList.length}</span>
         ` : ""}
-        ${(c.premium || c.vip) ? `
-          <div class="top-badges">
-            ${c.premium ? '<span class="premium">⭐ PREMIUM (5 AZN)</span>' : ""}
-            ${c.vip ? '<span class="vip-badge">👑 VIP (2 AZN)</span>' : ""}
-          </div>
-        ` : ""}
+        <div class="top-badges">
+          ${isPart ? `<span class="part-badge">🔧 ${escapeHTML(c.partCategory || "Zapças")}</span>` : ""}
+          ${c.premium ? '<span class="premium">⭐ PREMIUM (5 AZN)</span>' : ""}
+          ${c.vip ? '<span class="vip-badge">👑 VIP (2 AZN)</span>' : ""}
+        </div>
         <button class="heart" onclick="toggleFavorite('${escapeHTML(c.id)}')">${favorites.includes(c.id)?"❤️":"🤍"}</button>
         <button class="compare-toggle ${isCompared?"active":""}" onclick="toggleCompare('${escapeHTML(c.id)}')">${isCompared?"✓ Seçilib":"⚖ Müqayisə"}</button>
         <div class="badges-row">
@@ -1633,12 +1799,12 @@ function renderCars(){
       <div class="car-info">
         <div class="car-price">${money(c)}</div>
         ${eqText ? `<div class="azn-eq">${eqText}</div>` : '<div style="margin-bottom:4px"></div>'}
-        <div class="car-name">${escapeHTML(c.brand)} ${escapeHTML(c.model)}</div>
+        <div class="car-name">${escapeHTML(displayTitle)}</div>
         <div class="car-details">
-          <span>📅 ${c.year}</span>
-          <span>🛣 ${Number(c.mileage).toLocaleString("az-AZ")} km</span>
-          <span>⚙️ ${escapeHTML(c.gear)}</span>
-          <span>⛽ ${escapeHTML(c.fuel)}</span>
+          ${isPart
+            ? `<span>🚗 ${escapeHTML(c.brand)} ${escapeHTML(c.model)}</span><span>📌 ${escapeHTML(c.partCondition || c.condition || "Zapças")}</span>`
+            : `<span>📅 ${c.year}</span><span>🛣 ${Number(c.mileage).toLocaleString("az-AZ")} km</span><span>⚙️ ${escapeHTML(c.gear)}</span><span>⛽ ${escapeHTML(c.fuel)}</span>`
+          }
           <span>👁 ${Number(c.views||0)}</span>
         </div>
         <div class="card-buttons">
@@ -1688,37 +1854,70 @@ function showDetails(id){
   const c=cars.find(x=>x.id===id);
   if(!c)return;
 
+  const isPart = c.listingKind === "part";
+  const headingTitle = isPart ? (c.partTitle || `${c.brand} ${c.model} zapçası`) : `${c.brand} ${c.model}`;
+
   detailPhotosList = (c.photos && c.photos.length) ? c.photos : [FALLBACK_CAR_IMG];
   detailPhotoIdx = 0;
   const mainPhoto = detailPhotosList[0] || FALLBACK_CAR_IMG;
   const eqText = aznEquivalent(c);
   const baseAzn = Math.round(Number(c.price || 0) * (AZN_RATES[c.currency] || 1));
   const defaultDown = Math.round(baseAzn * 0.3);
-  const similar = cars.filter(x => x.id !== c.id && (x.brand === c.brand || x.city === c.city)).slice(0, 3);
+  const similar = cars.filter(x => x.id !== c.id && (x.brand === c.brand || x.city === c.city || (isPart && x.partCategory && x.partCategory === c.partCategory))).slice(0, 3);
   const history = Array.isArray(c.priceHistory) && c.priceHistory.length
     ? c.priceHistory
     : [{ date: new Date(c.date || Date.now()).toLocaleDateString("az-AZ"), price: c.price, currency: c.currency || "AZN" }];
 
+  const detailRows = isPart
+    ? [
+        ["Elan nömrəsi","#"+c.listingNo],
+        ["Baxış sayı",Number(c.views||0) + 1],
+        ["Növ","🔧 Maşın zapçası"],
+        ["Zapças kateqoriyası",c.partCategory||"-"],
+        ["Zapças vəziyyəti",c.partCondition||c.condition||"-"],
+        ["Uyğun marka",c.brand||"-"],
+        ["Uyğun model",c.model||"-"],
+        ["Buraxılış ili",c.year||"-"],
+        ["Şəhər",c.city||"-"],
+        ["Telefon",c.phone||"-"]
+      ]
+    : [
+        ["Elan nömrəsi","#"+c.listingNo],
+        ["Baxış sayı",Number(c.views||0) + 1],
+        ["Buraxılış ili",c.year],
+        ["Yürüş",c.mileage+" km"],
+        ["Rəng",c.color],
+        ["Sürətlər qutusu",c.gear],
+        ["Ötürücü",c.drive],
+        ["Mühərrik",c.engine||"-"],
+        ["Yanacaq",c.fuel],
+        ["Yerlərin sayı",c.seats||"-"],
+        ["Vəziyyət",c.condition||"-"],
+        ["İstehsalçı ölkə",c.country||"-"],
+        ["At gücü",c.horsepower||"-"],
+        ["Şəhər",c.city],
+        ["Telefon",c.phone]
+      ];
+
   document.getElementById("detailContent").innerHTML=`
-    <!-- Elana basanda açılan kreativ hərəkətli CarVex loqosu -->
     <div class="creative-listing-logo-card">
       <div class="creative-logo-stage">
         <div class="creative-emblem-box">
           <div class="creative-emblem-ring">
-            <div class="creative-emblem-inner">🏎️</div>
+            <div class="creative-emblem-inner">${isPart ? "🔧" : "🏎️"}</div>
           </div>
           <div>
             <div class="creative-brand-title">
               Car<span>Vex</span> <span style="font-size:12px;font-weight:800;color:#cbd5e1;background:rgba(255,255,255,0.1);padding:3px 9px;border-radius:999px">ELAN #${escapeHTML(c.listingNo)}</span>
             </div>
             <div style="font-size:12px;color:#cbd5e1;margin-top:3px">
-              ${escapeHTML(c.brand)} ${escapeHTML(c.model)} · ${c.year} · ${escapeHTML(c.city || "Bakı")}
+              ${escapeHTML(headingTitle)} · ${escapeHTML(c.city || "Bakı")}
             </div>
           </div>
         </div>
         <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
           <div class="speed-bars" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
-          <div class="creative-logo-tag">⚡ ${c.premium ? "⭐ PREMIUM" : (c.vip ? "👑 VIP" : "CARVEX VERİFİKASİYALI")}</div>
+          <div class="creative-logo-tag">⚡ ${c.premium ? "⭐ PREMIUM" : (c.vip ? "👑 VIP" : (isPart ? "🔧 ZAPÇAS ELANI" : "CARVEX VERİFİKASİYALI"))}</div>
         </div>
       </div>
     </div>
@@ -1730,12 +1929,12 @@ function showDetails(id){
         <button type="button" class="detail-nav-btn next" onclick="setDetailPhoto(detailPhotoIdx + 1)" aria-label="Növbəti şəkil">›</button>
       ` : ""}
     </div>
-    <div class="detail-gallery" id="detailThumbs">${detailPhotosList.map((x,i)=>'<img src="'+escapeHTML(x)+'" decoding="async" class="'+(i===0?'active-thumb':'')+'" alt="Avtomobil şəkli" onclick="setDetailPhoto('+i+')">').join("")}</div>
-    <h2>${escapeHTML(c.brand)} ${escapeHTML(c.model)}</h2>
+    <div class="detail-gallery" id="detailThumbs">${detailPhotosList.map((x,i)=>'<img src="'+escapeHTML(x)+'" decoding="async" class="'+(i===0?'active-thumb':'')+'" alt="Şəkil" onclick="setDetailPhoto('+i+')">').join("")}</div>
+    <h2>${escapeHTML(headingTitle)}</h2>
     <h2 style="color:#ff3b5c;margin-bottom:4px">${money(c)} ${c.premium?"· ⭐ Premium (5 AZN)":""} ${c.vip?"· 👑 VIP (2 AZN)":""} ${c.barter?"· 🔄 Barter":""} ${c.credit?`· % Kredit${c.creditRate?" ("+escapeHTML(c.creditRate)+"%)":""}`:""}</h2>
     ${eqText ? `<div class="azn-eq" style="font-size:14px;margin-bottom:12px">${eqText}</div>` : ""}
     <div class="detail-list">
-      ${[["Elan nömrəsi","#"+c.listingNo],["Baxış sayı",Number(c.views||0) + 1],["Buraxılış ili",c.year],["Yürüş",c.mileage+" km"],["Rəng",c.color],["Sürətlər qutusu",c.gear],["Ötürücü",c.drive],["Mühərrik",c.engine||"-"],["Yanacaq",c.fuel],["Yerlərin sayı",c.seats||"-"],["Vəziyyət",c.condition||"-"],["İstehsalçı ölkə",c.country||"-"],["At gücü",c.horsepower||"-"],["Şəhər",c.city],["Telefon",c.phone]].map(([a,b])=>'<div class="detail-item"><b>'+a+':</b> '+escapeHTML(b)+'</div>').join("")}
+      ${detailRows.map(([a,b])=>'<div class="detail-item"><b>'+a+':</b> '+escapeHTML(b)+'</div>').join("")}
     </div>
     <h3>Təxmini kredit kalkulyatoru</h3>
     <div class="loan-box">
@@ -1749,7 +1948,7 @@ function showDetails(id){
     <div class="history-box">
       ${history.map(h => `<div>• <b>${escapeHTML(h.date)}</b>: ${Number(h.price).toLocaleString("az-AZ")} ${escapeHTML(h.currency)}</div>`).join("")}
     </div>
-    <h3>Təchizat</h3>
+    <h3>Təchizat / Xüsusiyyətlər</h3>
     <p>${escapeHTML((c.equipment||[]).join(", ")||"Qeyd edilməyib")}</p>
     <h3>Əlavə məlumat</h3>
     <p>${escapeHTML(c.description||"Əlavə məlumat yoxdur.")}</p>
@@ -1757,15 +1956,15 @@ function showDetails(id){
     <button class="btn red" onclick="callSeller('${escapeHTML(c.id)}')">☎ Satıcıya zəng et</button>
     <button class="btn dark-btn" onclick="messageSeller('${escapeHTML(c.id)}')">✉ Mesaj yaz</button>
     <button class="btn white-btn" onclick="shareCar('${escapeHTML(c.id)}')">Paylaş</button>
-    <h3 style="margin-top:20px">Bənzər maşınlar</h3>
+    <h3 style="margin-top:20px">Bənzər elanlar</h3>
     <div class="similar-grid">
       ${similar.length ? similar.map(s=>`
         <div class="similar-card" onclick="closeDetails();showDetails('${escapeHTML(s.id)}')">
           <img src="${escapeHTML(s.photos?.[0]||FALLBACK_CAR_IMG)}" loading="lazy" alt="">
-          <div style="font-weight:bold;margin-top:6px;font-size:13px">${escapeHTML(s.brand)} ${escapeHTML(s.model)}</div>
+          <div style="font-weight:bold;margin-top:6px;font-size:13px">${escapeHTML(s.partTitle || (s.brand + " " + s.model))}</div>
           <div style="color:#ff3b5c;font-weight:bold;font-size:12px">${money(s)}</div>
           ${aznEquivalent(s)?`<div class="muted" style="font-size:10px">${aznEquivalent(s)}</div>`:""}
-          <div class="muted" style="font-size:11px">${s.year} · ${escapeHTML(s.city)}</div>
+          <div class="muted" style="font-size:11px">${s.year||""} ${s.year?"·":""} ${escapeHTML(s.city)}</div>
         </div>
       `).join("") : '<p class="muted">Hazırda bənzər elan tapılmadı.</p>'}
     </div>
@@ -1785,12 +1984,12 @@ function showDetails(id){
 function messageSeller(id){
   const c=cars.find(x=>x.id===id);
   closeDetails();
-  openMessages(c ? `${c.brand} ${c.model} (#${c.listingNo})` : "");
+  openMessages(c ? `${c.partTitle || (c.brand + " " + c.model)} (#${c.listingNo})` : "");
 }
 
 function shareCar(id){
   const url=location.href.split("#")[0]+"#car-"+id;
-  if(navigator.share)navigator.share({title:"CarVex avtomobil elanı",url});
+  if(navigator.share)navigator.share({title:"CarVex elanı",url});
   else navigator.clipboard?.writeText(url).then(()=>alert("Elan linki köçürüldü."));
 }
 
@@ -1799,23 +1998,24 @@ function renderVideos(){
   const visible=showingAllVideos?items:items.slice(0,10);
   const el=document.getElementById("videoList");
   if(!visible.length){
-    el.innerHTML='<div class="empty" style="min-width:100%">Hələ video elanı yoxdur. Elan yerləşdirərkən avtomobil videosu əlavə edə bilərsiniz.</div>';
+    el.innerHTML='<div class="empty" style="min-width:100%">Hələ video elanı yoxdur. Elan yerləşdirərkən video əlavə edə bilərsiniz.</div>';
     return;
   }
   el.innerHTML=visible.map(c=>{
     const thumb = c.photos?.[0] || FALLBACK_CAR_IMG;
     const safeVideo = String(c.video || "").includes("#") ? c.video : `${c.video}#t=0.5`;
     const isLiked = likedVideos.includes(c.id);
+    const vTitle = c.partTitle || `${c.brand} ${c.model}`;
     return `
     <div class="video-card" onclick="openVideoExplore('${escapeHTML(c.id)}')">
-      <img src="${escapeHTML(thumb)}" alt="${escapeHTML(c.brand)} ${escapeHTML(c.model)}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+      <img src="${escapeHTML(thumb)}" alt="${escapeHTML(vTitle)}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
       <video src="${escapeHTML(safeVideo)}" poster="${escapeHTML(thumb)}" muted playsinline preload="metadata" style="position:relative;z-index:1;background:transparent"></video>
       <div class="video-shade" style="z-index:2"></div>
       <span class="video-views" style="z-index:3">▶ ${Number(c.views||0).toLocaleString("az-AZ")} · ${isLiked?"❤️":"🤍"} ${(c.likes||0) + (isLiked?1:0)}</span>
       <button class="video-play" style="z-index:3" aria-label="Kəşf et">🔥</button>
       <div class="video-meta" style="z-index:3">
         <strong>${money(c)}</strong>
-        <small>${escapeHTML(c.brand)} ${escapeHTML(c.model)} · ${c.year}</small>
+        <small>${escapeHTML(vTitle)} · ${c.year||""}</small>
         <small>📍 ${escapeHTML(c.city)}</small>
       </div>
     </div>
@@ -1925,7 +2125,7 @@ function openVideoExplore(startCarId = null){
   exploreItems = cars.filter(c => c.video);
   const feed = document.getElementById("exploreFeed");
   if(!exploreItems.length){
-    feed.innerHTML = '<div class="empty" style="max-width:420px;margin:auto"><h3>Video elanı tapılmadı</h3><p>Elan yerləşdirərkən avtomobil videosu əlavə edib Kəşf et bölməsində izləyə bilərsiniz.</p></div>';
+    feed.innerHTML = '<div class="empty" style="max-width:420px;margin:auto"><h3>Video elanı tapılmadı</h3><p>Elan yerləşdirərkən video əlavə edib Kəşf et bölməsində izləyə bilərsiniz.</p></div>';
     document.getElementById("exploreCounter").textContent = "0 / 0";
     document.getElementById("videoExploreModal").style.display = "flex";
     return;
@@ -1935,6 +2135,7 @@ function openVideoExplore(startCarId = null){
     const thumb = c.photos?.[0] || FALLBACK_CAR_IMG;
     const isLiked = likedVideos.includes(c.id);
     const isSaved = favorites.includes(c.id);
+    const vTitle = c.partTitle || `${c.brand} ${c.model}`;
     return `
       <div class="reel-item" data-car-id="${escapeHTML(c.id)}" data-index="${idx}">
         <video src="${escapeHTML(c.video)}" poster="${escapeHTML(thumb)}" loop playsinline controls onclick="this.paused ? this.play() : this.pause()"></video>
@@ -1942,7 +2143,7 @@ function openVideoExplore(startCarId = null){
         <div class="reel-badge-top">🔥 Kəşf et · #${escapeHTML(c.listingNo)}</div>
         <div class="reel-info">
           <div class="reel-price">${money(c)}</div>
-          <div class="reel-title">${escapeHTML(c.brand)} ${escapeHTML(c.model)} · ${c.year}</div>
+          <div class="reel-title">${escapeHTML(vTitle)} · ${c.year||""}</div>
           <div class="reel-meta">📍 ${escapeHTML(c.city)} · 🛣 ${Number(c.mileage).toLocaleString("az-AZ")} km · ⚙️ ${escapeHTML(c.gear)}</div>
         </div>
         <div class="reel-actions">
@@ -2052,9 +2253,15 @@ document.getElementById("carForm").addEventListener("submit",async e=>{
     const video=videoFile?await fileToData(videoFile):(old?.video||"");
     const newPrice = Number(val("price"));
     const newCurr = val("currency");
-    const mileageNum = Number(val("mileage"));
-    const fuelStr = val("fuel");
-    const gearStr = val("gear");
+    const mileageNum = Number(val("mileage")) || 0;
+    const fuelStr = val("fuel") || "Benzin";
+    const gearStr = val("gear") || "Avtomat";
+    const yearNum = Number(val("year")) || new Date().getFullYear();
+    const kind = val("listingKind") === "part" ? "part" : "car";
+    const partCat = kind === "part" ? val("partCategory") : "";
+    const partTitle = kind === "part" ? val("partTitle") : "";
+    const partCond = kind === "part" ? val("partCondition") : "";
+
     const prevHistory = Array.isArray(old?.priceHistory) ? [...old.priceHistory] : [];
     if(!old){
       prevHistory.push({ date: new Date().toLocaleDateString("az-AZ"), price: newPrice, currency: newCurr });
@@ -2069,7 +2276,11 @@ document.getElementById("carForm").addEventListener("submit",async e=>{
     const dbRow = {
       id: old?.id || generateUUID(),
       user_id: currentUser?.id || null,
-      title: `${val("brand")} ${val("model")} ${val("year")}`.trim(),
+      title: kind === "part" ? `${partTitle} (${val("brand")} ${val("model")})`.trim() : `${val("brand")} ${val("model")} ${yearNum}`.trim(),
+      listingKind: kind,
+      partCategory: partCat,
+      partTitle: partTitle,
+      partCondition: partCond,
       listingNo: old?.listingNo || ("CV-" + Math.floor(100000 + Math.random() * 900000)),
       brand: val("brand"),
       model: val("model"),
@@ -2079,20 +2290,20 @@ document.getElementById("carForm").addEventListener("submit",async e=>{
       barter: document.getElementById("allowBarter").checked,
       credit: document.getElementById("allowCredit").checked,
       creditRate: val("creditRate"),
-      year: Number(val("year")),
+      year: yearNum,
       mileage: mileageNum,
       mileage_km: mileageNum,
       city: val("city"),
-      color: val("color"),
+      color: val("color") || "Digər",
       gear: gearStr,
       transmission: gearStr,
-      drive: val("drive"),
+      drive: val("drive") || "Ön",
       engine: val("engine"),
       fuel: fuelStr,
       fuel_type: fuelStr,
       horsepower: val("horsepower") ? Number(val("horsepower")) : null,
       seats: val("seats"),
-      condition: val("condition"),
+      condition: partCond || val("condition"),
       country: val("country"),
       phone: val("phone"),
       seller_type: val("sellerType"),
@@ -2146,6 +2357,11 @@ function editCar(id){
   paidPackages = { vip: !!c.vip, premium: !!c.premium };
   pendingPaymentTier = null;
   const set=(k,v)=>{const el=document.getElementById(k);if(el)el.value=v??"";};
+  set("listingKind", c.listingKind || "car");
+  toggleListingKindFields();
+  set("partCategory", c.partCategory || "");
+  set("partTitle", c.partTitle || "");
+  set("partCondition", c.partCondition || "");
   ["brand","model","price","currency","year","mileage","city","color","gear","drive","engine","fuel","horsepower","seats","condition","country","phone","description","creditRate"].forEach(k=>set(k,c[k]));
   set("sellerType", c.sellerType || c.seller_type || "Şəxsi");
   updateModelSuggestions(c.brand);
@@ -2237,7 +2453,7 @@ function renderProfile(message=""){
         <button class="active" onclick="renderProfile()">Mənim elanlarım (${mine.length})</button>
         <button onclick="renderNotifications()">Bildirişlər</button>
       </div>
-      ${mine.length?mine.map(c=>`<div class="detail-item" style="display:flex;justify-content:space-between;gap:8px;align-items:center;margin:8px 0"><span><b>${escapeHTML(c.brand)} ${escapeHTML(c.model)}</b><br>${money(c)} · ${c.year}</span><span><button class="btn white-btn" onclick="editCar('${escapeHTML(c.id)}')">Redaktə</button> <button class="btn red" onclick="deleteCar('${escapeHTML(c.id)}')">Sil</button></span></div>`).join(""):"Hələ elanınız yoxdur."}
+      ${mine.length?mine.map(c=>`<div class="detail-item" style="display:flex;justify-content:space-between;gap:8px;align-items:center;margin:8px 0"><span><b>${escapeHTML(c.partTitle || (c.brand + " " + c.model))}</b><br>${money(c)} ${c.year ? "· " + c.year : ""}</span><span><button class="btn white-btn" onclick="editCar('${escapeHTML(c.id)}')">Redaktə</button> <button class="btn red" onclick="deleteCar('${escapeHTML(c.id)}')">Sil</button></span></div>`).join(""):"Hələ elanınız yoxdur."}
       <button class="btn logout-btn" onclick="signOut()">🚪 Hesabdan çıx</button>
     `;
     return;
@@ -2371,6 +2587,7 @@ function openMessages(topic=""){
 window.addEventListener("load",async()=>{
   renderLiveLogoStrip();
   fillAll();
+  toggleListingKindFields();
   if(supabaseClient){
     try {
       const {data}=await supabaseClient.auth.getUser();
@@ -2404,6 +2621,14 @@ document.getElementById("searchBrand").addEventListener("change", e => {
   updateModelSuggestions(e.target.value);
   renderCars();
 });
+document.getElementById("searchPartBrand").addEventListener("input", e => {
+  updateModelSuggestions(e.target.value);
+  renderCars();
+});
+document.getElementById("searchPartBrand").addEventListener("change", e => {
+  updateModelSuggestions(e.target.value);
+  renderCars();
+});
 document.getElementById("brand").addEventListener("input", e => {
   updateModelSuggestions(e.target.value);
 });
@@ -2411,6 +2636,9 @@ document.getElementById("brand").addEventListener("change", e => {
   updateModelSuggestions(e.target.value);
 });
 document.getElementById("searchModel").addEventListener("input",renderCars);
+document.getElementById("searchPartQuery").addEventListener("input",renderCars);
+document.getElementById("searchPartModel").addEventListener("input",renderCars);
+document.getElementById("searchPartCondition").addEventListener("change",renderCars);
 ["minPrice","maxPrice","searchCurrency","searchCity","searchColor","searchFuel","searchGear","yearMin","yearMax","searchMileage","searchCondition","searchSeats","searchDrive","searchCountry","searchDealType"].forEach(id=>document.getElementById(id).addEventListener("change",renderCars));
 </script>
 </body>
